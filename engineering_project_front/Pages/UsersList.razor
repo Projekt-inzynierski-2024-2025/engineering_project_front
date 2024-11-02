@@ -1,0 +1,30 @@
+﻿@page "/UsersList"
+<h3>Users List</h3>
+
+<input @bind="SearchTerm" @oninput="FilterUsers" placeholder="Search by first or last name..." />
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Team Name</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in FilteredUsers)
+        {
+            <tr>
+                <td>@user.ID</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td>@user.TeamName</td>
+                <td>@user.Role</td>
+            </tr>
+        }
+    </tbody>
+</table>

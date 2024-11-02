@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Syncfusion.Blazor;
 using Syncfusion.Blazor.Popups;
 
-namespace Program
+namespace engineering_project_front
 {
     public class Program
     {
@@ -25,7 +25,8 @@ namespace Program
 
             builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://localhost:7059/"));
 
-            builder.Services.AddScoped<ITestService, TestService>();
+            
+            builder.Services.AddScoped<IUsersService, UsersService>();
 
             builder.Services.AddScoped<SfDialogService>();
 

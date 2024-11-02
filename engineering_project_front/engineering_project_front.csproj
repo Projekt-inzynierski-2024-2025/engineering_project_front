@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\UsersList.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.10" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
@@ -14,6 +18,22 @@
     <PackageReference Include="Syncfusion.Blazor.DataForm" Version="27.1.57" />
     <PackageReference Include="Syncfusion.Blazor.Popups" Version="27.1.57" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.1.57" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\UsersList.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\UsersList.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\UsersList.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Request\" />
   </ItemGroup>
 
 </Project>
