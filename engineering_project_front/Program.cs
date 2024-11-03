@@ -13,7 +13,7 @@ namespace Program
     public class Program
     {
         //Temporary, I don't like it here but I don't know where to put this for now
-        private const string SYNCFUSION_KEY = "Ngo9BigBOggjHTQxAR8/V1NCaF5cXmZCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXhfcXRdRGRfUUR0Wks=";
+        private const string SYNCFUSION_KEY = "Ngo9BigBOggjHTQxAR8/V1NDaF5cWWtCf1JpRGNGfV5ycEVDallQTnVbUiweQnxTdEFiWH9dcHFQR2NYWUN+Ww== ";
 
         public static async Task Main(string[] args)
         {
