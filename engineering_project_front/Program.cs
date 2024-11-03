@@ -1,3 +1,4 @@
+using Blazored.SessionStorage;
 using engineering_project_front;
 using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
@@ -26,8 +27,11 @@ namespace Program
             builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://localhost:7059/"));
 
             builder.Services.AddScoped<ITestService, TestService>();
+            builder.Services.AddScoped<ILoginService, LoginService>();
 
             builder.Services.AddScoped<SfDialogService>();
+
+            builder.Services.AddBlazoredSessionStorage();
 
             builder.Services.AddSyncfusionBlazor();
 

@@ -1,4 +1,30 @@
-﻿@page "/login"
+﻿@page "/"
+
+@layout NotLoggedLayout
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
 
 <PageTitle>Login</PageTitle>
-<h3>Login</h3>
+
+<div class="col-log-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                <SfTextBox Placeholder="Email" @bind-Value="@login"></SfTextBox>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                <SfTextBox Placeholder="Hasło" @bind-Value="@password" Type="InputType.Password"></SfTextBox>
+            </div>
+            <div class="login-btn">
+                <SfButton type="submit" IsPrimary="true" OnClick="OnLogInButtonClicked">Log in</SfButton>
+            </div>
+            <div>
+                <SfToast ID="toast_default" @ref="ToastObj" Title="Login Failed" Content="@ToastContent" Timeout="5000" Icon="e-circle-remove">
+                    <ToastPosition X="Center" Y="Top"></ToastPosition>
+                </SfToast>
+            </div>
+        </div>
+    </div>
+</div>
