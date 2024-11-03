@@ -1,19 +1,6 @@
 ﻿@page "/"
 @using engineering_project_front.Services.Interfaces
-@inject ITestService testService
-
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<button onclick="@TestClick()">Test</button>
-
-@code{
-    private async Task TestClick()
-    {
-        await testService.TestGet();
-    }
-}
+<h1>Hi, hey, hello!</h1>

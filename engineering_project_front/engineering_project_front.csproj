@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     <PackageReference Include="Syncfusion.Blazor.Calendars" Version="27.1.57" />
     <PackageReference Include="Syncfusion.Blazor.DataForm" Version="27.1.57" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="27.1.57" />
     <PackageReference Include="Syncfusion.Blazor.Popups" Version="27.1.57" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.1.57" />
   </ItemGroup>

@@ -1,0 +1,29 @@
+﻿@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using engineering_project_front.Models
+
+<div id="control-section">
+    <div id="sidebar-wrapper">
+        <div>
+            @*Initialize the Sidebar component*@
+            <SfSidebar class="default-sidebar" Width="260px" Target=".maincontent" Position="SidebarPosition.Left" @bind-IsOpen="SidebarToggle" Type="SidebarType.Push">
+                <ChildContent>
+                    <SfTreeView TValue="TreeData">
+                        <TreeViewEvents TValue="TreeData" NodeSelecting="BeforeSelect" NodeSelected="OnSelect"></TreeViewEvents>
+                        <TreeViewFieldsSettings Id="Id" Text="Name" Selected="Selected" ParentID="Pid" HasChildren="HasChild" Expanded="Expanded" DataSource="@TreeData"></TreeViewFieldsSettings>
+                    </SfTreeView>
+                </ChildContent>
+            </SfSidebar>
+            @*Initialize the Toolbar component*@
+            <SfToolbar CssClass="defaultToolbar">
+                <ToolbarItems>
+                    <ToolbarItem>
+                        <Template>
+                            <SfButton IconCss="e-icons e-menu" @onclick="OnMenuClick"></SfButton>
+                        </Template>
+                    </ToolbarItem>
+                </ToolbarItems>
+            </SfToolbar>
+        </div>
+    </div>
+</div>
