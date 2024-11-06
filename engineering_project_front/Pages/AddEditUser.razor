@@ -1,0 +1,49 @@
+﻿@page "/add-edit-user/{userId:long?}"
+@using Syncfusion.Blazor.DataForm
+
+<PageTitle>@(IsEditing ? "Edit User" : "Add User")</PageTitle>
+
+<EditForm Model="@User" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <SfDataForm ID="MyForm" Model="@User">
+        <FormValidator>
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+        </FormValidator>
+        <FormItems>
+            <FormItem Field="@nameof(User.FirstName)" LabelText="Imię" />
+            <FormItem Field="@nameof(User.LastName)" LabelText="Nazwisko" />
+            <FormItem Field="@nameof(User.Email)" LabelText="Email" />
+        </FormItems>
+    </SfDataForm>
+    <div>
+        <label for="role">Rola:</label>
+        <InputSelect id="role" @bind-Value="User.Role">
+            <option value="0">Admin</option>
+            <option value="1">Manager</option>
+            <option value="2">Employee</option>
+        </InputSelect>
+    </div>
+    <div>
+        <label for="team">Zespół:</label>
+        <InputSelect id="team" @bind-Value="User.TeamID">
+            @foreach (var team in Teams)
+            {
+                <option value="@team.ID">@team.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit">@(IsEditing ? "Update User" : "Add User")</button>
+    <button type="button" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+
+
+
+
+
+
+
+

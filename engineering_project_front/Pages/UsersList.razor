@@ -1,0 +1,38 @@
+﻿@page "/UsersList"
+
+
+@using Syncfusion.Blazor.DataForm
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using global::engineering_project_front.Models;
+
+<PageTitle>Users List</PageTitle>
+
+<input @bind="SearchTerm" placeholder="Search by first or last name, or team..." />
+<button @onclick="FilterUsers">Wyszukaj</button>
+<button @onclick="AddUser">Dodaj użytkownika</button>
+
+
+
+
+
+@* Initialize the DataGrid component for users *@
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+             <SfGrid DataSource="FilteredUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
+                <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="UsersResponse"></GridEvents>
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field="@nameof(UsersResponse.ID)" HeaderText="ID" MinWidth="80" Width="100" MaxWidth="150"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.FirstName)" HeaderText="First Name" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.LastName)" HeaderText="Last Name" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.Email)" HeaderText="Email" MinWidth="150" Width="200" MaxWidth="300"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.TeamName)" HeaderText="Team Name" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.Role)" HeaderText="Role" MinWidth="100" Width="150" MaxWidth="200"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>

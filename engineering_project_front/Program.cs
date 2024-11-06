@@ -26,6 +26,8 @@ namespace Program
             builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://localhost:7059/"));
 
             builder.Services.AddScoped<ITestService, TestService>();
+            builder.Services.AddScoped<IUsersService, UsersService>();
+            builder.Services.AddScoped<ITeamsService, TeamsService>();
 
             builder.Services.AddScoped<SfDialogService>();
 

@@ -52,6 +52,12 @@ namespace engineering_project_front.Layout
                 case "3":
                     NavManager.NavigateTo("/login");
                     break;
+                case "4":
+                    NavManager.NavigateTo("/UsersList");
+                    break;
+                case "5":
+                    NavManager.NavigateTo("/TeamsList");
+                    break;
                 default:
                     break;
             }

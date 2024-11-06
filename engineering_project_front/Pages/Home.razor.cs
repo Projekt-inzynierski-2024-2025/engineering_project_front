@@ -35,6 +35,19 @@ namespace engineering_project_front.Pages
                     Id = "3",
                     Pid = "1",
                     Name = "Login"
+                },
+                new TreeData
+                {
+                    Id = "4",
+                    Pid = "1",
+                    Name = "Zarządzanie użytkownikami",
+                },
+                new TreeData
+                {
+                    Id = "5",
+                    Pid = "1",
+                    Name = "Zarządzanie zespołami",
+                    
                 }
             };
         }
