@@ -1,9 +1,10 @@
 ﻿using Blazored.SessionStorage;
+
 using engineering_project_front.Layout;
 using engineering_project_front.Models;
+using engineering_project_front.Services.Interfaces;
+
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.Text.Json;
 
 namespace engineering_project_front.Pages
 {
@@ -12,14 +13,42 @@ namespace engineering_project_front.Pages
         [Inject]
         private ISessionStorageService sessionStorage { get; set; } = default!;
 
+        [Inject]
+        private IUsersService usersService { get; set; } = default!;
+
         private string firstName = "<FIRST_NAME_PH>";
         private string lastName = "<LAST_NAME_PH>";
+        private string email = "<EMAIL_PH>";
+        private string team = "<TEAM_PH>";
+        private string manager = "<MANAGER_PH>";
+        private string role = "<ROLE_PH>";
 
         protected async override Task OnInitializedAsync()
         {
             CreateTree();
 
+            await GetUser();
+
             await base.OnInitializedAsync();
+        }
+
+        private async Task GetUser()
+        {
+            var token = await sessionStorage.GetItemAsStringAsync("token");
+
+            if (token == null)
+                return;
+
+            token = token.Trim('"');
+
+            var user = await usersService.GetUserFromToken(token);
+
+            firstName = user.FirstName!;
+            lastName = user.LastName!;
+            email = user.Email!;
+            team = user.TeamName!;
+            manager = user.Manager!;
+            role = user.Role.ToString();
         }
 
         private void CreateTree()
