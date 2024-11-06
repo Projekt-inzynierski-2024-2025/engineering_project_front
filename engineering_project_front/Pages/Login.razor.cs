@@ -58,7 +58,12 @@ namespace engineering_project_front.Pages
 
             await SessionStorage.SetItemAsync("token", token);
 
-            NavManager.NavigateTo("/");
+            NavManager.NavigateTo("/home");
+        }
+
+        private void OnForgotPasswordClicked()
+        {
+            NavManager.NavigateTo($"/forgot-password");
         }
     }
 }

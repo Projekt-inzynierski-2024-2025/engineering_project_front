@@ -12,13 +12,16 @@
     <div class="content-wrapper">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                <SfTextBox Placeholder="Email" @bind-Value="@login"></SfTextBox>
+                <SfTextBox Placeholder="Email" @bind-Value="@login" FloatLabelType="FloatLabelType.Auto" Type="InputType.Email"></SfTextBox>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                <SfTextBox Placeholder="Hasło" @bind-Value="@password" Type="InputType.Password"></SfTextBox>
+                <SfTextBox Placeholder="Password" @bind-Value="@password" FloatLabelType="FloatLabelType.Auto" Type="InputType.Password"></SfTextBox>
             </div>
             <div class="login-btn">
                 <SfButton type="submit" IsPrimary="true" OnClick="OnLogInButtonClicked">Log in</SfButton>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
+                <SfButton CssClass="e-flat" IsPrimary="true" OnClick="OnForgotPasswordClicked">Forgot Password</SfButton>
             </div>
             <div>
                 <SfToast ID="toast_default" @ref="ToastObj" Title="Login Failed" Content="@ToastContent" Timeout="5000" Icon="e-circle-remove">

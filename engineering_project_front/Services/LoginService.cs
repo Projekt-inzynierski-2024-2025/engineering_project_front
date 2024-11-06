@@ -1,4 +1,5 @@
 ﻿using engineering_project_front.Models.Parameters;
+using engineering_project_front.Pages;
 using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text;
@@ -33,7 +34,11 @@ namespace engineering_project_front.Services
                 var apiResponse = await httpClient.PostAsJsonAsync("api/Login", login);
 
                 if (apiResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    _logger.LogError($"Status code was {apiResponse.StatusCode}: {apiResponse.Content}");
                     return string.Empty;
+
+                }
 
                 var token = await apiResponse.Content.ReadAsStringAsync();
 

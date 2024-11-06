@@ -1,10 +1,20 @@
-﻿using engineering_project_front.Layout;
+﻿using Blazored.SessionStorage;
+using engineering_project_front.Layout;
 using engineering_project_front.Models;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using System.Text.Json;
 
 namespace engineering_project_front.Pages
 {
     public partial class Home
     {
+        [Inject]
+        private ISessionStorageService sessionStorage { get; set; } = default!;
+
+        private string firstName = "<FIRST_NAME_PH>";
+        private string lastName = "<LAST_NAME_PH>";
+
         protected async override Task OnInitializedAsync()
         {
             CreateTree();
