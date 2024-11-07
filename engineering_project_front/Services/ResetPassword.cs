@@ -21,13 +21,26 @@ namespace engineering_project_front.Services
             };
         }
 
-        public bool ChangePassword(ResetPasswordParameters parameters)
+        public bool ChangePassword(ResetPasswordParameters parameters, string? token = null)
         {
             _logger.LogInformation($"Method {nameof(ChangePassword)} entered");
             try
             {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = httpClient.PostAsJsonAsync("api/PasswordReset/ChangePassword", parameters).Result;
+                HttpResponseMessage apiResponse;
+                if (parameters.Code is null)
+                {
+                    var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, "api/PasswordReset/ChangePassword");
+                    requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+                    apiResponse = httpClient.SendAsync(requestMessage).Result;
+                }
+                else
+                {
+                    var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                    apiResponse = httpClient.PostAsJsonAsync("api/PasswordReset/ResetPassword", parameters).Result;
+                }
 
                 if (apiResponse.IsSuccessStatusCode)
                     return true;

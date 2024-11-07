@@ -12,10 +12,10 @@
     <div class="content-wrapper">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                <SfTextBox Placeholder="Email" @bind-Value="@login" FloatLabelType="FloatLabelType.Auto" Type="InputType.Email"></SfTextBox>
+                <SfTextBox Placeholder="Email" @bind-Value="@login" FloatLabelType="FloatLabelType.Auto" Type="InputType.Email" @onkeypress="Enter"></SfTextBox>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                <SfTextBox Placeholder="Password" @bind-Value="@password" FloatLabelType="FloatLabelType.Auto" Type="InputType.Password"></SfTextBox>
+                <SfTextBox Placeholder="Password" @bind-Value="@password" FloatLabelType="FloatLabelType.Auto" Type="InputType.Password" @onkeypress="Enter"></SfTextBox>
             </div>
             <div class="login-btn">
                 <SfButton type="submit" IsPrimary="true" OnClick="OnLogInButtonClicked">Log in</SfButton>

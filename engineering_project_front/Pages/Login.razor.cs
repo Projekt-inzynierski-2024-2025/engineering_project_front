@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Notifications;
 
 using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace engineering_project_front.Pages
 {
@@ -61,6 +62,12 @@ namespace engineering_project_front.Pages
             NavManager.NavigateTo("/home");
         }
 
+
+        public async void Enter(KeyboardEventArgs e)
+        {
+            if(e.Code== "Enter" || e.Code == "NumpadEnter")
+                await OnLogInButtonClicked();
+        }
         private void OnForgotPasswordClicked()
         {
             NavManager.NavigateTo($"/forgot-password");
