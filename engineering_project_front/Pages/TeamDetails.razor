@@ -3,9 +3,11 @@
 @using engineering_project_front.Models
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
 
+<button @onclick="ShowDeleteConfirmation">Usuń zespół</button>
 <button @onclick="EditTeam">Edytuj zespół</button>
-<button @onclick="DeleteTeam">Usuń zespoł</button>
 
 <h3>Dane zespołu</h3>
 <br />
@@ -14,3 +16,16 @@
 <label>Manager: @Team.ManagerName</label>
 <br />
 
+<div>
+    <SfToast @ref="Toast" Title="Message" Content="@Message" Timeout="5000" ShowCloseButton="true">
+        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+    </SfToast>
+</div>
+
+<SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
+          Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć ten zespół?">
+    <DialogButtons>
+        <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
+        <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
+    </DialogButtons>
+</SfDialog>

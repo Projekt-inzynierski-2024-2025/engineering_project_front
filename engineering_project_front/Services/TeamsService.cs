@@ -23,9 +23,9 @@ namespace engineering_project_front.Services
         }
 
 
-        public async Task<List<TeamsResponse>> GetTeamsAsync()
+        public async Task<OperationResponse<List<TeamsResponse>>> GetTeamsAsync()
         {
-            _logger.LogInformation($"Method {nameof(GetTeamsAsync)} entered");
+            _logger.LogInformation("Fetching teams from API.");
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
@@ -33,31 +33,36 @@ namespace engineering_project_front.Services
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return new List<TeamsResponse>();
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<List<TeamsResponse>>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+                  
                 }
 
-                var content = await apiResponse.Content.ReadAsStringAsync();
-                var teams = JsonSerializer.Deserialize<List<TeamsResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                if (teams == null)
+                var teams = await apiResponse.Content.ReadFromJsonAsync<List<TeamsResponse>>(_serializerOptions);
+                return new OperationResponse<List<TeamsResponse>>
                 {
-                    _logger.LogWarning("Deserialized teams list is null.");
-                    return new List<TeamsResponse>();
-                }
-
-                _logger.LogInformation($"Retrieved {teams.Count} teams from API.");
-                return teams;
+                    Success = true,
+                    Data = teams,
+                    Message = $"Pobrano {teams?.Count} zespołów."
+                };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while fetching teams from API.");
-                return new List<TeamsResponse>();
+                _logger.LogError(ex, "Error fetching teams.");
+                return new OperationResponse<List<TeamsResponse>>
+                {
+                    Success = false,
+                    Message = "wystąpił błąd podczas pobierania zespołów"
+                };
             }
         }
 
 
-        public async Task<TeamsResponse> GetTeam(long ID)
+        public async Task<OperationResponse<TeamsResponse>> GetTeam(long ID)
         {
             _logger.LogInformation($"Method {nameof(GetTeam)} entered");
             try
@@ -67,8 +72,13 @@ namespace engineering_project_front.Services
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return new TeamsResponse();
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<TeamsResponse>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+                   
                 }
 
                 var content = await apiResponse.Content.ReadAsStringAsync();
@@ -76,21 +86,32 @@ namespace engineering_project_front.Services
 
                 if (team == null)
                 {
-                    _logger.LogWarning("Deserialized team is null.");
-                    return new TeamsResponse();
+                    return new OperationResponse<TeamsResponse>
+                    {
+                        Success = false,
+                        Message = "Brak zespołu"
+                    };
                 }
 
-                _logger.LogInformation($"Retrieved {team} team from API.");
-                return team;
+                return new OperationResponse<TeamsResponse>
+                {
+                    Success = true,
+                    Data = team,
+                    Message = "Udało się pobrać zespół"
+                };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while fetching team from API.");
-                return new TeamsResponse();
+                return new OperationResponse<TeamsResponse>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas pobierania zepołu"
+                };
             }
         }
 
-        public async Task<bool> AddTeam(TeamRequest team)
+        public async Task<OperationResponse<bool>> AddTeam(TeamRequest team)
         {
             _logger.LogInformation($"Method {nameof(AddTeam)} entered");
             try
@@ -100,20 +121,32 @@ namespace engineering_project_front.Services
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return false;
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
                 }
 
-                _logger.LogInformation($"OK");
-                return true;
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Data = true,
+                    Message = "Udało się dodać zespoł"
+                };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while fetching users from API.");
-                return false;
+                _logger.LogError(ex, "An error occurred while adding team.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił problem podczas dodawania zespołu"
+                };
             }
         }
-        public async Task<bool> EditTeam(TeamRequest team)
+        public async Task<OperationResponse<bool>> EditTeam(TeamRequest team)
         {
             _logger.LogInformation($"Method {nameof(EditTeam)} entered");
             try
@@ -123,41 +156,65 @@ namespace engineering_project_front.Services
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return false;
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Bład {apiResponse.StatusCode}: {errorMessage}"
+                    };
                 }
 
-                _logger.LogInformation($"OK");
-                return true;
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Data = true,
+                    Message = "Zaktualizowano zespoł"
+                };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while fetching users from API.");
-                return false;
+                _logger.LogError(ex, "An error occurred while editing team.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił bład podczas edycji zespołu"
+                };
             }
         }
 
-        public async Task<bool> DeleteTeam(long ID)
+        public async Task<OperationResponse<bool>> DeleteTeam(long ID)
         {
             _logger.LogInformation($"Method {nameof(DeleteTeam)} entered");
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.DeleteAsync($"api/Teams/delateTeam/{ID}");
+                var apiResponse = await httpClient.DeleteAsync($"/api/Teams/deleteTeam/{ID}");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return false;
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
                 }
 
-                _logger.LogInformation($"Team with ID {ID} deleted successfully.");
-                return true;
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Data = true,
+                    Message = $"Udało się usunąć zespoł"
+                };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while deleting team from API.");
-                return false;
+                _logger.LogError(ex, "An error occurred while deleting team.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wsytąpił błąd podczas usówania zespołu"
+                };
             }
         }
 

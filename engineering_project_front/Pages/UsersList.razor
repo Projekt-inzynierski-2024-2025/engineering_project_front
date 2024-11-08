@@ -4,11 +4,12 @@
 @using Syncfusion.Blazor.DataForm
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
 @using global::engineering_project_front.Models;
 
-<PageTitle>Users List</PageTitle>
+<PageTitle>Użytkownicy</PageTitle>
 
-<input @bind="SearchTerm" placeholder="Search by first or last name, or team..." />
+<input @bind="SearchTerm" placeholder="Wyszukaj użytkowników..." />
 <button @onclick="FilterUsers">Wyszukaj</button>
 <button @onclick="AddUser">Dodaj użytkownika</button>
 
@@ -25,14 +26,20 @@
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
-                    <GridColumn Field="@nameof(UsersResponse.ID)" HeaderText="ID" MinWidth="80" Width="100" MaxWidth="150"></GridColumn>
-                    <GridColumn Field="@nameof(UsersResponse.FirstName)" HeaderText="First Name" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(UsersResponse.LastName)" HeaderText="Last Name" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.FirstName)" HeaderText="Imię" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.LastName)" HeaderText="Nazwisko" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
                     <GridColumn Field="@nameof(UsersResponse.Email)" HeaderText="Email" MinWidth="150" Width="200" MaxWidth="300"></GridColumn>
-                    <GridColumn Field="@nameof(UsersResponse.TeamName)" HeaderText="Team Name" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(UsersResponse.Role)" HeaderText="Role" MinWidth="100" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.TeamName)" HeaderText="Nazwa zespołu" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(UsersResponse.RoleName)" HeaderText="Pozycja" MinWidth="100" Width="150" MaxWidth="200"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
     </div>
 </div>
+
+<div>
+<SfToast @ref="Toast" Title="MessageGet" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
+</SfToast>
+</div>
+

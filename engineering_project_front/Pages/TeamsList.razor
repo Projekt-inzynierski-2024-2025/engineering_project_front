@@ -4,9 +4,16 @@
 @using Syncfusion.Blazor.DataForm
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
 @using engineering_project_front.Models;
 
+
+
+
 <PageTitle>Team List</PageTitle>
+
+
+
 
 <input @bind="SearchTerm" placeholder="Search by manager name, or team name..." />
 <button @onclick="FilterTeams">Wyszukaj</button>
@@ -28,4 +35,10 @@
             </SfGrid>
         </div>
     </div>
+</div>
+
+<div>
+<SfToast @ref="Toast" Title="MessageGet" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
+</SfToast>
 </div>

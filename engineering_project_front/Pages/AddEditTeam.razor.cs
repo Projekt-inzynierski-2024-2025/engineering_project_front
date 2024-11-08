@@ -3,17 +3,22 @@ using engineering_project_front.Models;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.DropDowns;
+using Syncfusion.Blazor.Notifications;
 
 namespace engineering_project_front.Pages
 {
     public partial class AddEditTeam : ComponentBase
     {
+
+        #region Injects
         [Inject]
         private ITeamsService TeamsService { get; set; } = default!;
         [Inject]
         private IUsersService UsersService { get; set; }
         [Inject]
         private NavigationManager NavManager { get; set; } = default!;
+        #endregion
+
 
         [Parameter]
         public long? TeamId { get; set; }
@@ -22,24 +27,52 @@ namespace engineering_project_front.Pages
         private bool IsEditing => TeamId.HasValue;
         private List<UsersResponse> Managers { get; set; } = new List<UsersResponse>();
 
+        #region Toast
+        private SfToast? Toast;
+        private string Message { get; set; } = string.Empty;
+        #endregion
+
 
         protected override async Task OnInitializedAsync()
         {
             CreateTree();
-            Managers = await UsersService.GetMenegers();
 
+            var responseManagers = await UsersService.GetManagers();
+            if (responseManagers.Success)
+            {
+                Managers  = responseManagers.Data;
+               
+            }
+            else
+            {
+                ShowToast(responseManagers.Message);
+            }         
             if (IsEditing)
             {
-                var response = await TeamsService.GetTeam((long)TeamId) ?? new TeamsResponse();
-                if (response != null)
+                var response = await TeamsService.GetTeam((long)TeamId) ?? new OperationResponse<TeamsResponse>();
+                if (response.Success)
                 {
-                    MapResponseToRequest(response);
+                    var team = response.Data;
+                    if (team != null)
+                    {
+                        MapResponseToRequest(team);
+                    }                    
                 }
+                else
+                {
+                    ShowToast(response.Message);
+                }
+               
             }
-
-
         }
 
+        #region ToastAndMapping
+        private async Task ShowToast(string message)
+        {
+            Message = message;
+            await InvokeAsync(StateHasChanged);
+            await Toast?.ShowAsync();
+        }
         private void MapResponseToRequest(TeamsResponse res)
         {
 
@@ -50,17 +83,41 @@ namespace engineering_project_front.Pages
 
         }
 
+        #endregion
+
+
+
         private async Task HandleValidSubmit()
         {
             if (IsEditing)
             {
-                await TeamsService.EditTeam(Team);
+                var response = await TeamsService.EditTeam(Team);
+                if (response.Success)
+                {                   
+                    ShowToast(response.Message);
+                    await Task.Delay(2000);
+                    NavManager.NavigateTo("/TeamsList");
+                }
+                else
+                {
+                    ShowToast(response.Message);
+                }
             }
             else
             {
-                await TeamsService.AddTeam(Team);
+                var response = await TeamsService.AddTeam(Team);
+                if (response.Success)
+                {
+                    ShowToast(response.Message);
+                    await Task.Delay(2000);
+                    NavManager.NavigateTo("/TeamsList");
+                }
+                else
+                {
+                    ShowToast(response.Message);
+                }
             }
-            NavManager.NavigateTo("/TeamsList");
+            
         }
 
         private void Cancel()

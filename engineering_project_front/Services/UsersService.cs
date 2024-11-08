@@ -1,198 +1,240 @@
 ﻿using engineering_project_front.Models;
 using engineering_project_front.Services.Interfaces;
-using System.ComponentModel;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace engineering_project_front.Services
+public class UsersService : IUsersService
 {
-    public class UsersService : IUsersService
-    {
+    private readonly ILogger<UsersService> _logger;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly JsonSerializerOptions _serializerOptions;
 
-        private readonly ILogger<UsersService> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly JsonSerializerOptions _serializerOptions;
-        public UsersService(ILogger<UsersService> logger, IHttpClientFactory httpClientFactory)
+    public UsersService(ILogger<UsersService> logger, IHttpClientFactory httpClientFactory)
+    {
+        _logger = logger;
+        _httpClientFactory = httpClientFactory;
+        _serializerOptions = new JsonSerializerOptions
         {
-            _logger = logger;
-            _httpClientFactory = httpClientFactory;
-            _serializerOptions = new JsonSerializerOptions
+            PropertyNameCaseInsensitive = true
+        };
+    }
+
+    public async Task<OperationResponse<List<UsersResponse>>> GetUsersAsync()
+    {
+        _logger.LogInformation($"Method {nameof(GetUsersAsync)} entered");
+        try
+        {
+            var httpClient = _httpClientFactory.CreateClient("engineering-project");
+            var apiResponse = await httpClient.GetAsync("api/Users/GetUsers");
+
+            if (!apiResponse.IsSuccessStatusCode)
             {
-                PropertyNameCaseInsensitive = true
+                var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                return new OperationResponse<List<UsersResponse>>
+                {
+                    Success = false,
+                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                };
+            }
+
+            var users = await apiResponse.Content.ReadFromJsonAsync<List<UsersResponse>>(_serializerOptions);
+            return new OperationResponse<List<UsersResponse>>
+            {
+                Success = true,
+                Data = users,
+                Message = $"Pobrano {users?.Count ?? 0} użytkowników."
             };
         }
-
-
-        public async Task<List<UsersResponse>> GetUsersAsync()
+        catch (Exception ex)
         {
-            _logger.LogInformation($"Method {nameof(GetUsersAsync)} entered");
-            try
+            _logger.LogError(ex, "An error occurred while fetching users from API.");
+            return new OperationResponse<List<UsersResponse>>
             {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.GetAsync("api/Users/GetUsers");
-
-                if (!apiResponse.IsSuccessStatusCode)
-                {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return new List<UsersResponse>();
-                }
-
-                var content = await apiResponse.Content.ReadAsStringAsync();
-                var users = JsonSerializer.Deserialize<List<UsersResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                if (users == null)
-                {
-                    _logger.LogWarning("Deserialized users list is null.");
-                    return new List<UsersResponse>();
-                }
-
-                _logger.LogInformation($"Retrieved {users.Count} users from API.");
-                return users;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while fetching users from API.");
-                return new List<UsersResponse>(); 
-            }
+                Success = false,
+                Message = "Wystąpił błąd podczas pobierania użytkowników."
+            };
         }
+    }
 
-        public async Task<UsersResponse> GetUser(long ID)
+    public async Task<OperationResponse<UsersResponse>> GetUser(long ID)
+    {
+        _logger.LogInformation($"Method {nameof(GetUser)} entered");
+        try
         {
-            _logger.LogInformation($"Method {nameof(GetUser)} entered");
-            try
+            var httpClient = _httpClientFactory.CreateClient("engineering-project");
+            var apiResponse = await httpClient.GetAsync($"api/Users/GetUser/{ID}");
+
+            if (!apiResponse.IsSuccessStatusCode)
             {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.GetAsync($"api/Users/GetUser/{ID}");
-
-                if (!apiResponse.IsSuccessStatusCode)
+                var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                return new OperationResponse<UsersResponse>
                 {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return new UsersResponse();
-                }
-
-                var content = await apiResponse.Content.ReadAsStringAsync();
-                var user = JsonSerializer.Deserialize<UsersResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                if (user == null)
-                {
-                    _logger.LogWarning("Deserialized users list is null.");
-                    return new UsersResponse();
-                }
-
-                _logger.LogInformation($"Retrieved {user} users from API.");
-                return user;
+                    Success = false,
+                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                };
             }
-            catch (Exception ex)
+
+            var user = await apiResponse.Content.ReadFromJsonAsync<UsersResponse>(_serializerOptions);
+            return new OperationResponse<UsersResponse>
             {
-                _logger.LogError(ex, "An error occurred while fetching users from API.");
-                return new UsersResponse();
-            }
+                Success = true,
+                Data = user,
+                Message = "Użytkownik pobrany pomyślnie."
+            };
         }
-
-
-        public async Task<bool> AddUser(UserRequest user)
+        catch (Exception ex)
         {
-            _logger.LogInformation($"Method {nameof(AddUser)} entered");
-            try
+            _logger.LogError(ex, "An error occurred while fetching user.");
+            return new OperationResponse<UsersResponse>
             {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.PostAsJsonAsync("api/Users/addUser", user);
-
-                if (!apiResponse.IsSuccessStatusCode)
-                {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return false;
-                }
-
-                _logger.LogInformation($"OK");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while fetching users from API.");
-                return false;
-            }
+                Success = false,
+                Message = "Wystąpił błąd podczas pobierania użytkownika."
+            };
         }
-        public async Task<bool> EditUser(UserRequest user)
-        {           
-            _logger.LogInformation($"Method {nameof(EditUser)} entered");
-            try
-            {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.PutAsJsonAsync("api/Users/updateUser", user);
+    }
 
-                if (!apiResponse.IsSuccessStatusCode)
-                {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return false;
-                }
-
-                _logger.LogInformation($"OK");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while fetching users from API.");
-                return false;
-            }
-        }
-        public async Task<List<UsersResponse>> GetMenegers()
+    public async Task<OperationResponse<bool>> AddUser(UserRequest user)
+    {
+        _logger.LogInformation($"Method {nameof(AddUser)} entered");
+        try
         {
-            _logger.LogInformation($"Method {nameof(GetMenegers)} entered");
-            try
+            var httpClient = _httpClientFactory.CreateClient("engineering-project");
+            var apiResponse = await httpClient.PostAsJsonAsync("api/Users/addUser", user);
+
+            if (!apiResponse.IsSuccessStatusCode)
             {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.GetAsync("api/Users/GetManagers");
-
-                if (!apiResponse.IsSuccessStatusCode)
+                var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                return new OperationResponse<bool>
                 {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return new List<UsersResponse>();
-                }
-
-                var content = await apiResponse.Content.ReadAsStringAsync();
-                var managers = JsonSerializer.Deserialize<List<UsersResponse>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                if (managers == null)
-                {
-                    _logger.LogWarning("Deserialized users list is null.");
-                    return new List<UsersResponse>();
-                }
-
-                _logger.LogInformation($"Retrieved {managers.Count} users from API.");
-                return managers;
+                    Success = false,
+                    Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                };
             }
-            catch (Exception ex)
+
+            return new OperationResponse<bool>
             {
-                _logger.LogError(ex, "An error occurred while fetching users from API.");
-                return new List<UsersResponse>();
-            }
+                Success = true,
+                Data = true,
+                Message = "Użytkownik dodany pomyślnie."
+            };
         }
-
-        public async Task<bool> DeleteUser(long ID)
+        catch (Exception ex)
         {
-            _logger.LogInformation($"Method {nameof(DeleteUser)} entered");
-            try
+            _logger.LogError(ex, "An error occurred while adding user.");
+            return new OperationResponse<bool>
             {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.DeleteAsync($"api/Users/deleteUser/{ID}");
-
-                if (!apiResponse.IsSuccessStatusCode)
-                {
-                    _logger.LogError($"Status code was not OK, it was {apiResponse.StatusCode}");
-                    return false;
-                }
-
-                _logger.LogInformation($"User with ID {ID} deleted successfully.");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while deleting user from API.");
-                return false;
-            }
+                Success = false,
+                Message = "Wystąpił błąd podczas dodawania użytkownika."
+            };
         }
+    }
 
+    public async Task<OperationResponse<bool>> EditUser(UserRequest user)
+    {
+        _logger.LogInformation($"Method {nameof(EditUser)} entered");
+        try
+        {
+            var httpClient = _httpClientFactory.CreateClient("engineering-project");
+            var apiResponse = await httpClient.PutAsJsonAsync("api/Users/updateUser", user);
 
+            if (!apiResponse.IsSuccessStatusCode)
+            {
+                var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                };
+            }
+
+            return new OperationResponse<bool>
+            {
+                Success = true,
+                Data = true,
+                Message = "Użytkownik edytowany pomyślnie."
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while editing user.");
+            return new OperationResponse<bool>
+            {
+                Success = false,
+                Message = "Wystąpił błąd podczas edytowania użytkownika."
+            };
+        }
+    }
+
+    public async Task<OperationResponse<List<UsersResponse>>> GetManagers()
+    {
+        _logger.LogInformation($"Method {nameof(GetManagers)} entered");
+        try
+        {
+            var httpClient = _httpClientFactory.CreateClient("engineering-project");
+            var apiResponse = await httpClient.GetAsync("api/Users/GetManagers");
+
+            if (!apiResponse.IsSuccessStatusCode)
+            {
+                var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                return new OperationResponse<List<UsersResponse>>
+                {
+                    Success = false,
+                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                };
+            }
+
+            var managers = await apiResponse.Content.ReadFromJsonAsync<List<UsersResponse>>(_serializerOptions);
+            return new OperationResponse<List<UsersResponse>>
+            {
+                Success = true,
+                Data = managers,
+                Message = $"Pobrano {managers?.Count ?? 0} kierowników."
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while fetching managers.");
+            return new OperationResponse<List<UsersResponse>>
+            {
+                Success = false,
+                Message = "Wystąpił błąd podczas pobierania kierowników."
+            };
+        }
+    }
+
+    public async Task<OperationResponse<bool>> DeleteUser(long ID)
+    {
+        _logger.LogInformation($"Method {nameof(DeleteUser)} entered");
+        try
+        {
+            var httpClient = _httpClientFactory.CreateClient("engineering-project");
+            var apiResponse = await httpClient.DeleteAsync($"api/Users/deleteUser/{ID}");
+
+            if (!apiResponse.IsSuccessStatusCode)
+            {
+                var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                };
+            }
+
+            return new OperationResponse<bool>
+            {
+                Success = true,
+                Data = true,
+                Message = $"Użytkownik usunięty pomyślnie."
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while deleting user.");
+            return new OperationResponse<bool>
+            {
+                Success = false,
+                Message = "Wystąpił błąd podczas usuwania użytkownika."
+            };
+        }
     }
 }

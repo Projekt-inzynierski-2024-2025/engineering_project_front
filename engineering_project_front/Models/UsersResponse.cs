@@ -10,6 +10,19 @@ namespace engineering_project_front.Models
         public string Email { get; set; }
         public  long TeamID { get; set; }
         public string TeamName { get; set; }
-        public  int Role { get; set; }
+        public int Role { get; set; }
+        public string RoleName
+        {
+            get
+            {
+                return Role switch
+                {
+                    0 => "Administrator",
+                    1 => "Kierownik",
+                    2 => "Pracownik",
+                    _ => "Unknown"
+                };
+            }
+        }
     }
 }

@@ -4,11 +4,11 @@ namespace engineering_project_front.Services.Interfaces
 {
     public interface IUsersService
     {
-        Task<List<UsersResponse>> GetUsersAsync();
-        Task<UsersResponse> GetUser(long ID);
-        Task<bool> AddUser(UserRequest user);
-        Task<bool> EditUser(UserRequest user);
-        Task<List<UsersResponse>> GetMenegers();
-        Task<bool> DeleteUser(long ID);
+        Task<OperationResponse<List<UsersResponse>>> GetUsersAsync();
+        Task<OperationResponse<UsersResponse>> GetUser(long ID);
+        Task<OperationResponse<bool>> AddUser(UserRequest user);
+        Task<OperationResponse<bool>> EditUser(UserRequest user);
+        Task<OperationResponse<List<UsersResponse>>> GetManagers();
+        Task<OperationResponse<bool>> DeleteUser(long ID);
     }
 }

@@ -1,5 +1,7 @@
 ﻿@page "/add-edit-user/{userId:long?}"
 @using Syncfusion.Blazor.DataForm
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
 
 <PageTitle>@(IsEditing ? "Edit User" : "Add User")</PageTitle>
 
@@ -28,6 +30,7 @@
     <div>
         <label for="team">Zespół:</label>
         <InputSelect id="team" @bind-Value="User.TeamID">
+            <option value="0">Wybierz zespoł</option>
             @foreach (var team in Teams)
             {
                 <option value="@team.ID">@team.Name</option>
@@ -39,7 +42,11 @@
     <button type="button" @onclick="Cancel">Cancel</button>
 </EditForm>
 
-
+<div>
+<SfToast @ref="Toast" Title="MessageGet" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
+</SfToast>
+</div>
 
 
 

@@ -3,6 +3,7 @@
 
 @using Syncfusion.Blazor.DataForm
 @using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Notifications
 <link href="css/sf-styles.css" rel="stylesheet" />
 
 <PageTitle>@(IsEditing ? "Edit Team" : "Add Team")</PageTitle>
@@ -24,7 +25,7 @@
     <div>
         <label for="manager">Kierownik:</label>
         <InputSelect id="manager" @bind-Value="Team.ManagerID">
-            <option value="">Wybierz kierownika</option>
+            <option value="0">Wybierz kierownika</option>
             @foreach (var manager in Managers)
             {
                 <option value="@manager.ID">@manager.FirstName @manager.LastName</option>
@@ -40,4 +41,8 @@
     <button type="submit">@(IsEditing ? "Update Team" : "Add Team")</button>
     <button type="button" @onclick="Cancel">Cancel</button>
 
-
+<div>
+<SfToast @ref="Toast" Title="MessageGet" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
+</SfToast>
+</div>

@@ -3,9 +3,11 @@
 @using engineering_project_front.Models
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
 
 <button @onclick="EditUser">Edytuj użytkownika</button>
-<button @onclick="DeleteUser">Usuń użytkownika</button>
+<button @onclick="ShowDeleteConfirmation">Usuń użytkownika</button>
 
 <h3>Dane użytkownika</h3>
 <br />
@@ -17,7 +19,19 @@
 <br />
 <label>@User.TeamName</label>
 <br />
-<label>@User.Role</label>
+<label>@User.RoleName</label>
 <br />
 
-      
+<div>
+    <SfToast @ref="Toast" Title="MessageGet" Content="@Message" Timeout="5000" ShowCloseButton="true">
+        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+    </SfToast>
+</div>
+
+<SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
+          Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć tego użytkownika?">
+    <DialogButtons>
+        <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
+        <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
+    </DialogButtons>
+</SfDialog>

@@ -6,11 +6,13 @@
     using global::engineering_project_front.Services.Interfaces;
     using global::engineering_project_front.Layout;
 using Syncfusion.Blazor.Grids;
+using Syncfusion.Blazor.Notifications;
 
     namespace engineering_project_front.Pages
     {
         public partial class UsersList: ComponentBase
         {
+        #region Injection
 
         [Inject]
             private NavigationManager NavManager { get; set; } = default!;
@@ -18,18 +20,32 @@ using Syncfusion.Blazor.Grids;
         [Inject]
             private IUsersService UsersService { get; set; } = default!;
 
+        #endregion
             private List<UsersResponse> Users { get; set; } = new();
             private List<UsersResponse> FilteredUsers { get; set; } = new();
-
             private string SearchTerm { get; set; } = string.Empty;
 
-            protected override async Task OnInitializedAsync()
+        #region Toast
+            private SfToast? Toast;
+            private string Message { get; set; } = string.Empty;
+        #endregion
+        protected override async Task OnInitializedAsync()
             {
                 CreateTree();
-                Users = await UsersService.GetUsersAsync();
+                var response = await UsersService.GetUsersAsync();
+                if (response.Success)
+                {
+                    Users = response.Data;
+                    FilteredUsers = Users;
+                }
+                else
+                {
+                    ShowToast(response.Message);
+                }
                 FilteredUsers = Users;
         }
 
+       
         private void FilterUsers()
         {
             if (string.IsNullOrWhiteSpace(SearchTerm))
@@ -41,11 +57,37 @@ using Syncfusion.Blazor.Grids;
                 FilteredUsers = Users.Where(user =>
                     user.FirstName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
                     user.TeamName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    user.Email.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    user.RoleName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
                     user.LastName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
             }
         }
 
+        private void AddUser()
+        {
 
+            NavManager.NavigateTo($"/add-edit-user/");
+
+        }
+
+        #region ToastAndHelpers
+        private async Task ShowToast(string message)
+        {
+            Message = message;
+            await InvokeAsync(StateHasChanged);
+            await Toast?.ShowAsync();
+        }
+        private string GetRoleText(int role)
+        {
+            return role switch
+            {
+                0 => "Administrator",
+                1 => "Kierownik",
+                2 => "Pracownik",
+                _ => "Nieznany"
+            };
+        }
+        #endregion
         private void OnContextMenuClick(ContextMenuClickEventArgs<UsersResponse> args)
         {
             if (args == null)
@@ -66,13 +108,6 @@ using Syncfusion.Blazor.Grids;
             {
                 Console.WriteLine($"Navigation error: {ex.Message}");
             }
-        }
-
-        private void AddUser()
-        {
-
-            NavManager.NavigateTo($"/add-edit-user/");
-
         }
 
         private void CreateTree()
