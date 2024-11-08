@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Notifications
 
-<PageTitle>@(IsEditing ? "Edit User" : "Add User")</PageTitle>
+<PageTitle>@(IsEditing ? "Edytuj użytkownika" : "Dodaj użytkownika")</PageTitle>
 
 <EditForm Model="@User" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -20,17 +20,17 @@
         </FormItems>
     </SfDataForm>
     <div>
-        <label for="role">Rola:</label>
+        <label for="role">Stanowisko:</label>
         <InputSelect id="role" @bind-Value="User.Role">
-            <option value="0">Admin</option>
-            <option value="1">Manager</option>
-            <option value="2">Employee</option>
+            <option value="0">Administrator</option>
+            <option value="1">Kierownik</option>
+            <option value="2">Pracownik</option>
         </InputSelect>
     </div>
     <div>
         <label for="team">Zespół:</label>
         <InputSelect id="team" @bind-Value="User.TeamID">
-            <option value="0">Wybierz zespoł</option>
+            <option value="0">Wybierz zespół</option>
             @foreach (var team in Teams)
             {
                 <option value="@team.ID">@team.Name</option>
@@ -38,12 +38,12 @@
         </InputSelect>
     </div>
 
-    <button type="submit">@(IsEditing ? "Update User" : "Add User")</button>
+    <button type="submit">@(IsEditing ? "Zaktualizuj użytkownika" : "Dodaj użytkownika")</button>
     <button type="button" @onclick="Cancel">Cancel</button>
 </EditForm>
 
 <div>
-<SfToast @ref="Toast" Title="MessageGet" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+<SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="500000" ShowCloseButton="true" >
     <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
 </SfToast>
 </div>

@@ -6,7 +6,7 @@
 @using Syncfusion.Blazor.Notifications
 <link href="css/sf-styles.css" rel="stylesheet" />
 
-<PageTitle>@(IsEditing ? "Edit Team" : "Add Team")</PageTitle>
+<PageTitle>@(IsEditing ? "Edytuj zespół" : "Dodaj zespół")</PageTitle>
 
 
 <EditForm Model="@Team" OnValidSubmit="HandleValidSubmit">
@@ -36,13 +36,10 @@
     <button type="submit">@(IsEditing ? "Zaktualizuj zespół" : "Dodaj zespół")</button>
     <button type="button" @onclick="Cancel">Anuluj</button>
 </EditForm>
-
-
-    <button type="submit">@(IsEditing ? "Update Team" : "Add Team")</button>
-    <button type="button" @onclick="Cancel">Cancel</button>
+ 
 
 <div>
-<SfToast @ref="Toast" Title="MessageGet" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+<SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="500000" ShowCloseButton="true" >
     <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
 </SfToast>
 </div>
