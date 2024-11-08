@@ -1,54 +1,67 @@
 ﻿using Blazored.SessionStorage;
-
+using engineering_project.Models.Parameters;
 using engineering_project_front.Layout;
 using engineering_project_front.Models;
 using engineering_project_front.Services.Interfaces;
-
 using Microsoft.AspNetCore.Components;
 
 namespace engineering_project_front.Pages
 {
-    public partial class Home
+    public partial class ResetPassword
     {
+        [Parameter]
+        public string Code { get; set; } = string.Empty;
+        private string email = string.Empty;
+        private string password = string.Empty;
+        private string confirmPassword = string.Empty;
+
         [Inject]
         private ISessionStorageService sessionStorage { get; set; } = default!;
 
         [Inject]
         private IUsersService usersService { get; set; } = default!;
 
-        private string firstName = "<FIRST_NAME_PH>";
-        private string lastName = "<LAST_NAME_PH>";
-        private string email = "<EMAIL_PH>";
-        private string team = "<TEAM_PH>";
-        private string manager = "<MANAGER_PH>";
-        private string role = "<ROLE_PH>";
+        [Inject]
+        private NavigationManager navManager { get; set; } = default!;
+
+        [Inject]
+        private IResetPassword resetPassword { get; set; } = default!;
+
 
         protected async override Task OnInitializedAsync()
         {
             CreateTree();
 
-            await GetUser();
-
             await base.OnInitializedAsync();
         }
 
-        private async Task GetUser()
+        public void OnConfirmChangeClicked()
         {
-            var token = await sessionStorage.GetItemAsStringAsync("token");
+            var token = sessionStorage.GetItemAsStringAsync("token").Result;
 
             if (token == null)
                 return;
-
             token = token.Trim('"');
 
-            var user = await usersService.GetUserFromToken(token);
+            var user = usersService.GetUserFromToken(token).Result;
 
-            firstName = user.FirstName!;
-            lastName = user.LastName!;
-            email = user.Email!;
-            team = user.TeamName!;
-            manager = user.Manager!;
-            role = user.Role.ToString();
+            if (password != string.Empty)
+                return;
+
+            if (confirmPassword != string.Empty)
+                return;
+
+            if (password != confirmPassword)
+                return;
+
+            ResetPasswordParameters parameters = new()
+            {
+                Email = user.Email!,
+                NewPassword = password
+            };
+
+            if (resetPassword.ChangePassword(parameters))
+                navManager.NavigateTo("/home");
         }
 
         private void CreateTree()
@@ -67,7 +80,6 @@ namespace engineering_project_front.Pages
                     Id = "2",
                     Pid = "1",
                     Name = "Strona głowna",
-                    Selected = true
                 },
                 new TreeData
                 {
