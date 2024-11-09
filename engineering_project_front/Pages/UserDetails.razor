@@ -6,8 +6,8 @@
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Popups
 
-<button @onclick="EditUser">Edytuj użytkownika</button>
-<button @onclick="ShowDeleteConfirmation">Usuń użytkownika</button>
+<SfButton IsPrimary="true" @onclick="EditUser">Edytuj użytkownika</SfButton>
+<SfButton IsPrimary="true" @onclick="ShowDeleteConfirmation">Usuń użytkownika</SfButton>
 
 <h3>Dane użytkownika</h3>
 <br />
@@ -23,7 +23,7 @@
 <br />
 
 <div>
-    <SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="5000" ShowCloseButton="true">
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
 </div>

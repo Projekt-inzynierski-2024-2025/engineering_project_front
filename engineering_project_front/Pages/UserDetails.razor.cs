@@ -29,6 +29,7 @@ namespace engineering_project_front.Pages
         #region ToastAndNotification
         private SfToast? Toast;
         private string Message { get; set; } = string.Empty;
+        private string Title { get; set; } = string.Empty;
         private bool IsDeleteDialogVisible { get; set; } = false;
         #endregion
 
@@ -55,14 +56,18 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(response.Message);
+                ShowToast(response.Message, response.Success);
             }
         }
 
         #region ToastAndNotification
-        private async Task ShowToast(string message)
+        private async Task ShowToast(string message, bool success )
         {
             Message = message;
+            if (success)
+            { Title = "Sukces!"; }
+            else
+            { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
             await Toast?.ShowAsync();
         }
@@ -94,12 +99,12 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 User = new UsersResponse();
-                ShowToast(response.Message);
+                ShowToast(response.Message, response.Success );
                 NavManager.NavigateTo("/UsersList");
             }
             else
             {
-                ShowToast(response.Message);
+                ShowToast(response.Message, response.Success );
             }
         }
       

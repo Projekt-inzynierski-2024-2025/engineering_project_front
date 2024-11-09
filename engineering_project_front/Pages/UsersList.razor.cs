@@ -28,6 +28,7 @@ namespace engineering_project_front.Pages
 
         #region Toast
             private SfToast? Toast;
+            private string Title { get; set; } = string.Empty;
             private string Message { get; set; } = string.Empty;
         #endregion
         protected override async Task OnInitializedAsync()
@@ -41,7 +42,8 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
-                    ShowToast(response.Message);
+                   
+                    ShowToast(response.Message, response.Success);
                 }
                 FilteredUsers = Users;
         }
@@ -72,9 +74,13 @@ namespace engineering_project_front.Pages
         }
 
         #region ToastAndHelpers
-        private async Task ShowToast(string message)
+        private async Task ShowToast(string message, bool success )
         {
             Message = message;
+            if (success)
+            { Title = "Sukces!"; }
+            else
+            { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
             await Toast?.ShowAsync();
         }

@@ -4,42 +4,42 @@
 @using Syncfusion.Blazor.DataForm
 @using System.ComponentModel.DataAnnotations
 @using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@using engineering_project_front.Models.Request;
+@using engineering_project_front.Models.Responses;
 <link href="css/sf-styles.css" rel="stylesheet" />
 
 <PageTitle>@(IsEditing ? "Edytuj zespół" : "Dodaj zespół")</PageTitle>
 
 
+
 <EditForm Model="@Team" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <SfDataForm ID="MyForm" Model="@Team">
-        <FormValidator>
-            <DataAnnotationsValidator></DataAnnotationsValidator>
-        </FormValidator>
-        <FormItems>
-            <FormItem Field="@nameof(Team.Name)" LabelText="Nazwa zespołu" />
-        </FormItems>
-    </SfDataForm>
-
-    <div>
-        <label for="manager">Kierownik:</label>
-        <InputSelect id="manager" @bind-Value="Team.ManagerID">
-            <option value="0">Wybierz kierownika</option>
-            @foreach (var manager in Managers)
-            {
-                <option value="@manager.ID">@manager.FirstName @manager.LastName</option>
-            }
-        </InputSelect>
+<div class="col-log-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                <SfTextBox Placeholder="Nazwa zespołu" @bind-Value="Team.Name" FloatLabelType="FloatLabelType.Auto" Type="InputType.Text"></SfTextBox>
+            </div>
+                <div>
+                    <label for="manager">Kierownik:</label>
+                    <SfDropDownList TValue="long" TItem="UsersResponse" Placeholder="Wybierz kierownika" DataSource="@Managers" @bind-Value="Team.ManagerID">
+                   <DropDownListFieldSettings Value="ID" Text="FirstName"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+                <SfButton CssClass="e-flat" IsPrimary="true"  type="submit">@(IsEditing ? "Zaktualizuj zespół" : "Dodaj zespół")</SfButton>
+                <SfButton CssClass="e-flat"  @onclick="Cancel">Anuluj</SfButton>
+        </div>
     </div>
-
-    <button type="submit">@(IsEditing ? "Zaktualizuj zespół" : "Dodaj zespół")</button>
-    <button type="button" @onclick="Cancel">Anuluj</button>
+</div>
 </EditForm>
- 
+
 
 <div>
-<SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+<SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true" >
     <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
 </SfToast>
 </div>

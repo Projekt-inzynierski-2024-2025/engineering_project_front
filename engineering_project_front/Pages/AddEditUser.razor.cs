@@ -1,5 +1,6 @@
 ﻿using engineering_project_front.Layout;
 using engineering_project_front.Models;
+using engineering_project_front.Models.Parameters;
 using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
@@ -19,16 +20,24 @@ namespace engineering_project_front.Pages
         private NavigationManager NavManager { get; set; } = default!;
         #endregion
 
-
+        #region Parameters
         [Parameter]
         public long? UserId { get; set; }
 
+        List<RoleParameters> Roles  = new List<RoleParameters>
+        {
+            new RoleParameters { ID = 0, Name = "Administrator" },
+            new RoleParameters { ID = 1, Name = "Kierownik" },
+            new RoleParameters { ID = 2, Name = "Pracownik" }
+        };
+        #endregion
         private UserRequest User { get; set; } = new UserRequest();
         private bool IsEditing => UserId.HasValue;
         private List<TeamsResponse> Teams { get; set; } = new List<TeamsResponse>();
 
         #region Toast
         private SfToast? Toast;
+        private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
 
@@ -45,7 +54,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(responseTeams.Message);
+                ShowToast(responseTeams.Message, responseTeams.Success);
             }
             if (IsEditing)
             {
@@ -61,16 +70,20 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                 }
             }
         }
 
 
         #region ToastAndMapping
-        private async Task ShowToast(string message)
+        private async Task ShowToast(string message, bool success )
         {
             Message = message;
+            if (success)
+            { Title = "Sukces!"; }
+            else
+            { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
             await Toast?.ShowAsync();
         }
@@ -95,13 +108,13 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.EditUser(User);
                 if (response.Success)
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/UsersList");
                 }
                 else
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                 }
             }
             else
@@ -109,13 +122,13 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.AddUser(User);
                 if (response.Success)
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/UsersList");
                 }
                 else
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                 }
             }
             

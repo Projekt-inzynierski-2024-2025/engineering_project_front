@@ -5,6 +5,7 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
 @using engineering_project_front.Models;
 @using engineering_project_front.Models.Responses;
 
@@ -15,11 +16,11 @@
 
 
 
-
+<div>
 <input @bind="SearchTerm" placeholder="Wyszukaj zespoł..." />
-<button @onclick="FilterTeams">Wyszukaj</button>
-<button @onclick="AddTeam">Dodaj zespoł</button>
-
+<SfButton IsPrimary="true" @onclick="FilterTeams">Wyszukaj</SfButton>
+<SfButton IsPrimary="true" @onclick="AddTeam">Dodaj zespoł</SfButton>
+</div>
 @* Initialize the DataGrid component for users *@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
@@ -38,7 +39,7 @@
 </div>
 
 <div>
-    <SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="500000" ShowCloseButton="true">
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
 </div>

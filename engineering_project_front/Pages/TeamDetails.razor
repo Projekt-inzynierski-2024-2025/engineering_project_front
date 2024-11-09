@@ -6,8 +6,8 @@
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Popups
 
-<button @onclick="ShowDeleteConfirmation">Usuń zespół</button>
-<button @onclick="EditTeam">Edytuj zespół</button>
+<SfButton IsPrimary="true" @onclick="ShowDeleteConfirmation">Usuń zespół</SfButton>
+<SfButton IsPrimary="true" @onclick="EditTeam">Edytuj zespół></SfButton>
 
 <h3>Dane zespołu</h3>
 <br />
@@ -17,7 +17,7 @@
 <br />
 
 <div>
-    <SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="5000" ShowCloseButton="true">
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
 </div>

@@ -1,6 +1,7 @@
 ﻿@page "/UsersList"
 
 
+@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DataForm
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
@@ -10,14 +11,11 @@
 
 <PageTitle>Użytkownicy</PageTitle>
 
+<div>
 <input @bind="SearchTerm" placeholder="Wyszukaj użytkowników..." />
-<button @onclick="FilterUsers">Wyszukaj</button>
-<button @onclick="AddUser">Dodaj użytkownika</button>
-
-
-
-
-
+<SfButton IsPrimary="true" @onclick="FilterUsers">Wyszukaj</SfButton>
+<SfButton IsPrimary="true" @onclick="AddUser">Dodaj użytkownika</SfButton>
+</div>
 @* Initialize the DataGrid component for users *@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
@@ -39,7 +37,7 @@
 </div>
 
 <div>
-    <SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="500000" ShowCloseButton="true">
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
 </div>

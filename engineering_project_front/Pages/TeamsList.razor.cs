@@ -27,6 +27,7 @@ namespace engineering_project_front.Pages
         #region ToastAndNotification
         private SfToast? Toast;
         private string Message { get; set; } = string.Empty;
+        private string Title { get; set; } = string.Empty;
         #endregion
 
 
@@ -42,16 +43,20 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(response.Message);
+                ShowToast(response.Message, response.Success);
             }
 
             FilteredTeams = Teams;
         }
 
         #region ToastAndNotification
-        private async Task ShowToast(string message)
+        private async Task ShowToast(string message, bool success )
         {
             Message = message;
+            if (success)
+            { Title = "Sukces!"; }
+            else
+            { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
             await Toast?.ShowAsync();
         }

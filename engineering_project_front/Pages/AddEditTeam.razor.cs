@@ -31,6 +31,7 @@ namespace engineering_project_front.Pages
 
         #region Toast
         private SfToast? Toast;
+        private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
 
@@ -47,7 +48,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(responseManagers.Message);
+                ShowToast(responseManagers.Message,responseManagers.Success);
             }         
             if (IsEditing)
             {
@@ -62,16 +63,20 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                 }
                
             }
         }
 
         #region ToastAndMapping
-        private async Task ShowToast(string message)
+        private async Task ShowToast(string message, bool success )
         {
             Message = message;
+            if (success)
+            { Title = "Sukces!"; }
+            else
+            { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
             await Toast?.ShowAsync();
         }
@@ -96,13 +101,13 @@ namespace engineering_project_front.Pages
                 var response = await TeamsService.EditTeam(Team);
                 if (response.Success)
                 {                   
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/TeamsList");
                 }
                 else
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                 }
             }
             else
@@ -110,13 +115,13 @@ namespace engineering_project_front.Pages
                 var response = await TeamsService.AddTeam(Team);
                 if (response.Success)
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/TeamsList");
                 }
                 else
                 {
-                    ShowToast(response.Message);
+                    ShowToast(response.Message, response.Success);
                 }
             }
             
