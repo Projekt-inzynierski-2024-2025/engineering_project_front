@@ -6,7 +6,7 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Notifications
 
-<PageTitle>Login</PageTitle>
+<PageTitle>Strona logowania</PageTitle>
 
 <div class="col-log-12 control-section">
     <div class="content-wrapper">
@@ -15,16 +15,16 @@
                 <SfTextBox Placeholder="Email" @bind-Value="@login" FloatLabelType="FloatLabelType.Auto" Type="InputType.Email" @onkeypress="Enter"></SfTextBox>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                <SfTextBox Placeholder="Password" @bind-Value="@password" FloatLabelType="FloatLabelType.Auto" Type="InputType.Password" @onkeypress="Enter"></SfTextBox>
+                <SfTextBox Placeholder="Hasło" @bind-Value="@password" FloatLabelType="FloatLabelType.Auto" Type="InputType.Password" @onkeypress="Enter"></SfTextBox>
             </div>
             <div class="login-btn">
-                <SfButton type="submit" IsPrimary="true" OnClick="OnLogInButtonClicked">Log in</SfButton>
+                <SfButton type="submit" IsPrimary="true" OnClick="OnLogInButtonClicked">Zaloguj się</SfButton>
             </div>
             <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-                <SfButton CssClass="e-flat" IsPrimary="true" OnClick="OnForgotPasswordClicked">Forgot Password</SfButton>
+                <SfButton CssClass="e-flat" IsPrimary="true" OnClick="OnForgotPasswordClicked">Zapomniałem hasła</SfButton>
             </div>
             <div>
-                <SfToast ID="toast_default" @ref="ToastObj" Title="Login Failed" Content="@ToastContent" Timeout="5000" Icon="e-circle-remove">
+                <SfToast ID="toast_default" @ref="ToastObj" Title="Nie udało się zalogowac" Content="@ToastContent" Timeout="5000" Icon="e-circle-remove">
                     <ToastPosition X="Center" Y="Top"></ToastPosition>
                 </SfToast>
             </div>
