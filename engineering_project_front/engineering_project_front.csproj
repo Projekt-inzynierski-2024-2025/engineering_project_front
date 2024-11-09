@@ -16,13 +16,13 @@
     <PackageReference Include="Syncfusion.Blazor.Calendars" Version="27.1.58" />
     <PackageReference Include="Syncfusion.Blazor.Core" Version="27.1.58" />
     <PackageReference Include="Syncfusion.Blazor.Data" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.DataForm" Version="27.1.57" />
-    <PackageReference Include="Syncfusion.Blazor.Grid" Version="27.1.57" />
-    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="27.1.57" />
-    <PackageReference Include="Syncfusion.Blazor.Notifications" Version="27.1.57" />
-    <PackageReference Include="Syncfusion.Blazor.Popups" Version="27.1.57" />
+    <PackageReference Include="Syncfusion.Blazor.DataForm" Version="27.1.58" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="27.1.58" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="27.1.58" />
+    <PackageReference Include="Syncfusion.Blazor.Notifications" Version="27.1.58" />
+    <PackageReference Include="Syncfusion.Blazor.Popups" Version="27.1.58" />
 
-    <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.1.57" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.1.58" />
   </ItemGroup>
 
 </Project>

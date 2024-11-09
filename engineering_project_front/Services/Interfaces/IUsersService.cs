@@ -13,7 +13,7 @@ namespace engineering_project_front.Services.Interfaces
         Task<OperationResponse<bool>> EditUser(UserRequest user);
         Task<OperationResponse<List<UsersResponse>>> GetManagers();
         Task<OperationResponse<bool>> DeleteUser(long ID);
-        Task<UsersResponse> GetUserFromToken(string token);S
+        Task<UsersResponse> GetUserFromToken(string token);
 
     }
 }
