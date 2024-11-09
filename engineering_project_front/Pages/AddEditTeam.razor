@@ -1,0 +1,45 @@
+﻿@page "/add-edit-team/{teamId:long?}"
+
+
+@using Syncfusion.Blazor.DataForm
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Notifications
+<link href="css/sf-styles.css" rel="stylesheet" />
+
+<PageTitle>@(IsEditing ? "Edytuj zespół" : "Dodaj zespół")</PageTitle>
+
+
+<EditForm Model="@Team" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <SfDataForm ID="MyForm" Model="@Team">
+        <FormValidator>
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+        </FormValidator>
+        <FormItems>
+            <FormItem Field="@nameof(Team.Name)" LabelText="Nazwa zespołu" />
+        </FormItems>
+    </SfDataForm>
+
+    <div>
+        <label for="manager">Kierownik:</label>
+        <InputSelect id="manager" @bind-Value="Team.ManagerID">
+            <option value="0">Wybierz kierownika</option>
+            @foreach (var manager in Managers)
+            {
+                <option value="@manager.ID">@manager.FirstName @manager.LastName</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit">@(IsEditing ? "Zaktualizuj zespół" : "Dodaj zespół")</button>
+    <button type="button" @onclick="Cancel">Anuluj</button>
+</EditForm>
+ 
+
+<div>
+<SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
+</SfToast>
+</div>

@@ -1,0 +1,43 @@
+﻿@page "/TeamsList"
+
+
+@using Syncfusion.Blazor.DataForm
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using engineering_project_front.Models;
+
+
+
+
+<PageTitle>Zespoły</PageTitle>
+
+
+
+
+<input @bind="SearchTerm" placeholder="Wyszukaj zespoł..." />
+<button @onclick="FilterTeams">Wyszukaj</button>
+<button @onclick="AddTeam">Dodaj zespoł</button>
+
+@* Initialize the DataGrid component for users *@
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+             <SfGrid DataSource="FilteredTeams" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
+                <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="TeamsResponse"></GridEvents>
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field="@nameof(TeamsResponse.Name)" HeaderText="Nazwa zespołu" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(TeamsResponse.ManagerName)" HeaderText="Kierownik" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+              </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+<div>
+<SfToast @ref="Toast" Title="Powiadomienie" Content="@Message" Timeout="500000" ShowCloseButton="true" >
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
+</SfToast>
+</div>

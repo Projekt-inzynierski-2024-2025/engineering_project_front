@@ -70,6 +70,7 @@ namespace engineering_project_front.Pages
         }
         private void OnForgotPasswordClicked()
         {
+
             NavManager.NavigateTo($"/forgot-password");
         }
     }
