@@ -1,16 +1,17 @@
-﻿  using Microsoft.AspNetCore.Components;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using global::engineering_project_front.Models;
-    using global::engineering_project_front.Services.Interfaces;
-    using global::engineering_project_front.Layout;
+﻿using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using global::engineering_project_front.Models;
+using global::engineering_project_front.Services.Interfaces;
+using global::engineering_project_front.Layout;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
+using engineering_project_front.Models.Responses;
 
-    namespace engineering_project_front.Pages
-    {
-        public partial class UsersList: ComponentBase
+namespace engineering_project_front.Pages
+{
+    public partial class UsersList: ComponentBase
         {
         #region Injection
 

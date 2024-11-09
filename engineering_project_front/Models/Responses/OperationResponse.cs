@@ -1,4 +1,4 @@
-﻿namespace engineering_project_front.Models
+﻿namespace engineering_project_front.Models.Responses
 {
     public class OperationResponse<T>
     {

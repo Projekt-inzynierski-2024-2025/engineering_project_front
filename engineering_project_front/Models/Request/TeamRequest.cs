@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace engineering_project_front.Models
+namespace engineering_project_front.Models.Request
 {
     public class TeamRequest
     {

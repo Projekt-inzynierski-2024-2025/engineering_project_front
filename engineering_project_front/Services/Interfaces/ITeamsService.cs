@@ -1,4 +1,5 @@
-﻿using engineering_project_front.Models;
+﻿using engineering_project_front.Models.Request;
+using engineering_project_front.Models.Responses;
 
 namespace engineering_project_front.Services.Interfaces
 {

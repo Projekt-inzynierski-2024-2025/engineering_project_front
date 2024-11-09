@@ -48,7 +48,7 @@ namespace engineering_project_front.Pages
             email = user.Email!;
             team = user.TeamName!;
             manager = user.Manager!;
-            role = user.Role.ToString();
+            role = user.RoleName;
         }
 
         private void CreateTree()
