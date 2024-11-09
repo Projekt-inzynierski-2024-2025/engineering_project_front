@@ -1,54 +1,77 @@
-﻿using engineering_project_front.Layout;
-using engineering_project_front.Models;
+﻿using engineering_project_front.Models.Parameters;
+using engineering_project_front.Services.Interfaces;
+
+using Microsoft.AspNetCore.Components;
+
+using Syncfusion.Blazor.Notifications;
+
+using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace engineering_project_front.Pages
 {
     public partial class Login
     {
-        protected async override Task OnInitializedAsync()
-        {
-            CreateTree();
+        private LoginParameters loginParameter = new();
 
-            await base.OnInitializedAsync();
+        SfToast ToastObj = new();
+        private string ToastContent = string.Empty;
+
+        private string login = string.Empty;
+        private string password = string.Empty;
+
+        [Inject]
+        private ISessionStorageService SessionStorage { get; set; } = default!;
+
+        [Inject]
+        private ILoginService LoginService { get; set; } = default!;
+
+        [Inject]
+        private NavigationManager NavManager { get; set; } = default!;
+
+        private async Task OnLogInButtonClicked()
+        {
+            loginParameter.Login = login;
+            loginParameter.Password = password;
+
+            if (loginParameter.Login == null)
+            {
+                ToastContent = "Login is empty.";
+                await ToastObj.ShowAsync();
+                return;
+            }
+
+            if (loginParameter.Password == null)
+            {
+                ToastContent = "Password is empty.";
+                await ToastObj.ShowAsync();
+                return;
+            }
+
+            var token = await LoginService.Login(loginParameter);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                ToastContent = "Did not log in.";
+                await ToastObj.ShowAsync();
+                return;
+            }
+
+            await SessionStorage.SetItemAsync("token", token);
+
+            NavManager.NavigateTo("/home");
         }
 
-        private void CreateTree()
+
+        public async void Enter(KeyboardEventArgs e)
         {
-            SidebarMenu.Instance.TreeData =
-            [
-                new TreeData
-                {
-                    Id = "1",
-                    Name = "Ogólne",
-                    HasChild = true,
-                    Expanded = true,
-                },
-                new TreeData
-                {
-                    Id = "2",
-                    Pid = "1",
-                    Name = "Strona głowna",
-                },
-                new TreeData
-                {
-                    Id = "3",
-                    Pid = "1",
-                    Name = "Login",
-                    Selected = true
-                },
-                new TreeData
-                {
-                    Id = "4",
-                    Pid = "1",
-                    Name = "Zarządzanie użytkownikami",
-                },
-                new TreeData
-                {
-                    Id = "5",
-                    Pid = "1",
-                    Name = "Zarządzanie zespołami",
-                }
-            ];
+            if(e.Code== "Enter" || e.Code == "NumpadEnter")
+                await OnLogInButtonClicked();
+        }
+        private void OnForgotPasswordClicked()
+        {
+
+            NavManager.NavigateTo($"/forgot-password");
         }
     }
 }

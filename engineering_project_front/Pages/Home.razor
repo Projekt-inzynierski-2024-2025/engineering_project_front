@@ -1,6 +1,12 @@
-﻿@page "/"
 
+﻿@page "/home"
+@using engineering_project_front.Services.Interfaces
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hi, hey, hello!</h1>
+<!--It's all temporary-->
+<h1>Hello, @firstName @lastName!</h1>
+<div>Your mail: @email</div>
+<div>Your team name: @team</div>
+<div>Your manager: @manager</div>
+<div>Your role: @role</div>

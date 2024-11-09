@@ -47,10 +47,10 @@ namespace engineering_project_front.Layout
             switch (args.NodeData.Id)
             {
                 case "2":
-                    NavManager.NavigateTo("/");
+                    NavManager.NavigateTo("/home");
                     break;
                 case "3":
-                    NavManager.NavigateTo("/login");
+                    NavManager.NavigateTo("/");
                     break;
                 case "4":
                     NavManager.NavigateTo("/UsersList");
