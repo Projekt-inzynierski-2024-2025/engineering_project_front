@@ -1,0 +1,68 @@
+﻿@page "/Schedule/{ParamID}"
+
+@using engineering_project_front.Models
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+
+<PageTitle>Grafik</PageTitle>
+
+<label>Ilość godzin do wyrobienia: </label>
+@if (isEditingHours)
+{
+    <input type="number" @bind="DailySchedule.HoursAmount" />
+    <SfButton OnClick="SaveHoursAsync">Zapisz</SfButton>
+    <SfButton OnClick="CancelEditHours">Anuluj</SfButton>
+}
+else
+{
+    <label>@DailySchedule.HoursAmount</label>
+    <SfButton OnClick="EnableEditHours">Edytuj</SfButton>
+}
+<br />
+
+<label>Status: @DailySchedule.Status </label>
+<SfButton OnClick="ToggleStatus">
+    @(DailySchedule.Status == 0 ? "Udostępnij" : "Schowaj")
+</SfButton>
+<br />
+
+<label>Aktualna ilość godzin: @TotalHours</label>
+<SfButton OnClick="RefreshHoursAsync">Odśwież</SfButton>
+<br />
+
+<h3>Lista Pracowników</h3>
+@if (Employees?.Any() == true)
+{
+    <ul>
+        @foreach (var employee in Employees)
+        {
+            <li>@employee.FirstName </li> <!-- Display user name and role here -->
+        }
+    </ul>
+}
+else
+{
+    <p>Brak pracowników do wyświetlenia.</p>
+}
+
+<h3>Lista Zmian</h3>
+@if (EmployeesShift?.Any() == true)
+{
+    <ul>
+        @foreach (var employeeShift in EmployeesShift)
+        {
+            <li>@employeeShift.TimeStart </li>
+            <li>@employeeShift.TimeEnd </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Brak pracowników do wyświetlenia.</p>
+}
+
+
+
+

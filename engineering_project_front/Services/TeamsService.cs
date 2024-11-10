@@ -219,6 +219,44 @@ namespace engineering_project_front.Services
             }
         }
 
+        public async Task<OperationResponse<long>> GetTeamIDForManager(string managerEmail)
+        {
+            _logger.LogInformation($"Method {nameof(GetTeamIDForManager)} entered");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.GetAsync($"api/Teams/getTeamIDForManager/{managerEmail}");
 
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<long>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+                }
+
+                var content = await apiResponse.Content.ReadAsStringAsync();
+                var teamID = JsonSerializer.Deserialize<long>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return new OperationResponse<long>
+                {
+                    Success = true,
+                    Data = teamID,
+                    Message = "Udało się pobrać ID zespołu"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching team ID for manager from API.");
+                return new OperationResponse<long>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas pobierania ID zespołu"
+                };
+            }
+
+        }
     }
 }

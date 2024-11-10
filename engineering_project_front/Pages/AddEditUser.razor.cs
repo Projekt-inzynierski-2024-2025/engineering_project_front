@@ -175,6 +175,12 @@ namespace engineering_project_front.Pages
                     Pid = "1",
                     Name = "Zarządzanie zespołami",
 
+                },
+                new TreeData
+                {
+                    Id = "6",
+                    Pid = "1",
+                    Name = "Grafik",
                 }
             };
 

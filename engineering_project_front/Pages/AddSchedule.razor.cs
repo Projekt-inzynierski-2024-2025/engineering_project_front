@@ -1,65 +1,67 @@
-﻿using engineering_project_front.Layout;
-using engineering_project_front.Models;
-using engineering_project_front.Models.Responses;
-using engineering_project_front.Services.Interfaces;
+﻿using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using engineering_project_front.Models.Request;
 using Syncfusion.Blazor.Notifications;
-using Syncfusion.Blazor.Popups;
-using System.Xml.Serialization;
+using engineering_project_front.Models.Responses;
+using engineering_project_front.Layout;
+using engineering_project_front.Models;
+using engineering_project_front.Services;
 
 namespace engineering_project_front.Pages
 {
-    public partial class TeamDetails : ComponentBase
+    public partial class AddSchedule: ComponentBase
     {
         #region Injects
         [Inject]
-        private ITeamsService TeamsService { get; set; } = default!;
-        [Inject]
         private NavigationManager NavManager { get; set; } = default!;
+        [Inject]
+        private IScheduleService ScheduleService { get; set; } = default!;
         #endregion
-
-
         [Parameter]
         public required string ParamID { get; set; }
-
         private long ID => long.Parse(ParamID);
-        private TeamsResponse? Team { get; set; } = new TeamsResponse();
 
+        private DailySchedulesRequest Schedule { get; set; } = new DailySchedulesRequest();
 
-
-
-        #region ToastAndNotification
+        #region Toast
         private SfToast? Toast;
-        private bool IsDeleteDialogVisible { get; set; } = false;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
 
-
         protected override async Task OnInitializedAsync()
         {
             CreateTree();
-            await GetTeam();
-            await base.OnInitializedAsync();
+            Schedule.TeamID = ID;
+
+
         }
 
-        private async Task GetTeam()
+        private async Task HandleValidSubmit()
         {
+           
+                var response = await ScheduleService.AddSchedule(Schedule);
+                if (response.Success)
+                {
+                    ShowToast(response.Message, response.Success);
+                    await Task.Delay(2000);
+                    NavManager.NavigateTo("/ScheduleMonth");
+                }
+                else
+                {
+                    ShowToast(response.Message, response.Success);
+                }
+            
 
-            var response = await TeamsService.GetTeam(ID);
-
-            if (response.Success)
-            {
-                Team = response.Data;
-            }
-            else
-            {
-                ShowToast(response.Message, response.Success);
-            }
         }
 
-        #region ToastAndNotification
-        private async Task ShowToast(string message, bool success )
+        private void Cancel()
+        {
+            NavManager.NavigateTo("/ScheduleMonth");
+        }
+
+        #region Toast
+        private async Task ShowToast(string message, bool success)
         {
             Message = message;
             if (success)
@@ -69,41 +71,8 @@ namespace engineering_project_front.Pages
             await InvokeAsync(StateHasChanged);
             await Toast?.ShowAsync();
         }
-        private void ShowDeleteConfirmation()
-        {
-            IsDeleteDialogVisible = true;
-        }
 
-        private void CloseDeleteDialog()
-        {
-            IsDeleteDialogVisible = false;
-        }
         #endregion
-
-
-        private void EditTeam()
-        {
-            NavManager.NavigateTo($"/add-edit-team/{Team.ID}");
-        }
-
-        private async Task ConfirmDelete()
-        {
-            IsDeleteDialogVisible = false;
-            var response = await TeamsService.DeleteTeam(ID);
-
-            if (response.Success)
-            {
-                Team = new TeamsResponse();
-                ShowToast(response.Message, response.Success);
-                NavManager.NavigateTo("/TeamsList");
-            }
-            else
-            {
-                ShowToast(response.Message, response.Success);
-            }
-        }
-
-       
 
         private void CreateTree()
         {
@@ -139,6 +108,7 @@ namespace engineering_project_front.Pages
                     Id = "5",
                     Pid = "1",
                     Name = "Zarządzanie zespołami",
+
                 },
                 new TreeData
                 {
@@ -147,6 +117,8 @@ namespace engineering_project_front.Pages
                     Name = "Grafik",
                 }
             };
+
         }
+
     }
 }
