@@ -1,5 +1,6 @@
 ﻿using engineering_project_front.Layout;
 using engineering_project_front.Models;
+using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
@@ -33,6 +34,9 @@ namespace engineering_project_front.Pages
         private List<UsersDailySchedulesResponse> EmployeesShift { get; set; } = new List<UsersDailySchedulesResponse>();
 
         private bool isEditingHours = false;
+
+        private DateTime Start = DateTime.Today;
+        private DateTime End = DateTime.Today;
 
         #region ToastAndNotification
         private SfToast? Toast;
@@ -111,7 +115,14 @@ namespace engineering_project_front.Pages
 
         private async Task SaveHoursAsync()
         {
-            var response = await ScheduleService.UpdateHoursAmount(DailySchedule.TeamID, DailySchedule.Date, DailySchedule.HoursAmount);
+            var response = await ScheduleService.UpdateSchedule(new DailySchedulesRequest
+            {
+                ID = DailySchedule.ID,
+                Date = DailySchedule.Date,
+                HoursAmount = DailySchedule.HoursAmount,
+                Status = DailySchedule.Status,
+                TeamID = DailySchedule.TeamID
+            });
             if (response.Success)
             {
                 ShowToast("Godziny zostały zaktualizowane.", true);
@@ -131,7 +142,14 @@ namespace engineering_project_front.Pages
         private async Task ToggleStatus()
         {
             DailySchedule.Status = DailySchedule.Status == 0 ? 1 : 0;
-            var response = await ScheduleService.UpdateStatus(DailySchedule.TeamID, DailySchedule.Date, DailySchedule.Status);
+            var response = await ScheduleService.UpdateSchedule(new DailySchedulesRequest
+            {
+                ID = DailySchedule.ID,
+                Date = DailySchedule.Date,
+                HoursAmount = DailySchedule.HoursAmount,
+                Status = DailySchedule.Status,
+                TeamID = DailySchedule.TeamID
+            });
             if (response.Success)
             {
                 ShowToast("Status został zaktualizowany.", true);
@@ -155,6 +173,105 @@ namespace engineering_project_front.Pages
                 ShowToast(responseHours.Message, false);
             }
         }
+
+
+
+
+
+        private void EnableEditShift(UsersDailySchedulesResponse employeeShift)
+        {
+            employeeShift.IsEditing = true;
+        }
+
+        private async Task SaveShiftAsync(UsersDailySchedulesResponse employeeShift)
+        {
+            var updatedTimeStart = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
+                                    employeeShift.TimeStart.Hour, employeeShift.TimeStart.Minute, 0);
+            var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
+                                              employeeShift.TimeEnd.Hour, employeeShift.TimeEnd.Minute, 0);
+
+
+            // Save the edited shift data to the backend
+            var response = await ScheduleService.UpdateUserSchedule (new UsersDailySchedulesRequest
+            {
+                
+                ID = employeeShift.ID,
+                TimeStart = updatedTimeStart,
+                TimeEnd = updatedTimeEnd,
+                UserID = employeeShift.UserID
+            });
+            if (response.Success)
+            {
+                employeeShift.IsEditing = false;
+                await RefreshHoursAsync();
+                ShowToast("Zmiany zostały zapisane.", true);
+            }
+            else
+            {
+                ShowToast(response.Message, false);
+            }
+        }
+
+        private void CancelEditShift(UsersDailySchedulesResponse employeeShift)
+        {
+            employeeShift.IsEditing = false;
+        }
+
+        private void EnableAddShift(UsersResponse employee)
+        {
+            employee.IsAddingShift = true;
+        }
+
+        private async Task AddShiftAsync(UsersResponse employee)
+        {
+            var updatedTimeStart = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
+                            Start.Hour, Start.Minute, 0);
+            var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
+                                              End.Hour, End.Minute, 0);
+
+            // Save the new shift data to the backend
+            var newShift = new UsersDailySchedulesRequest
+            {
+                UserID = employee.ID,
+                TimeStart = updatedTimeStart,
+                TimeEnd = updatedTimeEnd
+            };
+
+            var response = await ScheduleService.AddUserSchedule(newShift);
+            if (response.Success)
+            {
+                employee.IsAddingShift = false;
+                await GetUserSchedules();
+                await RefreshHoursAsync();
+                ShowToast("Zmiana została dodana.", true);
+            }
+            else
+            {
+                ShowToast(response.Message, false);
+            }
+        }
+
+        private void CancelAddShift(UsersResponse employee)
+        {
+            employee.IsAddingShift = false;
+        }
+
+        private async Task DeleteShiftAsync(UsersDailySchedulesResponse employeeShift)
+        {
+            // Delete the shift data from the backend
+            var response = await ScheduleService.DeleteUserSchedule(employeeShift.ID);
+            if (response.Success)
+            {
+                EmployeesShift.Remove(employeeShift);
+                await RefreshHoursAsync();
+                ShowToast("Zmiana została usunięta.", true);
+            }
+            else
+            {
+                ShowToast(response.Message, false);
+            }
+        }
+
 
 
         #region ToastAndNotification
@@ -218,6 +335,12 @@ namespace engineering_project_front.Pages
                     Id = "6",
                     Pid = "1",
                     Name = "Grafik",
+                },
+                new TreeData
+                {
+                    Id = "7",
+                    Pid = "1",
+                    Name = "Moi Pracownicy",
                 }
             };
         }

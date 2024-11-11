@@ -61,8 +61,6 @@ namespace engineering_project_front.Services
             }
         }
 
-
-
         public async Task<OperationResponse<bool>> AddSchedule(DailySchedulesRequest request)
         {
             _logger.LogInformation("Adding schedule to API.");
@@ -95,6 +93,76 @@ namespace engineering_project_front.Services
                 {
                     Success = false,
                     Message = "Wystąpił błąd podczas dodawania harmonogramu."
+                };
+            }
+        }
+        public async Task<OperationResponse<bool>> UpdateSchedule(DailySchedulesRequest request)
+        {
+            _logger.LogInformation("Updating schedule in API.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.PutAsJsonAsync("api/DailySchedules/UpdateDailySchedule", request);
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Message = "Zaktualizowano harmonogram."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating schedule.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas aktualizacji harmonogramu."
+                };
+            }
+        }
+        public async Task<OperationResponse<bool>> DeleteSchedule(long ID)
+                    {
+            _logger.LogInformation("Deleting schedule from API.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.DeleteAsync($"api/DailySchedules/RemoveDailySchedule/{ID}");
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Message = "Usunięto harmonogram."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting schedule.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas usuwania harmonogramu."
                 };
             }
         }
@@ -215,11 +283,150 @@ namespace engineering_project_front.Services
             }
         }
 
+        public async Task<OperationResponse<bool>> AddUserSchedule(UsersDailySchedulesRequest request)
+            {
+            _logger.LogInformation("Adding user schedule to API.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.PostAsJsonAsync("api/UsersDailySchedules/AddUserDailySchedule", request);
 
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
 
+                }
 
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Message = "Dodano nowy harmonogram."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding user schedule.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas dodawania harmonogramu."
+                };
+            }
+        }
 
+        public async Task<OperationResponse<bool>> UpdateUserSchedule(UsersDailySchedulesRequest request)
+            {
+            _logger.LogInformation("Updating user schedule in API.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.PutAsJsonAsync("api/UsersDailySchedules/UpdateUserDailySchedule", request);
 
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Message = "Zaktualizowano harmonogram."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating user schedule.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas aktualizacji harmonogramu."
+                };
+            }
+        }
+        public async Task<OperationResponse<bool>> DeleteUserSchedule(long ID)
+            {
+            _logger.LogInformation("Deleting user schedule from API.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.DeleteAsync($"api/UsersDailySchedules/DeleteUserDailySchedule/{ID}");
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Message = "Usunięto harmonogram."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting user schedule.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas usuwania harmonogramu."
+                };
+            }
+        }
+
+        public async Task<OperationResponse<List<HoursForUserForMonthResponse>>> GetUsersHoursForMonth(int year, int month, long teamID)
+            {
+            _logger.LogInformation("Fetching schedule from API.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.GetAsync($"api/UsersDailySchedules/GetUsersHoursForMonth/{year}/{month}/{teamID}");
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<List<HoursForUserForMonthResponse>>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+
+                }
+
+                var hours = await apiResponse.Content.ReadFromJsonAsync<List<HoursForUserForMonthResponse>>(_serializerOptions);
+                return new OperationResponse<List<HoursForUserForMonthResponse>>
+                {
+                    Success = true,
+                    Data = hours,
+                    Message = $"Pobrano {hours?.Count} godzin."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching hours.");
+                return new OperationResponse<List<HoursForUserForMonthResponse>>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas pobierania godzij"
+                };
+            }
+        }
 
     }
 }

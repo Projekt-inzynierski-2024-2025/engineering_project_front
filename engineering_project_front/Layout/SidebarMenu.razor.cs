@@ -61,6 +61,9 @@ namespace engineering_project_front.Layout
                 case "6":
                     NavManager.NavigateTo("/ScheduleMonth");
                     break;
+                case "7":
+                    NavManager.NavigateTo("/MyEmployees");
+                    break;
                 default:
                     break;
             }

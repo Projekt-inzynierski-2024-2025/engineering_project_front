@@ -149,6 +149,12 @@ namespace engineering_project_front.Pages
                     Id = "6",
                     Pid = "1",
                     Name = "Grafik",
+                },
+                new TreeData
+                {
+                    Id = "7",
+                    Pid = "1",
+                    Name = "Moi Pracownicy",
                 }
             };
         }
