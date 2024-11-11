@@ -35,6 +35,7 @@ namespace Program
             builder.Services.AddScoped<ILoginService, LoginService>();
             builder.Services.AddScoped<IResetPassword, ResetPassword>();
             builder.Services.AddScoped<IUsersService, UsersService>();
+            builder.Services.AddScoped<IWorksService, WorksService>();
 
 
             builder.Services.AddScoped<SfDialogService>();
