@@ -11,44 +11,44 @@ using engineering_project_front.Models.Responses;
 
 namespace engineering_project_front.Pages
 {
-    public partial class UsersList: ComponentBase
-        {
+    public partial class UsersList : ComponentBase
+    {
         #region Injection
 
         [Inject]
-            private NavigationManager NavManager { get; set; } = default!;
+        private NavigationManager NavManager { get; set; } = default!;
 
         [Inject]
-            private IUsersService UsersService { get; set; } = default!;
+        private IUsersService UsersService { get; set; } = default!;
 
         #endregion
-            private List<UsersResponse> Users { get; set; } = new();
-            private List<UsersResponse> FilteredUsers { get; set; } = new();
-            private string SearchTerm { get; set; } = string.Empty;
+        private List<UsersResponse> Users { get; set; } = new();
+        private List<UsersResponse> FilteredUsers { get; set; } = new();
+        private string SearchTerm { get; set; } = string.Empty;
 
         #region Toast
-            private SfToast? Toast;
-            private string Title { get; set; } = string.Empty;
-            private string Message { get; set; } = string.Empty;
+        private SfToast? Toast;
+        private string Title { get; set; } = string.Empty;
+        private string Message { get; set; } = string.Empty;
         #endregion
         protected override async Task OnInitializedAsync()
+        {
+            CreateTree();
+            var response = await UsersService.GetUsersAsync();
+            if (response.Success)
             {
-                CreateTree();
-                var response = await UsersService.GetUsersAsync();
-                if (response.Success)
-                {
-                    Users = response.Data;
-                    FilteredUsers = Users;
-                }
-                else
-                {
-                   
-                    ShowToast(response.Message, response.Success);
-                }
+                Users = response.Data;
                 FilteredUsers = Users;
+            }
+            else
+            {
+
+                ShowToast(response.Message, response.Success);
+            }
+            FilteredUsers = Users;
         }
 
-       
+
         private void FilterUsers()
         {
             if (string.IsNullOrWhiteSpace(SearchTerm))
@@ -74,7 +74,7 @@ namespace engineering_project_front.Pages
         }
 
         #region ToastAndHelpers
-        private async Task ShowToast(string message, bool success )
+        private async Task ShowToast(string message, bool success)
         {
             Message = message;
             if (success)
@@ -118,10 +118,10 @@ namespace engineering_project_front.Pages
         }
 
         private void CreateTree()
+        {
+            SidebarMenu.Instance.TreeData = new()
             {
-                SidebarMenu.Instance.TreeData =
-                [
-                    new TreeData
+                new TreeData
                 {
                     Id = "1",
                     Name = "Ogólne",
@@ -138,24 +138,30 @@ namespace engineering_project_front.Pages
                 {
                     Id = "3",
                     Pid = "1",
-                    Name = "Login",
+                    Name = "Login"
                 },
                 new TreeData
                 {
                     Id = "4",
                     Pid = "1",
                     Name = "Zarządzanie użytkownikami",
-                    Selected = true
                 },
                 new TreeData
                 {
                     Id = "5",
                     Pid = "1",
                     Name = "Zarządzanie zespołami",
-                    
+
+                },
+                new TreeData()
+                {
+                    Id= "6",
+                    Pid = "1",
+                    Name = "Zmień godziny pracy"
                 }
-                ];
-            }
+            };
+
         }
     }
+}
 

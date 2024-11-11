@@ -101,7 +101,7 @@ namespace engineering_project_front.Pages
             }
         }
 
-       
+
 
         private void CreateTree()
         {
@@ -137,8 +137,16 @@ namespace engineering_project_front.Pages
                     Id = "5",
                     Pid = "1",
                     Name = "Zarządzanie zespołami",
+
+                },
+                new TreeData()
+                {
+                    Id= "6",
+                    Pid = "1",
+                    Name = "Zmień godziny pracy"
                 }
             };
+
         }
     }
 }

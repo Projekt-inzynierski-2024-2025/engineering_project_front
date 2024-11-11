@@ -224,7 +224,6 @@ namespace engineering_project_front.Pages
                     Id = "2",
                     Pid = "1",
                     Name = "Strona głowna",
-                    Selected = true
                 },
                 new TreeData
                 {
@@ -244,8 +243,15 @@ namespace engineering_project_front.Pages
                     Pid = "1",
                     Name = "Zarządzanie zespołami",
 
+                },
+                new TreeData()
+                {
+                    Id= "6",
+                    Pid = "1",
+                    Name = "Zmień godziny pracy"
                 }
             };
+
         }
     }
 }
