@@ -100,7 +100,8 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.GetAsync($"api/Works/GetWorkTimeForDay/{userID}/{day}");
+                string uri = $"api/Works/GetWorkTimeForDay/{userID}/{day.ToString("yyyy-MM-dd")}";
+                var apiResponse = await httpClient.GetAsync(uri);
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
