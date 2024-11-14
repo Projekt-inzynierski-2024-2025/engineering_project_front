@@ -2,6 +2,6 @@
 {
     public partial class AvailabilityScheduler
     {
-        public DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 3);
+        public DateTime CurrentDate { get; set; } = DateTime.Today;
     }
 }
