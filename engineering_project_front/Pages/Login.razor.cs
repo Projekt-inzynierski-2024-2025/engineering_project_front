@@ -36,14 +36,16 @@ namespace engineering_project_front.Pages
 
             if (loginParameter.Login == null)
             {
-                ToastContent = "Login is empty.";
+                ToastContent = "Login jest pusty.";
+                await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
                 return;
             }
 
             if (loginParameter.Password == null)
             {
-                ToastContent = "Password is empty.";
+                ToastContent = "Hasło jest puste.";
+                await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
                 return;
             }
@@ -52,7 +54,8 @@ namespace engineering_project_front.Pages
 
             if (string.IsNullOrEmpty(token))
             {
-                ToastContent = "Did not log in.";
+                ToastContent = "Nie zalogowano.";
+                await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
                 return;
             }

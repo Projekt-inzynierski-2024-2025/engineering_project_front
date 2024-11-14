@@ -1,0 +1,25 @@
+﻿@page "/availability-scheduler"
+
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Schedule
+
+<PageTitle>Kalendarz dostępności</PageTitle>
+
+<div class="col-lg-12" style="padding-top:15px">
+    <div class="col-md-3">
+        <SfDatePicker TValue="DateTime" Placeholder="Current Date" FloatLabelType="FloatLabelType.Always" Width="100%" @bind-Value="@CurrentDate" ShowClearButton="false"></SfDatePicker>
+    </div>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="DateTime" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+@*         <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings> *@
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>

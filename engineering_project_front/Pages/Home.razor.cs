@@ -108,7 +108,8 @@ namespace engineering_project_front.Pages
         }
         public void Dispose()
         {
-            timer.Dispose();
+            if (timer != null)
+                timer.Dispose();
         }
         #endregion
 
