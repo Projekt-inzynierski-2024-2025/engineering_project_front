@@ -239,5 +239,84 @@ namespace engineering_project_front.Services
                 };
             }
         }
+
+        public async Task<OperationResponse<IEnumerable<WorksResponse>>> GetWorkForMonth(long userID, DateTime month)
+        {
+            _logger.LogInformation($"Method {nameof(GetWorkForMonth)} entered.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                string uri = $"api/Works/GetWorkTimeForMonth/{userID}/{month.ToString("yyyy-MM-dd")}";
+                var apiResponse = await httpClient.GetAsync(uri);
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<IEnumerable<WorksResponse>>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                    };
+                }
+
+                var work = await apiResponse.Content.ReadFromJsonAsync<IEnumerable<WorksResponse>>(_serializerOptions);
+
+                return new OperationResponse<IEnumerable<WorksResponse>>
+                {
+                    Success = true,
+                    Data = work,
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while starting work.");
+                return new OperationResponse<IEnumerable<WorksResponse>>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas pobierania czasów pracy na miesiąc."
+                };
+            }
+        }
+
+        public async Task<OperationResponse<bool>> RemoveWorkTime(WorksRequest work)
+        {
+            _logger.LogInformation($"Method {nameof(RemoveWorkTime)} entered.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                HttpRequestMessage request = new()
+                {
+                    Content = new StringContent(JsonSerializer.Serialize(work)),
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri("api/RemoveWorkTime")
+                };
+                var apiResponse = await httpClient.SendAsync(request);
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                    };
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Message = "Pomyślnie usunięto godziny pracy."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while starting work.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas usuwania pracy."
+                };
+            }
+        }
     }
 }

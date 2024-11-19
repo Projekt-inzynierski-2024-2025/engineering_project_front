@@ -1,10 +1,8 @@
 ﻿using engineering_project_front.Layout;
 using engineering_project_front.Models;
 using engineering_project_front.Models.Responses;
-using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 
 namespace engineering_project_front.Pages
@@ -149,6 +147,12 @@ namespace engineering_project_front.Pages
                     Id= "6",
                     Pid = "1",
                     Name = "Zmień godziny pracy"
+                },
+                new TreeData()
+                {
+                    Id = "7",
+                    Pid = "1",
+                    Name = "Sprawdź dostępności godzinowe"
                 }
             };
 

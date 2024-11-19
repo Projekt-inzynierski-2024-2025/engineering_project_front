@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using global::engineering_project_front.Models;
 using global::engineering_project_front.Services.Interfaces;
 using global::engineering_project_front.Layout;
@@ -158,6 +155,12 @@ namespace engineering_project_front.Pages
                     Id= "6",
                     Pid = "1",
                     Name = "Zmień godziny pracy"
+                },
+                new TreeData()
+                {
+                    Id = "7",
+                    Pid = "1",
+                    Name = "Sprawdź dostępności godzinowe"
                 }
             };
 
