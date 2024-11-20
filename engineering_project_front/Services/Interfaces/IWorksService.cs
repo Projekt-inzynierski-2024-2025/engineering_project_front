@@ -10,5 +10,6 @@ namespace engineering_project_front.Services.Interfaces
         Task<OperationResponse<bool>> StartBreak(WorksRequest request);
         Task<OperationResponse<bool>> EndBreak(WorksRequest request);
         Task<OperationResponse<WorksResponse>> GetWorkForDay(long userID, DateTime day);
+        Task<OperationResponse<bool>> EditWork(WorksRequest request);
     }
 }

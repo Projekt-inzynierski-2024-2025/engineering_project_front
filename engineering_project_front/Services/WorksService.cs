@@ -100,7 +100,8 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.GetAsync($"api/Works/GetWorkTimeForDay/{userID}/{day}");
+                string uri = $"api/Works/GetWorkTimeForDay/{userID}/{day.ToString("yyyy-MM-dd")}";
+                var apiResponse = await httpClient.GetAsync(uri);
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -199,6 +200,42 @@ namespace engineering_project_front.Services
                 {
                     Success = false,
                     Message = "Wystąpił błąd podczas rozpoczynania pracy."
+                };
+            }
+        }
+
+        public async Task<OperationResponse<bool>> EditWork(WorksRequest request)
+        {
+            _logger.LogInformation($"Method {nameof(EditWork)} entered.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.PutAsJsonAsync("api/Works/EditWorkTime", request);
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                    };
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Data = true,
+                    Message = "Pomyślnie zedytowano twoją pracę"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while starting work.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas edytowania pracy."
                 };
             }
         }

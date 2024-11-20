@@ -101,8 +101,8 @@ namespace engineering_project_front.Pages
 
         private void CreateTree()
         {
-            SidebarMenu.Instance.TreeData =
-            [
+            SidebarMenu.Instance.TreeData = new()
+            {
                 new TreeData
                 {
                     Id = "1",
@@ -120,23 +120,29 @@ namespace engineering_project_front.Pages
                 {
                     Id = "3",
                     Pid = "1",
-                    Name = "Login",
+                    Name = "Login"
                 },
                 new TreeData
                 {
                     Id = "4",
                     Pid = "1",
                     Name = "Zarządzanie użytkownikami",
-                    
                 },
                 new TreeData
                 {
                     Id = "5",
                     Pid = "1",
                     Name = "Zarządzanie zespołami",
-                    Selected = true
+
+                },
+                new TreeData()
+                {
+                    Id= "6",
+                    Pid = "1",
+                    Name = "Zmień godziny pracy"
                 }
-            ];
+            };
+
         }
 
 
