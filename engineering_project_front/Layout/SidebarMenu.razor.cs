@@ -61,6 +61,9 @@ namespace engineering_project_front.Layout
                 case "6":
                     NavManager.NavigateTo("/edit-work");
                     break;
+                case "7":
+                    NavManager.NavigateTo("/availability-scheduler");
+                    break;
                 default:
                     break;
             }

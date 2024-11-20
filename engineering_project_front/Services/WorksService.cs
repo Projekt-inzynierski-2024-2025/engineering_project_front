@@ -286,9 +286,9 @@ namespace engineering_project_front.Services
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
                 HttpRequestMessage request = new()
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(work)),
+                    Content = new StringContent(JsonSerializer.Serialize(work, _serializerOptions)),
                     Method = HttpMethod.Delete,
-                    RequestUri = new Uri("api/RemoveWorkTime")
+                    RequestUri = new Uri(httpClient.BaseAddress + "api/Works/RemoveWorkTime")
                 };
                 var apiResponse = await httpClient.SendAsync(request);
 
