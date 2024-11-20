@@ -9,6 +9,6 @@
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
         public int Status { get; set; }
-        public string StastusName => Status switch { 0 => "Aktywny", 1 => "Ukończony", _ => "Nieznany" };
+        public string StatusName => Status switch { 0 => "Aktywny", 1 => "Ukończony", _ => "Nieznany" };
     }
 }

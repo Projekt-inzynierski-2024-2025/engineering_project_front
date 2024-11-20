@@ -24,7 +24,7 @@ namespace engineering_project_front.Pages
         [Parameter]
         public long? UserId { get; set; }
 
-        List<RoleParameters> Roles  = new List<RoleParameters>
+        List<RoleParameters> Roles = new List<RoleParameters>
         {
             new RoleParameters { ID = 0, Name = "Administrator" },
             new RoleParameters { ID = 1, Name = "Kierownik" },
@@ -45,7 +45,7 @@ namespace engineering_project_front.Pages
         {
             CreateTree();
 
-           
+
             var responseTeams = await TeamsService.GetTeamsAsync();
             if (responseTeams.Success)
             {
@@ -58,7 +58,7 @@ namespace engineering_project_front.Pages
             }
             if (IsEditing)
             {
-                
+
                 var response = await UsersService.GetUser((long)UserId);
                 if (response.Success)
                 {
@@ -77,7 +77,7 @@ namespace engineering_project_front.Pages
 
 
         #region ToastAndMapping
-        private async Task ShowToast(string message, bool success )
+        private async Task ShowToast(string message, bool success)
         {
             Message = message;
             if (success)
@@ -131,7 +131,7 @@ namespace engineering_project_front.Pages
                     ShowToast(response.Message, response.Success);
                 }
             }
-            
+
         }
 
         private void Cancel()
@@ -181,6 +181,12 @@ namespace engineering_project_front.Pages
                     Id= "6",
                     Pid = "1",
                     Name = "Zmień godziny pracy"
+                },
+                new TreeData()
+                {
+                    Id = "7",
+                    Pid = "1",
+                    Name = "Sprawdź dostępności godzinowe"
                 }
             };
 
