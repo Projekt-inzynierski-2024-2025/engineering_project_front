@@ -6,7 +6,10 @@
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? FullName => $"{FirstName} {LastName}";
-        public DateTime Date { get; set; }
+        public DateTime Date {
+            get => TimeStart.Date;
+            set => TimeStart = value.Date + TimeStart.TimeOfDay; 
+        }
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
         public int Type { get; set; }

@@ -17,15 +17,21 @@
                     <table class="custom-event-editor" width="100%" cellpadding="5">
                         <tbody>
                             <tr>
-                                <td class="e-textlabel">Imię</td>
-                                <td colspan="4">
-                                    <SfTextBox @bind-Value="@(Data.FirstName)"></SfTextBox>
+                                <td class="e-textlabel">Data</td>
+                                <td>
+                                    <SfDatePicker @bind-Value="@(Data.Date)"></SfDatePicker>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="e-textlabel">Nazwisko</td>
-                                <td colspan="4">
-                                    <SfTextBox @bind-Value="@(Data.LastName)"></SfTextBox>
+                                <td class="e-textlabel">Początek pracy</td>
+                                <td>
+                                    <SfTimePicker @bind-Value="@(Data.TimeStart)"></SfTimePicker>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="e-textlabel">Koniec pracy</td>
+                                <td>
+                                    <SfTimePicker @bind-Value="@(Data.TimeEnd)"></SfTimePicker>
                                 </td>
                             </tr>
                         </tbody>

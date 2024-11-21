@@ -5,7 +5,6 @@ using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor;
 using Syncfusion.Blazor.Schedule;
 
 namespace engineering_project_front.Pages
@@ -16,7 +15,9 @@ namespace engineering_project_front.Pages
         private SfSchedule<AvailabilitiesResponse> ScheduleRef = default!;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
 
-        public static long? UserID;
+        public long? UserID;
+        public string FirstName = string.Empty;
+        public string LastName = string.Empty;
 
         [Inject]
         private IAvailabilitiesService availabilitiesService { get; set; } = default!;
@@ -49,6 +50,8 @@ namespace engineering_project_front.Pages
             var user = await usersService.GetUserFromToken(token);
 
             UserID = user.ID!;
+            FirstName = user.FirstName!;
+            LastName = user.LastName!;
         }
 
         private async Task GetAvailabilities()
@@ -56,10 +59,11 @@ namespace engineering_project_front.Pages
             var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate);
             var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate.AddMonths(1));
 
-            if (responseCurrentMonth.Success && responseNextMonth.Success)
+            if (responseCurrentMonth.Success)
             {
                 dataSource = responseCurrentMonth.Data!.ToList();
-                dataSource.AddRange(responseNextMonth.Data!.ToList());
+                if (responseNextMonth.Success)
+                    dataSource.AddRange(responseNextMonth.Data!.ToList());
             }
         }
 
@@ -83,6 +87,11 @@ namespace engineering_project_front.Pages
             if (args.Cancel) return;
 
             if (UserID == null) return;
+
+            args.Data.TimeStart = args.Data.Date.Date + args.Data.TimeStart.TimeOfDay;
+            args.Data.TimeEnd = args.Data.Date.Date + args.Data.TimeEnd.TimeOfDay;
+            args.Data.FirstName = FirstName;
+            args.Data.LastName = LastName;
 
             var data = args.Data;
 
