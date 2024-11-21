@@ -70,6 +70,13 @@ namespace engineering_project_front.Pages
         public async Task OnCellClick(CellClickEventArgs args)
         {
             args.Cancel = true;
+
+            var startOfTheNextMonth = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, 1);
+            var endOfTheNextMonth = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month));
+            var selectedDate = args.StartTime;
+            
+
+            if (selectedDate < startOfTheNextMonth || selectedDate > endOfTheNextMonth) return;
             await ScheduleRef.OpenEditorAsync(args, CurrentAction.Add); //to open the editor window on cell click
         }
         public async Task OnEventClick(EventClickArgs<AvailabilitiesResponse> args)
