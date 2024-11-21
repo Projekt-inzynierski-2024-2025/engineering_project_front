@@ -4,7 +4,6 @@ using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.DropDowns;
 using Syncfusion.Blazor.Notifications;
 
 namespace engineering_project_front.Pages
@@ -43,13 +42,13 @@ namespace engineering_project_front.Pages
             var responseManagers = await UsersService.GetManagers();
             if (responseManagers.Success)
             {
-                Managers  = responseManagers.Data;
-               
+                Managers = responseManagers.Data;
+
             }
             else
             {
-                ShowToast(responseManagers.Message,responseManagers.Success);
-            }         
+                ShowToast(responseManagers.Message, responseManagers.Success);
+            }
             if (IsEditing)
             {
                 var response = await TeamsService.GetTeam((long)TeamId) ?? new OperationResponse<TeamsResponse>();
@@ -59,18 +58,18 @@ namespace engineering_project_front.Pages
                     if (team != null)
                     {
                         MapResponseToRequest(team);
-                    }                    
+                    }
                 }
                 else
                 {
                     ShowToast(response.Message, response.Success);
                 }
-               
+
             }
         }
 
         #region ToastAndMapping
-        private async Task ShowToast(string message, bool success )
+        private async Task ShowToast(string message, bool success)
         {
             Message = message;
             if (success)
@@ -100,7 +99,7 @@ namespace engineering_project_front.Pages
             {
                 var response = await TeamsService.EditTeam(Team);
                 if (response.Success)
-                {                   
+                {
                     ShowToast(response.Message, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/TeamsList");
@@ -124,7 +123,7 @@ namespace engineering_project_front.Pages
                     ShowToast(response.Message, response.Success);
                 }
             }
-            
+
         }
 
         private void Cancel()
@@ -168,6 +167,7 @@ namespace engineering_project_front.Pages
                     Name = "Zarządzanie zespołami",
 
                 },
+
                 new TreeData
                 {
                     Id = "6",
@@ -179,6 +179,18 @@ namespace engineering_project_front.Pages
                     Id = "7",
                     Pid = "1",
                     Name = "Moi Pracownicy",
+                },
+                new TreeData()
+                {
+                    Id= "8",
+                    Pid = "1",
+                    Name = "Zmień godziny pracy"
+                },
+                new TreeData()
+                {
+                    Id = "9",
+                    Pid = "1",
+                    Name = "Sprawdź dostępności godzinowe"
                 }
             };
 

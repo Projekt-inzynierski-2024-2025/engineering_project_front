@@ -64,6 +64,9 @@ namespace engineering_project_front.Layout
                 case "7":
                     NavManager.NavigateTo("/MyEmployees");
                     break;
+              case "8":
+                    NavManager.NavigateTo("/edit-work");
+                break;
                 default:
                     break;
             }

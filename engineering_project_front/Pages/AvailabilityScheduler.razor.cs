@@ -1,67 +1,55 @@
-﻿using Blazored.SessionStorage;
-using engineering_project.Models.Parameters;
-using engineering_project_front.Layout;
+﻿using engineering_project_front.Layout;
 using engineering_project_front.Models;
+using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Schedule;
 
 namespace engineering_project_front.Pages
 {
-    public partial class ResetPassword
+    public partial class AvailabilityScheduler
     {
-        [Parameter]
-        public string Code { get; set; } = string.Empty;
-        private string email = string.Empty;
-        private string password = string.Empty;
-        private string confirmPassword = string.Empty;
+        private DateTime CurrentDate { get; set; } = DateTime.Today;
+        private SfSchedule<AvailabilitiesResponse> ScheduleRef = default!;
+        private List<AvailabilitiesResponse> dataSource { get; set; } = new();
 
         [Inject]
-        private ISessionStorageService sessionStorage { get; set; } = default!;
-
-        [Inject]
-        private IUsersService usersService { get; set; } = default!;
-
-        [Inject]
-        private NavigationManager navManager { get; set; } = default!;
-
-        [Inject]
-        private IResetPassword resetPassword { get; set; } = default!;
-
+        private IAvailabilitiesService availabilitiesService { get; set; } = default!;
 
         protected async override Task OnInitializedAsync()
         {
+            await GetAvailabilities();
+
             CreateTree();
 
             await base.OnInitializedAsync();
         }
 
-        public void OnConfirmChangeClicked()
+        private async Task GetAvailabilities()
         {
-            var token = sessionStorage.GetItemAsStringAsync("token").Result;
+            var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate);
+            var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate.AddMonths(1));
 
-            if (token == null)
-                return;
-            token = token.Trim('"');
-
-            var user = usersService.GetUserFromToken(token).Result;
-
-            if (password != string.Empty)
-                return;
-
-            if (confirmPassword != string.Empty)
-                return;
-
-            if (password != confirmPassword)
-                return;
-
-            ResetPasswordParameters parameters = new()
+            if (responseCurrentMonth.Success && responseNextMonth.Success)
             {
-                Email = user.Email!,
-                NewPassword = password
-            };
+                dataSource = responseCurrentMonth.Data!.ToList();
+                dataSource.AddRange(responseNextMonth.Data!.ToList());
+            }
+        }
 
-            if (resetPassword.ChangePassword(parameters))
-                navManager.NavigateTo("/home");
+        public async Task OnCellClick(CellClickEventArgs args)
+        {
+            args.Cancel = true;
+            await ScheduleRef.OpenEditorAsync(args, CurrentAction.Add); //to open the editor window on cell click
+        }
+        public async Task OnEventClick(EventClickArgs<AvailabilitiesResponse> args)
+        {
+            if (!args.Event.IsReadonly)
+            {
+                args.Cancel = true;
+                CurrentAction action = CurrentAction.Save;
+                await ScheduleRef.OpenEditorAsync(args.Event, action); //to open the editor window on event click
+            }
         }
 
         private void CreateTree()
@@ -110,9 +98,9 @@ namespace engineering_project_front.Pages
                 {
                     Id = "7",
                     Pid = "1",
-                    Name = "Sprawdź dostępności godzinowe"
+                    Name = "Sprawdź dostępności godzinowe",
+                    Selected = true,
                 }
-
             };
 
         }

@@ -1,10 +1,8 @@
 ﻿using engineering_project_front.Layout;
 using engineering_project_front.Models;
 using engineering_project_front.Models.Responses;
-using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 
 namespace engineering_project_front.Pages
@@ -107,7 +105,7 @@ namespace engineering_project_front.Pages
                 ShowToast(response.Message, response.Success );
             }
         }
-      
+
         private void CreateTree()
         {
             SidebarMenu.Instance.TreeData = new()
@@ -144,6 +142,7 @@ namespace engineering_project_front.Pages
                     Name = "Zarządzanie zespołami",
 
                 },
+
                 new TreeData
                 {
                     Id = "6",
@@ -155,8 +154,21 @@ namespace engineering_project_front.Pages
                     Id = "7",
                     Pid = "1",
                     Name = "Moi Pracownicy",
+                },
+                new TreeData()
+                {
+                    Id= "8",
+                    Pid = "1",
+                    Name = "Zmień godziny pracy"
+                },
+                new TreeData()
+                {
+                    Id = "9",
+                    Pid = "1",
+                    Name = "Sprawdź dostępności godzinowe"
                 }
             };
+
         }
     }
 }

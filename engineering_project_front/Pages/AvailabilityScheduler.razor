@@ -1,0 +1,54 @@
+﻿@page "/availability-scheduler"
+
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Schedule.Internal
+@using engineering_project_front.Models.Responses
+
+<PageTitle>Kalendarz dostępności</PageTitle>
+
+<div class="col-lg-12 control-section">
+    <SfSchedule @ref="ScheduleRef" TValue="AvailabilitiesResponse" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleTemplates>
+            <EditorTemplate>
+                @{
+                    var Data = (context as AvailabilitiesResponse)!;
+                    <table class="custom-event-editor" width="100%" cellpadding="5">
+                        <tbody>
+                            <tr>
+                                <td class="e-textlabel">Imię</td>
+                                <td colspan="4">
+                                    <SfTextBox @bind-Value="@(Data.FirstName)"></SfTextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="e-textlabel">Nazwisko</td>
+                                <td colspan="4">
+                                    <SfTextBox @bind-Value="@(Data.LastName)"></SfTextBox>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </EditorTemplate>
+        </ScheduleTemplates>
+        <ScheduleEventSettings DataSource="@dataSource">
+            <ScheduleField Id="ID">
+                <FieldSubject Name="FullName"></FieldSubject>
+                <FieldIsAllDay Name="Type"></FieldIsAllDay>
+                <FieldStartTime Name="TimeStart"></FieldStartTime>
+                <FieldEndTime Name="TimeEnd"></FieldEndTime>
+            </ScheduleField>
+        </ScheduleEventSettings>
+        <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnEventClick="OnEventClick"></ScheduleEvents>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+            <ScheduleView Option="View.MonthAgenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
