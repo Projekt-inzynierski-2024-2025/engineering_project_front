@@ -1,0 +1,38 @@
+﻿@page "/AddSchedule/{ParamID}"
+
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Calendars
+@using engineering_project_front.Models.Request;
+@using engineering_project_front.Models.Responses;
+
+<PageTitle>AddSchedule</PageTitle>
+
+<EditForm Model="@Schedule" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-log-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                    <SfDatePicker TValue="DateTime" @bind-Value="Schedule.Date" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker>
+                    <SfNumericTextBox TValue="int" @bind-Value="Schedule.HoursAmount" Placeholder="Ilość godzin do wyrobienia"  FloatLabelType="FloatLabelType.Auto"></SfNumericTextBox>
+                    <SfButton CssClass="e-flat" IsPrimary="true" type="submit">Utwórz grafik</SfButton>
+                    <SfButton CssClass="e-flat" @onclick="Cancel">Anuluj</SfButton>
+            </div>
+        </div>
+    </div>
+    </div>
+</EditForm>
+
+
+<div>
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true">
+        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+    </SfToast>
+</div>
+
+

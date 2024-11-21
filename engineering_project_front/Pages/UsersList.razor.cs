@@ -150,20 +150,32 @@ namespace engineering_project_front.Pages
                     Name = "Zarządzanie zespołami",
 
                 },
+
+                new TreeData
+                {
+                    Id = "6",
+                    Pid = "1",
+                    Name = "Grafik",
+                },
+                new TreeData
+                {
+                    Id = "7",
+                    Pid = "1",
+                    Name = "Moi Pracownicy",
+                },
                 new TreeData()
                 {
-                    Id= "6",
+                    Id= "8",
                     Pid = "1",
                     Name = "Zmień godziny pracy"
                 },
                 new TreeData()
                 {
-                    Id = "7",
+                    Id = "9",
                     Pid = "1",
                     Name = "Sprawdź dostępności godzinowe"
                 }
             };
-
         }
     }
 }

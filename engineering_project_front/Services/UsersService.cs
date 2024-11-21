@@ -239,6 +239,47 @@ public class UsersService : IUsersService
             };
         }
     }
+
+    public async Task<OperationResponse<List<UsersResponse>>> GetUserByTeam(long ID)
+        {
+        _logger.LogInformation($"Method {nameof(GetUserByTeam)} entered");
+        try
+        {
+            var httpClient = _httpClientFactory.CreateClient("engineering-project");
+            var apiResponse = await httpClient.GetAsync($"api/Users/teamUsers/{ID}");
+
+            if (!apiResponse.IsSuccessStatusCode)
+            {
+                var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                return new OperationResponse<List<UsersResponse>>
+                {
+                    Success = false,
+                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                };
+            }
+
+            var users = await apiResponse.Content.ReadFromJsonAsync<List<UsersResponse>>(_serializerOptions);
+            return new OperationResponse<List<UsersResponse>>
+            {
+                Success = true,
+                Data = users,
+                Message = $"Pobrano {users?.Count ?? 0} użytkowników."
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while fetching users by team.");
+            return new OperationResponse<List<UsersResponse>>
+            {
+                Success = false,
+                Message = "Wystąpił błąd podczas pobierania użytkowników."
+            };
+        }
+    }
+      
+      
+
+
     public async Task<UsersResponse> GetUserFromToken(string token)
     {
         _logger.LogInformation($"Method {nameof(GetUserFromToken)} entered");
@@ -272,4 +313,6 @@ public class UsersService : IUsersService
         }
 
     }
+
+
 }

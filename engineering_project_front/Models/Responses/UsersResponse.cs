@@ -25,5 +25,7 @@ namespace engineering_project_front.Models.Responses
                 };
             }
         }
+
+        public bool IsAddingShift { get; set; } = false;
     }
 }
