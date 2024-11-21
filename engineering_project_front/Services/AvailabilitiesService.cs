@@ -3,6 +3,7 @@ using engineering_project_front.Models.Request;
 using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text;
 
 namespace engineering_project_front.Services
 {
@@ -220,7 +221,7 @@ namespace engineering_project_front.Services
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
                 HttpRequestMessage request = new()
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(availability, _serializerOptions)),
+                    Content = new StringContent(JsonSerializer.Serialize(availability), encoding:Encoding.UTF8, "application/json"),
                     Method = HttpMethod.Delete,
                     RequestUri = new Uri(httpClient.BaseAddress + "api/Availabilities/RemoveAvailability")
                 };
