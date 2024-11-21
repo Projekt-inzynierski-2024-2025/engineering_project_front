@@ -22,6 +22,8 @@ namespace engineering_project_front.Layout
         {
             Instance = this;
 
+            CreateTree();
+
             await base.OnInitializedAsync();
         }
 
@@ -40,6 +42,70 @@ namespace engineering_project_front.Layout
                 default:
                     break;
             }
+        }
+
+        public virtual void CreateTree()
+        {
+            TreeData = new()
+            {
+                new TreeData
+                {
+                    Id = "1",
+                    Name = "Ogólne",
+                    HasChild = true,
+                    Expanded = true,
+                },
+                new TreeData
+                {
+                    Id = "2",
+                    Pid = "1",
+                    Name = "Strona głowna",
+                },
+                new TreeData
+                {
+                    Id = "3",
+                    Pid = "1",
+                    Name = "Login"
+                },
+                new TreeData
+                {
+                    Id = "4",
+                    Pid = "1",
+                    Name = "Zarządzanie użytkownikami",
+                },
+                new TreeData
+                {
+                    Id = "5",
+                    Pid = "1",
+                    Name = "Zarządzanie zespołami",
+
+                },
+                new TreeData
+                {
+                    Id = "6",
+                    Pid = "1",
+                    Name = "Grafik",
+                },
+                new TreeData
+                {
+                    Id = "7",
+                    Pid = "1",
+                    Name = "Moi Pracownicy",
+                },
+                new TreeData()
+                {
+                    Id= "8",
+                    Pid = "1",
+                    Name = "Zmień godziny pracy"
+                },
+                new TreeData()
+                {
+                    Id = "9",
+                    Pid = "1",
+                    Name = "Sprawdź dostępności godzinowe"
+                }
+            };
+
         }
 
         public void OnSelect(NodeSelectEventArgs args)

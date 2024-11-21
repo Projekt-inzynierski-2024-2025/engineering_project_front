@@ -8,7 +8,7 @@ using Syncfusion.Blazor.Notifications;
 
 namespace engineering_project_front.Pages
 {
-    public partial class TeamsList: ComponentBase
+    public partial class TeamsList : ComponentBase
     {
         #region Injection
         [Inject]
@@ -33,8 +33,6 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            CreateTree();
-
             var response = await TeamsService.GetTeamsAsync();
             if (response.Success)
             {
@@ -50,7 +48,7 @@ namespace engineering_project_front.Pages
         }
 
         #region ToastAndNotification
-        private async Task ShowToast(string message, bool success )
+        private async Task ShowToast(string message, bool success)
         {
             Message = message;
             if (success)
@@ -97,75 +95,5 @@ namespace engineering_project_front.Pages
         {
             NavManager.NavigateTo($"/add-edit-team/");
         }
-
-       
-
-
-        private void CreateTree()
-        {
-SidebarMenu.Instance.TreeData = new()
-            {
-                new TreeData
-                {
-                    Id = "1",
-                    Name = "Ogólne",
-                    HasChild = true,
-                    Expanded = true,
-                },
-                new TreeData
-                {
-                    Id = "2",
-                    Pid = "1",
-                    Name = "Strona głowna",
-                },
-                new TreeData
-                {
-                    Id = "3",
-                    Pid = "1",
-                    Name = "Login"
-                },
-                new TreeData
-                {
-                    Id = "4",
-                    Pid = "1",
-                    Name = "Zarządzanie użytkownikami",
-                },
-                new TreeData
-                {
-                    Id = "5",
-                    Pid = "1",
-                    Name = "Zarządzanie zespołami",
-
-                },
-
-                new TreeData
-                {
-                    Id = "6",
-                    Pid = "1",
-                    Name = "Grafik",
-                },
-                new TreeData
-                {
-                    Id = "7",
-                    Pid = "1",
-                    Name = "Moi Pracownicy",
-                },
-                new TreeData()
-                {
-                    Id= "8",
-                    Pid = "1",
-                    Name = "Zmień godziny pracy"
-                },
-                new TreeData()
-                {
-                    Id = "9",
-                    Pid = "1",
-                    Name = "Sprawdź dostępności godzinowe"
-                }
-            };
-
-        }
-
-
     }
 }

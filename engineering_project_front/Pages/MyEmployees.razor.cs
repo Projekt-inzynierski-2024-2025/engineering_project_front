@@ -36,8 +36,6 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            CreateTree();
-
             TeamID = await GetTeamID();
 
             var response = await ScheduleService.GetUsersHoursForMonth(DateTime.Now.Year, DateTime.Now.Month, TeamID);
@@ -91,61 +89,5 @@ namespace engineering_project_front.Pages
                 return 0;
             }
         }
-        private void CreateTree()
-        {
-            SidebarMenu.Instance.TreeData =
-            [
-                new TreeData
-                {
-                    Id = "1",
-                    Name = "Ogólne",
-                    HasChild = true,
-                    Expanded = true,
-                },
-                new TreeData
-                {
-                    Id = "2",
-                    Pid = "1",
-                    Name = "Strona głowna",
-                },
-                new TreeData
-                {
-                    Id = "3",
-                    Pid = "1",
-                    Name = "Login",
-                },
-                new TreeData
-                {
-                    Id = "4",
-                    Pid = "1",
-                    Name = "Zarządzanie użytkownikami",
-
-                },
-                new TreeData
-                {
-                    Id = "5",
-                    Pid = "1",
-                    Name = "Zarządzanie zespołami",
-                    
-                },
-                new TreeData
-                {
-                    Id = "6",
-                    Pid = "1",
-                    Name = "Grafik",
-                },
-                new TreeData
-                {
-                    Id = "7",
-                    Pid = "1",
-                    Name = "Moi Pracownicy",
-                    Selected = true
-                }
-            ];
-        }
-
-
-
-
     }
 }
