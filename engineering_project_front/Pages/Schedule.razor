@@ -1,0 +1,86 @@
+﻿@page "/Schedule/{ParamID}"
+
+@using engineering_project_front.Models
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+
+<PageTitle>Grafik</PageTitle>
+
+<label>Ilość godzin do wyrobienia: </label>
+@if (isEditingHours)
+{
+    <input type="number" @bind="DailySchedule.HoursAmount" />
+    <SfButton OnClick="SaveHoursAsync">Zapisz</SfButton>
+    <SfButton OnClick="CancelEditHours">Anuluj</SfButton>
+}
+else
+{
+    <label>@DailySchedule.HoursAmount</label>
+    <SfButton OnClick="EnableEditHours">Edytuj</SfButton>
+}
+<br />
+
+<label>Status: @DailySchedule.Status </label>
+<SfButton OnClick="ToggleStatus">
+    @(DailySchedule.Status == 0 ? "Udostępnij" : "Schowaj")
+</SfButton>
+<br />
+
+<label>Aktualna ilość godzin: @TotalHours</label>
+<br />
+
+<h3>Lista Pracowników</h3>
+@if (Employees?.Any() == true)
+{
+    <ul>
+        @foreach (var employee in Employees)
+        {
+            <li>
+                <span>@employee.FirstName</span>
+
+                @if (EmployeesShift.Any(es => es.UserID == employee.ID))
+                {
+                    var employeeShift = EmployeesShift.First(es => es.UserID == employee.ID);
+
+                    @if (employeeShift.IsEditing)
+                    {
+                        <input type="time" @bind="employeeShift.TimeStart" step="1800" />
+                        <input type="time" @bind="employeeShift.TimeEnd" step="1800" />
+                        <SfButton OnClick="@(() => SaveShiftAsync(employeeShift))">Zapisz</SfButton>
+                        <SfButton OnClick="@(() => CancelEditShift(employeeShift))">Anuluj</SfButton>
+                    }
+                    else
+                    {
+                        <span>Godziny pracy: @employeeShift.TimeStart - @employeeShift.TimeEnd</span>
+                        <SfButton OnClick="@(() => EnableEditShift(employeeShift))">Edytuj</SfButton>
+                        <SfButton OnClick="@(() => DeleteShiftAsync(employeeShift))">Usuń</SfButton>
+                    }
+                }
+                else
+                {
+                    @if (employee.IsAddingShift)
+                    {
+                        <input type="time" @bind="@Start"  step="1800" />
+                        <input type="time" @bind="@End" step="1800" />
+                        <SfButton OnClick="@(() => AddShiftAsync(employee))">Dodaj</SfButton>
+                        <SfButton OnClick="@(() => CancelAddShift(employee))">Anuluj</SfButton>
+                    }
+                    else
+                    {
+                        <SfButton OnClick="@(() => EnableAddShift(employee))">Dodaj</SfButton>
+                    }
+                }
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Brak pracowników do wyświetlenia.</p>
+}
+
+
+
+

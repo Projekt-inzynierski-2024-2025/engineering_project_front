@@ -28,12 +28,12 @@ namespace Program
             builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://localhost:7059/"));
 
             builder.Services.AddScoped<IAvailabilitiesService, AvailabilitiesService>();
-            builder.Services.AddScoped<ITeamsService, TeamsService>();
             builder.Services.AddScoped<ILoginService, LoginService>();
             builder.Services.AddScoped<IResetPassword, ResetPassword>();
+            builder.Services.AddScoped<IScheduleService, ScheduleService>();
+            builder.Services.AddScoped<ITeamsService, TeamsService>();
             builder.Services.AddScoped<IUsersService, UsersService>();
             builder.Services.AddScoped<IWorksService, WorksService>();
-
 
             builder.Services.AddScoped<SfDialogService>();
 

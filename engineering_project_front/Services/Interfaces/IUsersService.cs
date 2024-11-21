@@ -14,6 +14,7 @@ namespace engineering_project_front.Services.Interfaces
         Task<OperationResponse<List<UsersResponse>>> GetManagers();
         Task<OperationResponse<bool>> DeleteUser(long ID);
         Task<UsersResponse> GetUserFromToken(string token);
+        Task<OperationResponse<List<UsersResponse>>> GetUserByTeam(long ID);
 
     }
 }
