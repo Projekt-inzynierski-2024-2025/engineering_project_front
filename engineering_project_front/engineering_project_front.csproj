@@ -13,17 +13,32 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.10" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
-    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.Core" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.Data" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.DataForm" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.Grid" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.Notifications" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.Popups" Version="27.1.58" />
-    <PackageReference Include="Syncfusion.Blazor.Schedule" Version="27.1.58" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.Data" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.DataForm" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.Notifications" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.Popups" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Blazor.Schedule" Version="27.2.3" />
 
-    <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.1.58" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\SfResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SfResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SfResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SfResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

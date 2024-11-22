@@ -41,6 +41,10 @@ namespace Program
 
             builder.Services.AddSyncfusionBlazor();
 
+            builder.Services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(Localizer));
+
+
+
             await builder.Build().RunAsync();
         }
     }

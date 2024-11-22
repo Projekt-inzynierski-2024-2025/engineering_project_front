@@ -31,10 +31,7 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            CreateTree();
             Schedule.TeamID = ID;
-
-
         }
 
         private async Task HandleValidSubmit()
