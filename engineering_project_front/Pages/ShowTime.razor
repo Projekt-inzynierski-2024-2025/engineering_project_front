@@ -15,7 +15,8 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="@GridData" AllowPaging="true" >
+            <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridColumns>
                     <GridColumn Field=@nameof(WorksResponse.Date.Date) HeaderText="Dzień" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
                     <GridColumn Field=@nameof(WorksResponse.TimeStart) HeaderText="Początek pracy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
