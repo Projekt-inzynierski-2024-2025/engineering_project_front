@@ -9,7 +9,7 @@ using Syncfusion.Blazor.Notifications;
 
 namespace engineering_project_front.Pages
 {
-    public partial class ScheduleMonth: ComponentBase
+    public partial class ScheduleMonth : ComponentBase
     {
         #region Injection
         [Inject]
@@ -39,30 +39,29 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            CreateTree();
-               TeamID = await GetTeamID();
+            TeamID = await GetTeamID();
 
-              if (TeamID == 0)
-              {
-                 ShowToast("Nie znaleziono zespołu", false);
-                 return;
-             }
+            if (TeamID == 0)
+            {
+                ShowToast("Nie znaleziono zespołu", false);
+                return;
+            }
 
-             var response = await ScheduleService.GetHoursForEachDayForMonthAsync(DateTime.Now.Year, DateTime.Now.Month, TeamID);
-              if (response.Success)
-             {
+            var response = await ScheduleService.GetHoursForEachDayForMonthAsync(DateTime.Now.Year, DateTime.Now.Month, TeamID);
+            if (response.Success)
+            {
                 Hours = response.Data;
-                if(Hours.Count == 0)
+                if (Hours.Count == 0)
                 {
                     ShowToast("Brak danych", false);
                 }
-             }
-             else
+            }
+            else
             {
                 ShowToast(response.Message, response.Success);
-             }
+            }
 
-            
+
         }
 
         #region ToastAndNotification
@@ -117,60 +116,5 @@ namespace engineering_project_front.Pages
                     break;
             }
         }
-
-        private void CreateTree()
-        {
-            SidebarMenu.Instance.TreeData = new()
-            {
-                new TreeData
-                {
-                    Id = "1",
-                    Name = "Ogólne",
-                    HasChild = true,
-                    Expanded = true,
-                },
-                new TreeData
-                {
-                    Id = "2",
-                    Pid = "1",
-                    Name = "Strona głowna",
-                },
-                new TreeData
-                {
-                    Id = "3",
-                    Pid = "1",
-                    Name = "Login"
-                },
-                new TreeData
-                {
-                    Id = "4",
-                    Pid = "1",
-                    Name = "Zarządzanie użytkownikami",
-                },
-                new TreeData
-                {
-                    Id = "5",
-                    Pid = "1",
-                    Name = "Zarządzanie zespołami",
-                },
-                new TreeData
-                {
-                    Id = "6",
-                    Pid = "1",
-                    Name = "Grafik",
-                    Selected = true
-                },
-                new TreeData
-                {
-                    Id = "7",
-                    Pid = "1",
-                    Name = "Moi Pracownicy",
-                }
-            };
-        }
-
-
-
-
     }
 }

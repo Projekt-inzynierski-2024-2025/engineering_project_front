@@ -37,8 +37,6 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            CreateTree();
-
             var responseManagers = await UsersService.GetManagers();
             if (responseManagers.Success)
             {
@@ -129,71 +127,6 @@ namespace engineering_project_front.Pages
         private void Cancel()
         {
             NavManager.NavigateTo("/TeamsList");
-        }
-
-        private void CreateTree()
-        {
-            SidebarMenu.Instance.TreeData = new()
-            {
-                new TreeData
-                {
-                    Id = "1",
-                    Name = "Ogólne",
-                    HasChild = true,
-                    Expanded = true,
-                },
-                new TreeData
-                {
-                    Id = "2",
-                    Pid = "1",
-                    Name = "Strona głowna",
-                },
-                new TreeData
-                {
-                    Id = "3",
-                    Pid = "1",
-                    Name = "Login"
-                },
-                new TreeData
-                {
-                    Id = "4",
-                    Pid = "1",
-                    Name = "Zarządzanie użytkownikami",
-                },
-                new TreeData
-                {
-                    Id = "5",
-                    Pid = "1",
-                    Name = "Zarządzanie zespołami",
-
-                },
-
-                new TreeData
-                {
-                    Id = "6",
-                    Pid = "1",
-                    Name = "Grafik",
-                },
-                new TreeData
-                {
-                    Id = "7",
-                    Pid = "1",
-                    Name = "Moi Pracownicy",
-                },
-                new TreeData()
-                {
-                    Id= "8",
-                    Pid = "1",
-                    Name = "Zmień godziny pracy"
-                },
-                new TreeData()
-                {
-                    Id = "9",
-                    Pid = "1",
-                    Name = "Sprawdź dostępności godzinowe"
-                }
-            };
-
         }
     }
 }
