@@ -102,7 +102,13 @@ namespace engineering_project_front.Layout
                 {
                     Id = "9",
                     Pid = "1",
-                    Name = "Sprawdź dostępności godzinowe"
+                    Name = "Dostępności godzinowe"
+                },
+                new TreeData()
+                {
+                    Id = "10",
+                    Pid = "1",
+                    Name = "Czas pracy"
                 }
             };
 
@@ -132,9 +138,12 @@ namespace engineering_project_front.Layout
                     break;
                 case "8":
                     NavManager.NavigateTo("/edit-work");
-                break;
-                  case "9":
+                    break;
+                case "9":
                     NavManager.NavigateTo("/availability-scheduler");
+                    break;
+                case "10":
+                    NavManager.NavigateTo("/show-time");
                     break;
                 default:
                     break;

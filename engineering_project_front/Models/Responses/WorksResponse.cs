@@ -8,6 +8,14 @@
         public DateTime TimeEnd { get; set; }
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
+        public TimeSpan BreakTime
+        {
+            get => BreakEnd != DateTime.MinValue ? BreakEnd - BreakStart : TimeSpan.Zero;
+        }
+        public TimeSpan WorkTime
+        {
+            get => TimeEnd != DateTime.MinValue ? TimeEnd - TimeStart - BreakTime : TimeSpan.Zero;
+        }
         public int Status { get; set; }
         public string StatusName => Status switch { 0 => "Aktywny", 1 => "Ukończony", _ => "Nieznany" };
     }
