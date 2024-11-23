@@ -2,6 +2,7 @@
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 
 namespace engineering_project_front.Services
@@ -286,9 +287,9 @@ namespace engineering_project_front.Services
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
                 HttpRequestMessage request = new()
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(work)),
+                    Content = new StringContent(JsonSerializer.Serialize(work), encoding: Encoding.UTF8, "application/json"),
                     Method = HttpMethod.Delete,
-                    RequestUri = new Uri("api/RemoveWorkTime")
+                    RequestUri = new Uri(httpClient.BaseAddress + "api/Works/RemoveWorkTime")
                 };
                 var apiResponse = await httpClient.SendAsync(request);
 

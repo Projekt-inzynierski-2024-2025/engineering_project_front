@@ -3,6 +3,7 @@ using engineering_project_front.Models.Request;
 using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text;
 
 namespace engineering_project_front.Services
 {
@@ -220,9 +221,9 @@ namespace engineering_project_front.Services
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
                 HttpRequestMessage request = new()
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(availability)),
+                    Content = new StringContent(JsonSerializer.Serialize(availability), encoding:Encoding.UTF8, "application/json"),
                     Method = HttpMethod.Delete,
-                    RequestUri = new Uri("api/RemoveAvailability")
+                    RequestUri = new Uri(httpClient.BaseAddress + "api/Availabilities/RemoveAvailability")
                 };
                 var apiResponse = await httpClient.SendAsync(request);
 
@@ -244,7 +245,7 @@ namespace engineering_project_front.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while starting work.");
+                _logger.LogError(ex, "An error occurred while removing availability.");
                 return new OperationResponse<bool>
                 {
                     Success = false,
@@ -259,7 +260,7 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.PutAsJsonAsync("api/Works/UpdateAvailability", request);
+                var apiResponse = await httpClient.PutAsJsonAsync("api/Availabilities/UpdateAvailability", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
