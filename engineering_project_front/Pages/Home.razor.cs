@@ -40,7 +40,7 @@ namespace engineering_project_front.Pages
         private bool breakEnded => work.BreakEnd != DateTime.MinValue;
 
         private bool workStartDisabled => workStarted || ID == -1;
-        private bool workEndDisabled => !(workStarted && !workEnded && (!breakStarted || breakEnded));
+        private bool workEndDisabled => !workStarted || (breakStarted && !breakEnded) || workEnded;
         private bool breakStartDisabled => !(workStarted && !workEnded && !breakStarted);
         private bool breakEndDisabled => !(workStarted && !workEnded && breakStarted && !breakEnded);
 
@@ -142,7 +142,7 @@ namespace engineering_project_front.Pages
             {
                 work.TimeEnd = request.TimeEnd;
                 await timer.DisposeAsync();
-                workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm':'ss");
+                workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
             }
         }
 
@@ -158,9 +158,9 @@ namespace engineering_project_front.Pages
 
             if (result.Success == true)
             {
-                work.TimeEnd = request.TimeEnd;
+                work.BreakStart = request.BreakStart;
                 await timer.DisposeAsync();
-                workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm':'ss");
+                workTime = (work.BreakStart.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm':'ss");
                 SetTimer(TickBreak);
             }
         }
@@ -177,7 +177,7 @@ namespace engineering_project_front.Pages
 
             if (result.Success == true)
             {
-                work.TimeEnd = request.TimeEnd;
+                work.BreakEnd = request.BreakEnd;
                 await timer.DisposeAsync();
                 breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
                 SetTimer(TickWork);
