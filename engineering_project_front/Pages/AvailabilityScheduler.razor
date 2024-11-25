@@ -9,7 +9,7 @@
 <PageTitle>Kalendarz dostępności</PageTitle>
 
 <div class="col-lg-12 control-section">
-    <SfSchedule @ref="ScheduleRef" TValue="AvailabilitiesResponse" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" AllowDragAndDrop="false">
+    <SfSchedule @ref="ScheduleRef" TValue="AvailabilitiesResponse" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView" AllowDragAndDrop="false">
         <ScheduleTemplates>
             <EditorTemplate>
                 @{
@@ -47,7 +47,7 @@
                 <FieldEndTime Name="TimeEnd"></FieldEndTime>
             </ScheduleField>
         </ScheduleEventSettings>
-        <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose"></ScheduleEvents>
+        <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose" EventRendered="OnEventRendered"></ScheduleEvents>
         <ScheduleViews>
             <ScheduleView Option="View.Day"></ScheduleView>
             <ScheduleView Option="View.Week"></ScheduleView>

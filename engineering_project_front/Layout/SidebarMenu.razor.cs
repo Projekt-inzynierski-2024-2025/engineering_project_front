@@ -1,4 +1,5 @@
-﻿using engineering_project_front.Models;
+﻿using Blazored.SessionStorage;
+using engineering_project_front.Models;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Navigations;
 
@@ -9,6 +10,8 @@ namespace engineering_project_front.Layout
         #region Injection
         [Inject]
         NavigationManager NavManager { get; set; } = default!;
+        [Inject]
+        ISessionStorageService sessionStorage { get; set; } = default!;
         #endregion
 
         public static SidebarMenu Instance { get; private set; } = default!;
@@ -109,6 +112,18 @@ namespace engineering_project_front.Layout
                     Id = "10",
                     Pid = "1",
                     Name = "Czas pracy"
+                },
+                new TreeData()
+                {
+                    Id = "11",
+                    Pid = "1",
+                    Name = "Moje konto"
+                },   
+                new TreeData()
+                {
+                    Id = "12",
+                    Pid = "1",
+                    Name = "Wyloguj się"
                 }
             };
 
@@ -144,6 +159,13 @@ namespace engineering_project_front.Layout
                     break;
                 case "10":
                     NavManager.NavigateTo("/show-time");
+                    break;  
+                case "11":
+                    NavManager.NavigateTo("/my-account");
+                    break;
+                case "12":
+                    sessionStorage.RemoveItemAsync("token");
+                    NavManager.NavigateTo("/");
                     break;
                 default:
                     break;

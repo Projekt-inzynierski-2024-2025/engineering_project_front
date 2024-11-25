@@ -1,0 +1,14 @@
+﻿@page "/my-account"
+
+@using Syncfusion.Blazor.Buttons
+
+<PageTitle>Moje konto</PageTitle>
+
+<div>Twoje imię: @firstName</div>
+<div>Twoje nazwisko: @lastName</div>
+<div>Twój email: @email</div>
+<div>Nazwa twojego zespołu: @team</div>
+<div>Twój kierownik: @manager</div>
+<div>Twoja rola: @role</div>
+
+<SfButton CssClass="e-info" OnClick="onChangePasswordClicked">Zmień hasło</SfButton>
