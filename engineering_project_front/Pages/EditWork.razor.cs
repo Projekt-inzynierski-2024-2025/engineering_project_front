@@ -26,7 +26,7 @@ namespace engineering_project_front.Pages
         private string ToastContent = string.Empty;
 
         private SfDatePicker<DateTime?> datePickerObj { get; set; } = default!;
-        private DateTime? datePicker { get; set; }
+        private DateTime? datePicker { get; set; } = DateTime.Today;
 
         private DateTime? workStart { get; set; }
         private DateTime? breakStart { get; set; }
