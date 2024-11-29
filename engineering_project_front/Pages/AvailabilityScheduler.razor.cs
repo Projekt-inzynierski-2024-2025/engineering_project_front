@@ -1,6 +1,4 @@
 ﻿using Blazored.SessionStorage;
-using engineering_project_front.Layout;
-using engineering_project_front.Models;
 using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
@@ -13,6 +11,7 @@ namespace engineering_project_front.Pages
     {
         private DateTime CurrentDate { get; set; } = DateTime.Today;
         private SfSchedule<AvailabilitiesResponse> ScheduleRef = default!;
+        private View CurrentView { get; set; } = View.Week;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
 
         public long? UserID;
@@ -30,9 +29,9 @@ namespace engineering_project_front.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            await GetAvailabilities();
-
             await GetUser();
+
+            await GetAvailabilities();
 
             await base.OnInitializedAsync();
         }
@@ -60,8 +59,15 @@ namespace engineering_project_front.Pages
             if (responseCurrentMonth.Success)
             {
                 dataSource = responseCurrentMonth.Data!.ToList();
+
                 if (responseNextMonth.Success)
                     dataSource.AddRange(responseNextMonth.Data!.ToList());
+
+                dataSource.ForEach(x =>
+                {
+                    if (x.UserID == UserID)
+                        x.CategoryColor = "#008000";
+                });
             }
         }
 
@@ -85,6 +91,19 @@ namespace engineering_project_front.Pages
                 CurrentAction action = CurrentAction.Save;
                 await ScheduleRef.OpenEditorAsync(args.Event, action); //to open the editor window on event click
             }
+        }
+        public void OnEventRendered(EventRenderedArgs<AvailabilitiesResponse> args)
+        {
+            Dictionary<string, object> attributes = new Dictionary<string, object>();
+            if (CurrentView == View.Agenda && CurrentView == View.MonthAgenda)
+            {
+                attributes.Add("style", "border-left-color: " + args.Data.CategoryColor);
+            }
+            else
+            {
+                attributes.Add("style", "background: " + args.Data.CategoryColor);
+            }
+            args.Attributes = attributes;
         }
 
         public void OnPopupClose(PopupCloseEventArgs<AvailabilitiesResponse> args)
