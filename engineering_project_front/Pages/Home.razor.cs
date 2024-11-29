@@ -26,10 +26,6 @@ namespace engineering_project_front.Pages
         private long ID = -1;
         private string firstName = "<FIRST_NAME_PH>";
         private string lastName = "<LAST_NAME_PH>";
-        private string email = "<EMAIL_PH>";
-        private string team = "<TEAM_PH>";
-        private string manager = "<MANAGER_PH>";
-        private string role = "<ROLE_PH>";
 
         private WorksResponse work = new();
 
@@ -199,10 +195,6 @@ namespace engineering_project_front.Pages
             ID = user.ID!;
             firstName = user.FirstName!;
             lastName = user.LastName!;
-            email = user.Email!;
-            team = user.TeamName!;
-            manager = user.Manager!;
-            role = user.RoleName;
         }
 
         private async Task GetWork()
