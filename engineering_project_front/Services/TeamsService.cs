@@ -219,18 +219,18 @@ namespace engineering_project_front.Services
             }
         }
 
-        public async Task<OperationResponse<long>> GetTeamIDForManager(string managerEmail)
+        public async Task<OperationResponse<List<long>>> GetTeamsIDForManager(string managerEmail)
         {
-            _logger.LogInformation($"Method {nameof(GetTeamIDForManager)} entered");
+            _logger.LogInformation($"Method {nameof(GetTeamsIDForManager)} entered");
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.GetAsync($"api/Teams/getTeamIDForManager/{managerEmail}");
+                var apiResponse = await httpClient.GetAsync($"api/Teams/getTeamsIDForManager/{managerEmail}");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
                     var errorMessage = await apiResponse.Content.ReadAsStringAsync();
-                    return new OperationResponse<long>
+                    return new OperationResponse<List<long>>
                     {
                         Success = false,
                         Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
@@ -238,25 +238,24 @@ namespace engineering_project_front.Services
                 }
 
                 var content = await apiResponse.Content.ReadAsStringAsync();
-                var teamID = JsonSerializer.Deserialize<long>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var teamIDs = JsonSerializer.Deserialize<List<long>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                return new OperationResponse<long>
+                return new OperationResponse<List<long>>
                 {
                     Success = true,
-                    Data = teamID,
-                    Message = "Udało się pobrać ID zespołu"
+                    Data = teamIDs,
+                    Message = "Udało się pobrać ID zespołów"
                 };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while fetching team ID for manager from API.");
-                return new OperationResponse<long>
+                _logger.LogError(ex, "An error occurred while fetching team IDs for manager from API.");
+                return new OperationResponse<List<long>>
                 {
                     Success = false,
-                    Message = "Wystąpił błąd podczas pobierania ID zespołu"
+                    Message = "Wystąpił błąd podczas pobierania ID zespołów"
                 };
             }
-
         }
     }
 }

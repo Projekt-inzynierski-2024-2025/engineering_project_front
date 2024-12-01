@@ -5,20 +5,38 @@
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Buttons
 @using engineering_project_front.Models.Responses;
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DropDowns
 
 <h3>MyEmployees</h3>
 
+<SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsTeamDialogVisible" Header="Wybierz zespół">
+    <DialogContent>
+        <select @bind="SelectedTeamID" class="form-select">
+            <option value="0" disabled selected>Wybierz zespół</option>
+            @foreach (var team in Teams)
+            {
+                <option value="@team.ID">@team.Name</option>
+            }
+        </select>
+    </DialogContent>
+    <DialogButtons>
+        <DialogButton Content="Potwierdź" IsPrimary="true" OnClick="ConfirmTeamSelection" />
+        <DialogButton Content="Anuluj" OnClick="CloseTeamDialog" />
+    </DialogButtons>
+</SfDialog>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="HoursForUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" >
+            <SfGrid DataSource="HoursForUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
+               <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="HoursForUserForMonthResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
-                <GridColumns>
-                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.userName)" HeaderText="Nazwa zespołu" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.userSurname)" HeaderText="Kierownik" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.workHoursForMonth)" HeaderText="Kierownik" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumns>
+                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.userName)" HeaderText="Imię" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.userSurname)" HeaderText="Nazwisko" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.workHoursForMonth)" HeaderText="Ilość godzin miesięcznie" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>               
                 </GridColumns>
             </SfGrid>
         </div>

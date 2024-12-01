@@ -22,6 +22,7 @@ namespace engineering_project_front.Pages
             if (mail == string.Empty)
             {
                 ToastContent = "Login is empty.";
+                await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
                 return;
             }

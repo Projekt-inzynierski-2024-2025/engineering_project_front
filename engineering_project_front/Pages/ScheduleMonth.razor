@@ -6,7 +6,27 @@
 @using Syncfusion.Blazor.Buttons
 @using engineering_project_front.Models;
 @using engineering_project_front.Models.Responses;
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DropDowns
 
+
+<SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsTeamDialogVisible" Header="Wybierz zespół">
+    <DialogContent>
+        <select @bind="SelectedTeamID" class="form-select">
+            <option value="0" disabled selected>Wybierz zespół</option>
+            @foreach (var team in Teams)
+            {
+                <option value="@team.ID">@team.Name</option>
+            }
+        </select>
+    </DialogContent>
+    <DialogButtons>
+        <DialogButton Content="Potwierdź" IsPrimary="true" OnClick="ConfirmTeamSelection" />
+        <DialogButton Content="Anuluj" OnClick="CloseTeamDialog" />
+    </DialogButtons>
+</SfDialog>
+
+<SfButton IsPrimary="true" @onclick="OpenTeamDialog">Wybierz Zespół</SfButton>
 
 <h3>ScheduleMonth</h3>
 <SfButton IsPrimary="true" @onclick="AddSchedule">Stwórz grafik</SfButton>

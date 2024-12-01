@@ -7,6 +7,6 @@
         public  DateTime TimeEnd { get; set; }
         public long UserID { get; set; }
 
-        public bool IsEditing { get; set; } = false;
+        public bool IsEditing { get; set; } = true;
     }
 }

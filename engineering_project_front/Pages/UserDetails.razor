@@ -6,21 +6,18 @@
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Popups
 
-<SfButton IsPrimary="true" @onclick="EditUser">Edytuj użytkownika</SfButton>
-<SfButton IsPrimary="true" @onclick="ShowDeleteConfirmation">Usuń użytkownika</SfButton>
-
-<h3>Dane użytkownika</h3>
-<br />
-<label>@User.FirstName</label>
-<br />
-<label>@User.LastName</label>
-<br />
-<label>@User.Email</label>
-<br />
-<label>@User.TeamName</label>
-<br />
-<label>@User.RoleName</label>
-<br />
+<div class="user-details-card">
+    <h3>Dane użytkownika</h3>
+    <label>@User.FirstName</label>
+    <label>@User.LastName</label>
+    <label>@User.Email</label>
+    <label>@User.TeamName</label>
+    <label>@User.RoleName</label>
+    <div class="button-container">
+        <SfButton IsPrimary="true" @onclick="EditUser">Edytuj użytkownika</SfButton>
+        <SfButton IsPrimary="true" @onclick="ShowDeleteConfirmation">Usuń użytkownika</SfButton>
+    </div>
+</div>
 
 <div>
     <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">

@@ -107,7 +107,7 @@ namespace engineering_project_front.Pages
                 {
                     ShowToast(response.Message, response.Success);
                     await Task.Delay(2000);
-                    NavManager.NavigateTo("/UsersList");
+                    NavManager.NavigateTo($"/UserDetails/{User.ID}");
                 }
                 else
                 {
@@ -133,7 +133,14 @@ namespace engineering_project_front.Pages
 
         private void Cancel()
         {
-            NavManager.NavigateTo("/UsersList");
+            if (IsEditing)
+            {
+                NavManager.NavigateTo($"/UserDetails/{User.ID}");
+            }
+            else
+            {
+                NavManager.NavigateTo("/UsersList");
+            }
         }
     }
 }

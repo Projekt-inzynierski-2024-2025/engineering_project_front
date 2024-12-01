@@ -428,5 +428,44 @@ namespace engineering_project_front.Services
             }
         }
 
+
+        public async Task<OperationResponse<List<UsersDailySchedulesResponse>>> GetUsersDailySchedulesForMonth(long userID, DateTime month)
+            {
+            _logger.LogInformation("Fetching schedule from API.");
+            try
+            {
+                var formattedDate = month.ToString("yyyy-MM-dd");
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.GetAsync($"api/UsersDailySchedules/GetUsersDailySchedulesForMonth/{userID}/{formattedDate}");
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<List<UsersDailySchedulesResponse>>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    };
+
+                }
+
+                var schedules = await apiResponse.Content.ReadFromJsonAsync<List<UsersDailySchedulesResponse>>(_serializerOptions);
+                return new OperationResponse<List<UsersDailySchedulesResponse>>
+                {
+                    Success = true,
+                    Data = schedules,
+                    Message = $"Pobrano harmonogram."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching schedule.");
+                return new OperationResponse<List<UsersDailySchedulesResponse>>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas pobierania harmonogramu."
+                };
+            }
+        }
     }
 }

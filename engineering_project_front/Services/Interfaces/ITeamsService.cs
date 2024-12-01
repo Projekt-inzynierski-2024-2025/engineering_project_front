@@ -10,8 +10,7 @@ namespace engineering_project_front.Services.Interfaces
         Task<OperationResponse<bool>> AddTeam(TeamRequest team);
         Task<OperationResponse<bool>> EditTeam(TeamRequest team);
         Task<OperationResponse<bool>> DeleteTeam(long ID);
-        Task<OperationResponse<long>> GetTeamIDForManager(string managerEmail);
-        
+        Task<OperationResponse<List<long>>> GetTeamsIDForManager(string managerEmail);
 
 
     }

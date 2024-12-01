@@ -1,0 +1,64 @@
+﻿
+
+/* General styling for the user details card */
+.user-details-card {
+    background-color: #451228; /* Dark blue background */
+    color: #000000; /* Light text color for contrast */
+    padding: 20px; /* Padding inside the card */
+    border-radius: 15px; /* Rounded corners */
+    width: 800px; /* Fixed width for consistent layout */
+    margin: 20px auto; /* Centering the card */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+    /* Header styling */
+    .user-details-card h3 {
+        font-size: 1.5rem; /* Larger font size for header */
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    /* Labels styling */
+    .user-details-card label {
+        display: block; /* Ensure labels stack vertically */
+        background-color: white; /* Light background for labels */
+        color: #333; /* Dark text for readability */
+        padding: 10px; /* Padding inside each label */
+        margin: 10px 0; /* Space between labels */
+        border-radius: 10px; /* Rounded corners for labels */
+        font-size: 1rem;
+    }
+
+    /* Button container */
+    .user-details-card .button-container {
+        display: flex; /* Align buttons side by side */
+        justify-content: space-between; /* Space between buttons */
+        margin-top: 15px; /* Space above the buttons */
+    }
+
+/* Dialog styles */
+.sf-dialog {
+    font-family: Arial, sans-serif; /* Consistent font style */
+}
+
+/* Toast customization */
+.toast {
+    font-size: 1rem;
+    background-color: #444;
+    color: white;
+}
+
+/* Media query for responsiveness */
+@media screen and (max-width: 480px) {
+    .user-details-card {
+        width: 100%; /* Make the card responsive */
+        padding: 15px;
+    }
+
+        .user-details-card label {
+            font-size: 0.9rem; /* Adjust font size for smaller screens */
+        }
+}
+
+

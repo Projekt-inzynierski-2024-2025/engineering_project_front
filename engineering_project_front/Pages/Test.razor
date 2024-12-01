@@ -1,0 +1,58 @@
+﻿@page "/testr"
+
+
+@using Syncfusion.Blazor.Schedule;
+
+<SfSchedule @ref="@ScheduleRef" TValue=ShiftAppointment CurrentView="View.TimelineDay">
+    <ScheduleTimeScale Interval="@IntervalInMinutes" SlotCount="4"></ScheduleTimeScale>
+    <ScheduleGroup Resources="@Resources"></ScheduleGroup>
+    <ScheduleResources>
+        <ScheduleResource TItem="EmployeeResource" TValue="long" DataSource="@EmployeeResources" Field="EmployeeID" Title="Pracownicy" Name="Employees" TextField="Name" IdField="Id" ColorField="Color"></ScheduleResource>
+    </ScheduleResources>
+    <ScheduleViews>
+        <ScheduleView Option="View.TimelineDay" StartHour="@StartTime" EndHour="@EndTime"></ScheduleView>
+    </ScheduleViews>
+    <ScheduleEventSettings DataSource="@ShiftAppointments"></ScheduleEventSettings>
+</SfSchedule>
+
+@code {
+    SfSchedule<ShiftAppointment>? ScheduleRef;
+    public int IntervalInMinutes { get; set; } = 60;
+    public string StartTime { get; set; } = "07:00";
+    public string EndTime { get; set; } = "17:00";
+    public bool IsLayoutChanged = false;
+    public string[] Resources { get; set; } = { "Employees" };
+
+    // Lista pracowników jako zasoby
+    public List<EmployeeResource> EmployeeResources { get; set; } = new List<EmployeeResource>
+    {
+        new EmployeeResource { Name = "John Doe", Id = 1, Color = "#df5286" },
+        new EmployeeResource { Name = "Jane Smith", Id = 2, Color = "#7fa900" }
+    };
+
+    // Lista zmian przypisanych do pracowników
+    public List<ShiftAppointment> ShiftAppointments { get; set; } = new List<ShiftAppointment>
+    {
+        new ShiftAppointment { Id = 1, Subject = "Shift Morning", StartTime = new DateTime(2024, 12, 1, 8, 0, 0), EndTime = new DateTime(2024, 12, 1, 12, 0, 0), EmployeeID = 1 },
+        new ShiftAppointment { Id = 2, Subject = "Shift Afternoon", StartTime = new DateTime(2024, 12, 1, 13, 0, 0), EndTime = new DateTime(2024, 12, 1, 17, 0, 0), EmployeeID = 2 }
+    };
+  
+
+    // Klasa reprezentująca zasób pracownika
+    public class EmployeeResource
+    {
+        public string Name { get; set; }
+        public long Id { get; set; }
+        public string Color { get; set; }
+    }
+
+    // Klasa reprezentująca zmianę
+    public class ShiftAppointment
+    {
+        public long Id { get; set; }
+        public string Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public long EmployeeID { get; set; }
+    }
+}

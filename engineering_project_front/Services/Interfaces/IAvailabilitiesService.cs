@@ -12,6 +12,7 @@ namespace engineering_project_front.Services.Interfaces
         Task<OperationResponse<IEnumerable<AvailabilitiesResponse>>> GetAvailabilitiesForDay(DateTime day);
         Task<OperationResponse<IEnumerable<AvailabilitiesResponse>>> GetAvailabilitiesForMonth(long userID, DateTime month);
         Task<OperationResponse<IEnumerable<AvailabilitiesResponse>>> GetAvailabilitiesForMonth(DateTime month);
+        Task<OperationResponse<List<AvailabilitiesResponse>>> GetAvailabilitiesForTeam(DateTime day, long teamID);
 
     }
 }
