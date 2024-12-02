@@ -18,6 +18,8 @@ body {
     color: #333;
     text-align: center;
     margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 /* Sekcja kontrolna z wyszukiwaniem i przyciskami */
@@ -27,42 +29,29 @@ body {
     align-items: center;
     margin-bottom: 20px;
 }
-
-/* Układ elementów kontrolnych */
+/* Sekcja kontrolera z przyciskami */
 .control-wrapper {
     display: flex;
-    gap: 15px;
+    gap: 10px;
 }
 
-/* Pole wyszukiwania */
-.form-input {
+/* Dialog wybierania zespołu */
+.sf-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.select {
+    width: 100%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 300px;
 }
 
-/* Przyciski */
-button, .sf-button {
-    padding: 10px 15px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.sf-button {
-    background-color: #007bff;
-    color: #fff;
-    transition: background-color 0.3s ease;
-}
-
-    .sf-button:hover {
-        background-color: #0056b3;
-    }
-
-/* Tabela zespołów */
+/* Tabela godzin pracowników */
 .sf-grid {
     background-color: #fff;
     border-radius: 5px;
@@ -87,13 +76,8 @@ button, .sf-button {
 
 /* Responsywność */
 @media (max-width: 768px) {
-    .control-section {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .form-input {
-        width: 100%;
+    .sf-dialog {
+        width: 90%;
     }
 
     .sf-grid {

@@ -3,6 +3,7 @@ using engineering_project_front.Models.Responses;
 using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Calendars;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 
@@ -27,6 +28,8 @@ namespace engineering_project_front.Pages
         [Parameter]
         public long? UserID { get; set; }
         private bool IsManager { get; set; } = false;
+        private DateTime DataChoose = DateTime.Today;
+        public string Month => DataChoose.ToString("Y");
         private List<UsersDailySchedulesResponse> UserShifts { get; set; } = new();
 
         #region ToastAndNotification
@@ -43,7 +46,7 @@ namespace engineering_project_front.Pages
             {
                 // Kierownik przegląda zmiany pracownika
                 IsManager = true;
-                var response = await ScheduleService.GetUsersDailySchedulesForMonth(UserID.Value, DateTime.Now);
+                var response = await ScheduleService.GetUsersDailySchedulesForMonth(UserID.Value, DataChoose);
 
                 if (response.Success)
                 {
@@ -99,7 +102,7 @@ namespace engineering_project_front.Pages
             token = token.Trim('"');
 
             var user = await UsersService.GetUserFromToken(token);
-            var response = await ScheduleService.GetUsersDailySchedulesForMonth(user.ID,DateTime.Now);
+            var response = await ScheduleService.GetUsersDailySchedulesForMonth(user.ID, DataChoose);
 
             if (response.Success)
             {
@@ -112,7 +115,31 @@ namespace engineering_project_front.Pages
             }
         }
 
+        private async Task OnDateChange(ChangedEventArgs<DateTime> args)
+        {
+            DataChoose = args.Value;
 
+           if(IsManager)
+            {
+                var response = await ScheduleService.GetUsersDailySchedulesForMonth(UserID.Value, DataChoose);
+
+                if (response.Success)
+                {
+                    UserShifts = response.Data;
+                }
+                else
+                {
+                    ShowToast(response.Message, response.Success);
+
+                }
+            }
+            else
+            {
+                UserShifts = await GetUsersDailySchedulesForMonth();
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }
 
         private void OnContextMenuClick(ContextMenuClickEventArgs<UsersDailySchedulesResponse> args)
         {

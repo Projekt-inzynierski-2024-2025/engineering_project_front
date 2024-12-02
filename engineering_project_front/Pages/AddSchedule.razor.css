@@ -13,37 +13,39 @@ body {
     padding: 20px;
 }
 
-/* Karta szczegółów użytkownika */
-.user-details-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+/* Nagłówki */
+.header-text {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Formularz */
+.schedule-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
-.header-text {
-    text-align: center;
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
+/* Układ pól formularza */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
 
-/* Szczegóły użytkownika */
-.user-details label {
-    font-size: 16px;
-    color: #555;
-    display: block;
-    margin-bottom: 8px;
-}
+    .form-grid .form-field {
+        display: flex;
+        flex-direction: column;
+    }
 
 /* Przyciski */
-.button-container {
+.form-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .e-flat {
@@ -62,16 +64,6 @@ body {
             background-color: #0056b3;
         }
 
-/* Dialog */
-.sf-dialog {
-    text-align: center;
-}
-
-    .sf-dialog .e-dlg-content {
-        font-size: 16px;
-        color: #555;
-    }
-
 /* Toast */
 .sf-toast {
     position: fixed;
@@ -81,12 +73,7 @@ body {
 
 /* Responsywność */
 @media (max-width: 768px) {
-    .container {
-        width: 90%;
-    }
-
-    .button-container {
-        flex-direction: column;
-        gap: 10px;
+    .form-buttons {
+        justify-content: center;
     }
 }

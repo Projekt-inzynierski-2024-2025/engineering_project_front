@@ -18,51 +18,24 @@ body {
     color: #333;
     text-align: center;
     margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-/* Sekcja kontrolna z wyszukiwaniem i przyciskami */
+/* Sekcja wyboru daty */
 .control-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 20px;
 }
 
-/* Układ elementów kontrolnych */
-.control-wrapper {
-    display: flex;
-    gap: 15px;
+/* Skrócona szerokość dla SfDatePicker */
+.short-datepicker .e-datepicker {
+    width: 250px !important; /* Ograniczenie szerokości kontrolki */
 }
 
-/* Pole wyszukiwania */
-.form-input {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px;
-}
-
-/* Przyciski */
-button, .sf-button {
-    padding: 10px 15px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.sf-button {
-    background-color: #007bff;
-    color: #fff;
-    transition: background-color 0.3s ease;
-}
-
-    .sf-button:hover {
-        background-color: #0056b3;
-    }
-
-/* Tabela zespołów */
+/* Tabela zmian */
 .sf-grid {
     background-color: #fff;
     border-radius: 5px;
@@ -90,10 +63,6 @@ button, .sf-button {
     .control-section {
         flex-direction: column;
         gap: 10px;
-    }
-
-    .form-input {
-        width: 100%;
     }
 
     .sf-grid {

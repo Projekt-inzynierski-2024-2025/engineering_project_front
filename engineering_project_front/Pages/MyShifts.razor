@@ -1,7 +1,6 @@
 ﻿@page "/myShifts"
 @page "/myShifts/{UserID:long?}"
 
-
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Notifications
@@ -9,28 +8,42 @@
 @using engineering_project_front.Models.Responses;
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Calendars
 
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">
+        @(IsManager ? "Zmiany pracownika" : "Moje zmiany")
+    </h3>
 
-<PageTitle>@(IsManager ? "Zmiany pracownika"  : "Moje zmiany")</PageTitle>
+    <!-- Wybór daty -->
+    <div class="control-section">
+        <div class="control-wrapper short-datepicker">
+            <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="true" FullScreen="true">
+                <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
+            </SfDatePicker>
+        </div>
+    </div>
 
-<div class="col-lg-12 control-section">
+    <!-- Tabela zmian -->
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="UserShifts" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
+            <SfGrid DataSource="UserShifts" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>() { new ContextMenuItemModel { Text = "Zobacz detale", Target = ".e-content", Id = "seeDetails" } })" CssClass="sf-grid">
                 <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="UsersDailySchedulesResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
                     <GridColumn Field="@nameof(UsersDailySchedulesResponse.TimeStart)" HeaderText="Początek zmiany" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(UsersDailySchedulesResponse.TimeEnd)" HeaderText="Koniec zmiany" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>                 
+                    <GridColumn Field="@nameof(UsersDailySchedulesResponse.TimeEnd)" HeaderText="Koniec zmiany" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
     </div>
-</div>
 
-<div>
-    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
-        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
-    </SfToast>
+    <!-- Toasty z powiadomieniami -->
+    <div>
+        <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true" CssClass="sf-toast">
+            <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+        </SfToast>
+    </div>
 </div>

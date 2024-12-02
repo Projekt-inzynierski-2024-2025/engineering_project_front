@@ -1,6 +1,5 @@
 ﻿@page "/TeamsList"
 
-
 @using Syncfusion.Blazor.DataForm
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
@@ -9,19 +8,29 @@
 @using engineering_project_front.Models;
 @using engineering_project_front.Models.Responses;
 
-
 <PageTitle>Zespoły</PageTitle>
 
-<div>
-<input @bind="SearchTerm" placeholder="Wyszukaj zespoł..." />
-<SfButton IsPrimary="true" @onclick="FilterTeams">Wyszukaj</SfButton>
-<SfButton IsPrimary="true" @onclick="AddTeam">Dodaj zespoł</SfButton>
-</div>
-@* Initialize the DataGrid component for users *@
-<div class="col-lg-12 control-section">
+
+<!-- Nagłówek tabeli -->
+<h3 class="header-text">Lista Zespołów</h3>
+
+
+<div class="container">
+    <!-- Sekcja wyszukiwania i dodawania zespołów -->
+    <div class="control-section">
+        <div class="control-wrapper">
+            <input @bind="SearchTerm" placeholder="Wyszukaj zespół..." class="form-input" />
+            <SfButton IsPrimary="true" CssClass="sf-button" @onclick="FilterTeams">Wyszukaj</SfButton>
+            <SfButton IsPrimary="true" CssClass="sf-button" @onclick="AddTeam">Dodaj zespół</SfButton>
+        </div>
+    </div>
+
+   
+    Kocha
+    <!-- Tabela zespołów -->
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="FilteredTeams" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
+            <SfGrid DataSource="FilteredTeams" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>() { new ContextMenuItemModel { Text = "Zobacz detale", Target = ".e-content", Id = "seeDetails" } })" CssClass="sf-grid">
                 <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="TeamsResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
@@ -32,10 +41,11 @@
             </SfGrid>
         </div>
     </div>
-</div>
 
-<div>
-    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true">
-        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
-    </SfToast>
+    <!-- Tosty z powiadomieniami -->
+    <div>
+        <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true" CssClass="sf-toast">
+            <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+        </SfToast>
+    </div>
 </div>

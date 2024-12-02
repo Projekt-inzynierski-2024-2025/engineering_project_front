@@ -9,30 +9,36 @@
 @using engineering_project_front.Models.Request;
 @using engineering_project_front.Models.Responses;
 
-<PageTitle>AddSchedule</PageTitle>
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">Dodaj Grafik</h3>
 
-<EditForm Model="@Schedule" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div class="col-log-12 control-section">
-        <div class="content-wrapper">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                    <SfDatePicker TValue="DateTime" @bind-Value="Schedule.Date" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker>
-                    <SfNumericTextBox TValue="int" @bind-Value="Schedule.HoursAmount" Placeholder="Ilość godzin do wyrobienia"  FloatLabelType="FloatLabelType.Auto"></SfNumericTextBox>
-                    <SfButton CssClass="e-flat" IsPrimary="true" type="submit">Utwórz grafik</SfButton>
-                    <SfButton CssClass="e-flat" @onclick="Cancel">Anuluj</SfButton>
+    <!-- Formularz tworzenia grafiku -->
+    <EditForm Model="@Schedule" OnValidSubmit="HandleValidSubmit" class="schedule-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-grid">
+            <!-- Data -->
+            <div class="form-field">
+                <SfDatePicker TValue="DateTime" @bind-Value="Schedule.Date" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker>
+            </div>
+
+            <!-- Ilość godzin -->
+            <div class="form-field">
+                <SfNumericTextBox TValue="int" @bind-Value="Schedule.HoursAmount" Placeholder="Ilość godzin do wyrobienia" FloatLabelType="FloatLabelType.Auto"></SfNumericTextBox>
+            </div>
+
+            <!-- Przyciski -->
+            <div class="form-buttons">
+                <SfButton CssClass="e-flat" IsPrimary="true" type="submit">Utwórz grafik</SfButton>
+                <SfButton CssClass="e-flat" @onclick="Cancel">Anuluj</SfButton>
             </div>
         </div>
-    </div>
-    </div>
-</EditForm>
+    </EditForm>
 
-
-<div>
-    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true">
+    <!-- Toast z powiadomieniami -->
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
 </div>
-
-

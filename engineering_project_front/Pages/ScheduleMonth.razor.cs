@@ -4,6 +4,7 @@ using engineering_project_front.Models;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Calendars;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 using Syncfusion.Blazor.Popups;
@@ -35,6 +36,9 @@ namespace engineering_project_front.Pages
         private bool IsTeamDialogVisible { get; set; } = false;
         private List<TeamsResponse> Teams { get; set; } = new();
         private long SelectedTeamID { get; set; }
+        private string TeamName { get; set; } =  "Wybierz zespoł";
+        private DateTime DataChoose = DateTime.Today;
+        public string Month => DataChoose.ToString("Y");
 
         #region ToastAndNotification
         private SfToast? Toast;
@@ -52,14 +56,11 @@ namespace engineering_project_front.Pages
                 ShowToast("Nie znaleziono zespołów", false);
                 return;
             }
-            
-
 
             IsTeamDialogVisible = true;
             await InvokeAsync(StateHasChanged);
 
-         
-
+        
 
         }
 
@@ -116,6 +117,7 @@ namespace engineering_project_front.Pages
                 TeamID = SelectedTeamID;
                 IsTeamDialogVisible = false;
                 await LoadScheduleForTeam();
+                TeamName = Teams.FirstOrDefault(t => t.ID == TeamID)?.Name;
                 await InvokeAsync(StateHasChanged);
             }
             else
@@ -155,23 +157,32 @@ namespace engineering_project_front.Pages
 
         private async Task LoadScheduleForTeam()
         {
-            var response = await ScheduleService.GetHoursForEachDayForMonthAsync(DateTime.Now.Year, DateTime.Now.Month, TeamID);
+            var response = await ScheduleService.GetHoursForEachDayForMonthAsync(DataChoose.Year, DataChoose.Month, TeamID);
             if (response.Success)
             {
                 Hours = response.Data;
                 if (Hours.Count == 0)
                 {
                     ShowToast("Brak danych", false);
+                    Hours = new List<HoursForDayResponse>();
                 }
             }
             else
             {
                 ShowToast(response.Message, response.Success);
+                Hours = new List<HoursForDayResponse>();
             }
         }
 
 
+        private async Task OnDateChange(ChangedEventArgs<DateTime> args)
+        {
+            DataChoose = args.Value;
 
+            await LoadScheduleForTeam();
+
+            await InvokeAsync(StateHasChanged);
+        }
         private void OnContextMenuClick(ContextMenuClickEventArgs<HoursForDayResponse> args)
         {
             if (args == null)

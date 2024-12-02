@@ -10,15 +10,21 @@
 @using engineering_project_front.Models.Responses;
 
 <PageTitle>Użytkownicy</PageTitle>
-<h3>Użytkownicy</h3>
+<!-- Nagłówek tabeli -->
+<h3 class="header-text">Lista użytkowników</h3>
 
-<div>
-<input @bind="SearchTerm" placeholder="Wyszukaj użytkowników..." />
-<SfButton IsPrimary="true" @onclick="FilterUsers">Wyszukaj</SfButton>
-<SfButton IsPrimary="true" @onclick="AddUser">Dodaj użytkownika</SfButton>
+<div class="container">
+<!-- Sekcja wyszukiwania i dodawania zespołów -->
+<div class="control-section">
+<div class="control-wrapper">
+            <input @bind="SearchTerm" placeholder="Wyszukaj użytkowników..." class="form-input" />
+            <SfButton IsPrimary="true" CssClass="sf-button" @onclick="FilterUsers">Wyszukaj</SfButton>
+            <SfButton IsPrimary="true" CssClass="sf-button"  @onclick="AddUser">Dodaj użytkownika</SfButton>
 </div>
+</div>
+
+
 @* Initialize the DataGrid component for users *@
-<div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
             <SfGrid DataSource="FilteredUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
@@ -35,11 +41,10 @@
             </SfGrid>
         </div>
     </div>
-</div>
 
 <div>
-    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true">
+        <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true" CssClass="sf-toast">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
 </div>
-
+</div>

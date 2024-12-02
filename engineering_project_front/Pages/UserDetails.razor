@@ -6,29 +6,34 @@
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Popups
 
-<div class="user-details-card">
-    <h3>Dane użytkownika</h3>
-    <label>@User.FirstName</label>
-    <label>@User.LastName</label>
-    <label>@User.Email</label>
-    <label>@User.TeamName</label>
-    <label>@User.RoleName</label>
-    <div class="button-container">
-        <SfButton IsPrimary="true" @onclick="EditUser">Edytuj użytkownika</SfButton>
-        <SfButton IsPrimary="true" @onclick="ShowDeleteConfirmation">Usuń użytkownika</SfButton>
+<div class="container">
+    <!-- Karta szczegółów użytkownika -->
+    <div class="user-details-card">
+        <h3 class="header-text">Dane użytkownika</h3>
+        <div class="user-details">
+            <label><strong>Imię:</strong> @User.FirstName</label>
+            <label><strong>Nazwisko:</strong> @User.LastName</label>
+            <label><strong>Email:</strong> @User.Email</label>
+            <label><strong>Zespół:</strong> @User.TeamName</label>
+            <label><strong>Rola:</strong> @User.RoleName</label>
+        </div>
+        <div class="button-container">
+            <SfButton IsPrimary="true" CssClass="e-flat" @onclick="EditUser">Edytuj użytkownika</SfButton>
+            <SfButton CssClass="e-flat" @onclick="ShowDeleteConfirmation">Usuń użytkownika</SfButton>
+        </div>
     </div>
-</div>
 
-<div>
+    <!-- Toast z powiadomieniami -->
     <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
-</div>
 
-<SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
-          Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć tego użytkownika?">
-    <DialogButtons>
-        <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
-        <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
-    </DialogButtons>
-</SfDialog>
+    <!-- Dialog potwierdzenia usunięcia -->
+    <SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
+              Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć tego użytkownika?">
+        <DialogButtons>
+            <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
+            <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
+        </DialogButtons>
+    </SfDialog>
+</div>

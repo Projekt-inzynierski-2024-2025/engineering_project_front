@@ -1,0 +1,102 @@
+﻿/* Ogólny styl dla strony */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Kontener główny */
+.container {
+    max-width: auto;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Nagłówki */
+.header-text {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Informacje o harmonogramie */
+.schedule-info {
+    margin-bottom: 20px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.info-row label {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #555;
+}
+
+.hours-input {
+    width: 80px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Harmonogram */
+.schedule-container {
+    margin-top: 20px;
+}
+
+/* Dialog zmiany */
+.dialog-timepickers {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.dialog-timepickers .e-timepicker {
+    flex: 1;
+}
+
+/* Przyciski */
+.e-flat {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.e-flat.e-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.e-flat.e-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hours-input {
+        width: 100%;
+    }
+
+    .dialog-timepickers {
+        flex-direction: column;
+    }
+}
