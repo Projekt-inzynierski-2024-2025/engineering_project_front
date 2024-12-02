@@ -2,8 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f3f3f3; /* Kolor tła */
+    padding: 0;/* Kolor tła */
 }
 
 /* Kontener główny */
@@ -15,7 +14,7 @@ body {
 
 /* Nagłówki */
 .header-text {
-    color: #333;
+    color: #ff0000;
     text-align: center;
     margin-bottom: 20px;
 }
