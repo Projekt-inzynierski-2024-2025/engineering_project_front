@@ -1,86 +1,90 @@
 ﻿@page "/Schedule/{ParamID}"
 
 @using engineering_project_front.Models
+@using engineering_project_front.Models.Responses
+@using Syncfusion.Blazor.Schedule
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Calendars
 
-<PageTitle>Grafik</PageTitle>
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">Grafik</h3>
 
-<label>Ilość godzin do wyrobienia: </label>
-@if (isEditingHours)
-{
-    <input type="number" @bind="DailySchedule.HoursAmount" />
-    <SfButton OnClick="SaveHoursAsync">Zapisz</SfButton>
-    <SfButton OnClick="CancelEditHours">Anuluj</SfButton>
-}
-else
-{
-    <label>@DailySchedule.HoursAmount</label>
-    <SfButton OnClick="EnableEditHours">Edytuj</SfButton>
-}
-<br />
+    <!-- Informacje o harmonogramie -->
+    <div class="schedule-info">
+        <!-- Ilość godzin w jednej linii -->
+        <div class="info-row">
+            <label><strong>Ilość godzin do wyrobienia:</strong></label>
+            @if (isEditingHours)
+            {
+                <input type="number" @bind="DailySchedule.HoursAmount" class="hours-input" />
+                <SfButton CssClass="e-flat" OnClick="SaveHoursAsync">Zapisz</SfButton>
+                <SfButton CssClass="e-flat" OnClick="CancelEditHours">Anuluj</SfButton>
+            }
+            else
+            {
+                <label>@DailySchedule.HoursAmount</label>
+                <SfButton CssClass="e-flat" OnClick="EnableEditHours">Edytuj</SfButton>
+            }
+            <label class="total-hours"><strong>Aktualna ilość godzin:</strong> @TotalHours</label>
+        </div>
 
-<label>Status: @DailySchedule.Status </label>
-<SfButton OnClick="ToggleStatus">
-    @(DailySchedule.Status == 0 ? "Udostępnij" : "Schowaj")
-</SfButton>
-<br />
+        <!-- Status harmonogramu -->
+        <div class="info-row">
+            <label><strong>Status:</strong> @DailySchedule.Status </label>
+            <SfButton CssClass="e-flat" OnClick="ToggleStatus">
+                @(DailySchedule.Status == 0 ? "Udostępnij" : "Schowaj")
+            </SfButton>
+        </div>
+    </div>
 
-<label>Aktualna ilość godzin: @TotalHours</label>
-<br />
+    <!-- Harmonogram -->
+    <div class="schedule-container">
+        <SfSchedule @ref="@ScheduleRef" TValue=ShiftAppointment Height="700px" Width="100%" EnableAutoRowHeight="true" MinDate="CurrentDate" MaxDate="CurrentDate" CurrentView="View.TimelineDay" @bind-SelectedDate="CurrentDate" AllowResizing="true" Readonly="true">
+            <ScheduleTimeScale Interval="@IntervalInMinutes" SlotCount="4"></ScheduleTimeScale>
+            <ScheduleGroup Resources="@Resources"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource TItem="EmployeeResource" TValue="long" DataSource="@EmployeeResources" Field="EmployeeID" Title="Pracownicy" Name="Employees" TextField="Name" IdField="Id" ColorField="Color" AllowMultiple="true">
+                </ScheduleResource>
+            </ScheduleResources>
+            <ScheduleViews>
+                <ScheduleView Option="View.TimelineDay" StartHour="@StartTime" EndHour="@EndTime"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings AllowAdding="false" AllowEditing="false" AllowEditFollowingEvents="false" AllowDeleting="false" DataSource="@ShiftAppointments"></ScheduleEventSettings>
+        </SfSchedule>
 
-<h3>Lista Pracowników</h3>
-@if (Employees?.Any() == true)
-{
-    <ul>
-        @foreach (var employee in Employees)
-        {
-            <li>
-                <span>@employee.FirstName</span>
+        <!-- Menu kontekstowe -->
+        <SfContextMenu TValue="MenuItem" Target=".e-schedule">
+            <MenuItems>
+                <MenuItem Text="Szczegóły" Id="Details"></MenuItem>
+            </MenuItems>
+            <MenuEvents TValue="MenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></MenuEvents>
+        </SfContextMenu>
+    </div>
 
-                @if (EmployeesShift.Any(es => es.UserID == employee.ID))
-                {
-                    var employeeShift = EmployeesShift.First(es => es.UserID == employee.ID);
-
-                    @if (employeeShift.IsEditing)
-                    {
-                        <input type="time" @bind="employeeShift.TimeStart" step="1800" />
-                        <input type="time" @bind="employeeShift.TimeEnd" step="1800" />
-                        <SfButton OnClick="@(() => SaveShiftAsync(employeeShift))">Zapisz</SfButton>
-                        <SfButton OnClick="@(() => CancelEditShift(employeeShift))">Anuluj</SfButton>
-                    }
-                    else
-                    {
-                        <span>Godziny pracy: @employeeShift.TimeStart - @employeeShift.TimeEnd</span>
-                        <SfButton OnClick="@(() => EnableEditShift(employeeShift))">Edytuj</SfButton>
-                        <SfButton OnClick="@(() => DeleteShiftAsync(employeeShift))">Usuń</SfButton>
-                    }
-                }
-                else
-                {
-                    @if (employee.IsAddingShift)
-                    {
-                        <input type="time" @bind="@Start"  step="1800" />
-                        <input type="time" @bind="@End" step="1800" />
-                        <SfButton OnClick="@(() => AddShiftAsync(employee))">Dodaj</SfButton>
-                        <SfButton OnClick="@(() => CancelAddShift(employee))">Anuluj</SfButton>
-                    }
-                    else
-                    {
-                        <SfButton OnClick="@(() => EnableAddShift(employee))">Dodaj</SfButton>
-                    }
-                }
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>Brak pracowników do wyświetlenia.</p>
-}
-
-
-
-
+    <!-- Dialog zmiany -->
+    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsShiftDialogVisible" Header="Wybierz zespół">
+        <DialogContent>
+            <label><strong>@(ShiftToEdit.IsEditing ? "Edytuj zmianę" : "Dodaj zmianę")</strong></label>
+            <div class="dialog-timepickers">
+                <SfTimePicker TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
+                <SfTimePicker TValue="DateTime" @bind-Value="@End"></SfTimePicker>
+            </div>
+        </DialogContent>
+        <DialogButtons>
+            @if (ShiftToEdit.IsEditing)
+            {
+                <DialogButton Content="Zapisz" IsPrimary="true" OnClick="SaveShiftAsync" />
+                <DialogButton Content="Usuń zmianę" OnClick="DeleteShiftAsync" />
+            }
+            else
+            {
+                <DialogButton Content="Dodaj" IsPrimary="true" OnClick="AddShiftAsync" />
+            }
+            <DialogButton Content="Anuluj" OnClick="CancelEditShift" />
+        </DialogButtons>
+    </SfDialog>
+</div>

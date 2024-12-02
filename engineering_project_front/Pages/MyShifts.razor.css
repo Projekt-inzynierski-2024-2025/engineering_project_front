@@ -1,0 +1,71 @@
+﻿/* Ogólny styl dla strony */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f3f3; /* Kolor tła */
+}
+
+/* Kontener główny */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Nagłówki */
+.header-text {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Sekcja wyboru daty */
+.control-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Skrócona szerokość dla SfDatePicker */
+.short-datepicker .e-datepicker {
+    width: 250px !important; /* Ograniczenie szerokości kontrolki */
+}
+
+/* Tabela zmian */
+.sf-grid {
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+    .sf-grid .e-headercell,
+    .sf-grid .e-rowcell {
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+/* Tosty */
+.sf-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .control-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sf-grid {
+        width: 100%;
+    }
+}

@@ -123,6 +123,12 @@ namespace engineering_project_front.Layout
                 {
                     Id = "12",
                     Pid = "1",
+                    Name = "Moje zmiany"
+                },
+                 new TreeData()
+                {
+                    Id = "13",
+                    Pid = "1",
                     Name = "Wyloguj się"
                 }
             };
@@ -164,6 +170,9 @@ namespace engineering_project_front.Layout
                     NavManager.NavigateTo("/my-account");
                     break;
                 case "12":
+                    NavManager.NavigateTo("/myShifts");
+                    break;
+                case "13":
                     sessionStorage.RemoveItemAsync("token");
                     NavManager.NavigateTo("/");
                     break;

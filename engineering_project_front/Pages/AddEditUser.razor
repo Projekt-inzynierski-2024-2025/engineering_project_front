@@ -9,56 +9,61 @@
 @using engineering_project_front.Models.Responses
 @using engineering_project_front.Models.Parameters
 
-<PageTitle>@(IsEditing ? "Edytuj użytkownika" : "Dodaj użytkownika")</PageTitle>
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">
+        @(IsEditing ? "Edytuj użytkownika" : "Dodaj użytkownika")
+    </h3>
 
-<EditForm Model="@User" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+    <!-- Formularz dodawania/edycji użytkownika -->
+    <EditForm Model="@User" OnValidSubmit="HandleValidSubmit" class="user-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-
-
-    <div class="col-log-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+        <div class="form-grid">
+            <!-- Imię -->
+            <div class="form-field">
                 <SfTextBox Placeholder="Imię" @bind-Value="User.FirstName" FloatLabelType="FloatLabelType.Auto" Type="InputType.Text"></SfTextBox>
             </div>
-               <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+
+            <!-- Nazwisko -->
+            <div class="form-field">
                 <SfTextBox Placeholder="Nazwisko" @bind-Value="User.LastName" FloatLabelType="FloatLabelType.Auto" Type="InputType.Text"></SfTextBox>
             </div>
-               <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+
+            <!-- Email -->
+            <div class="form-field">
                 <SfTextBox Placeholder="Email" @bind-Value="User.Email" FloatLabelType="FloatLabelType.Auto" Type="InputType.Text"></SfTextBox>
             </div>
-                <div>
-                    <label for="team">Zespoł:</label>
-                    <SfDropDownList TValue="long" TItem="TeamsResponse" Placeholder="Wybierz zespoł" DataSource="@Teams" @bind-Value="User.TeamID">
-                   <DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-                    </SfDropDownList>
-                </div>
-                <div>
-                    <label for="role">Role:</label>
-                    <SfDropDownList TValue="int" TItem="RoleParameters" Placeholder="Wybierz stanowsiko" DataSource="@Roles" @bind-Value="User.Role">
-                        <DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-                    </SfDropDownList>
-                </div>
-              
-                <SfButton CssClass="e-flat" IsPrimary="true" type="submit">@(IsEditing ? "Zaktualizuj użytkownika" : "Dodaj użytkownika")</SfButton>
-                <SfButton CssClass="e-flat"  @onclick="Cancel">Anuluj</SfButton>
+
+            <!-- Zespół -->
+            <div class="form-field">
+                <label for="team">Zespół:</label>
+                <SfDropDownList TValue="long" TItem="TeamsResponse" Placeholder="Wybierz zespół" DataSource="@Teams" @bind-Value="User.TeamID">
+                    <DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+
+            <!-- Rola -->
+            <div class="form-field">
+                <label for="role">Rola:</label>
+                <SfDropDownList TValue="int" TItem="RoleParameters" Placeholder="Wybierz stanowisko" DataSource="@Roles" @bind-Value="User.Role">
+                    <DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+
+            <!-- Przyciski -->
+            <div class="form-buttons">
+                <SfButton CssClass="e-flat" IsPrimary="true" type="submit">
+                    @(IsEditing ? "Zaktualizuj użytkownika" : "Dodaj użytkownika")
+                </SfButton>
+                <SfButton CssClass="e-flat" @onclick="Cancel">Anuluj</SfButton>
+            </div>
         </div>
-    </div>
+    </EditForm>
+
+    <!-- Toast z powiadomieniami -->
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
+        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+    </SfToast>
 </div>
-    
-</EditForm>
-
-<div>
-    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true">
-    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
-</SfToast>
-</div>
-
-
-
-
-
-
-

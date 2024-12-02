@@ -10,6 +10,7 @@
     color: red;
 }
 
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -76,4 +77,12 @@
 
 code {
     color: #c02d76;
+}
+
+
+html, body {
+    background-color: #B18597;
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Upewnij siê, ¿e pokrywa ca³¹ stronê */
 }

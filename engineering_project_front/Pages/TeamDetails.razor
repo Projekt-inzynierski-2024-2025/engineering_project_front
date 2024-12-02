@@ -6,26 +6,33 @@
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Popups
 
-<SfButton IsPrimary="true" @onclick="ShowDeleteConfirmation">Usuń zespół</SfButton>
-<SfButton IsPrimary="true" @onclick="EditTeam">Edytuj zespół></SfButton>
+<div class="container">
+    
+    <!-- Dane zespołu -->
+    <div class="team-details-card">
+        <h3 class="header-text">Dane zespołu</h3>
+        <div class="team-details">
+        <label><strong>Nazwa zespołu:</strong> @Team.Name</label>
+        <label><strong>Kierownik:</strong> @Team.ManagerName</label>
+        </div>
+        <!-- Przyciski akcji -->
+        <div class="button-container">
+            <SfButton IsPrimary="true" CssClass="e-flat" @onclick="ShowDeleteConfirmation">Usuń zespół</SfButton>
+            <SfButton IsPrimary="true" CssClass="e-flat" @onclick="EditTeam">Edytuj zespół</SfButton>
+        </div>
+    </div>
 
-<h3>Dane zespołu</h3>
-<br />
-<label>Nazwa zespołu: @Team.Name</label>
-<br />
-<label>Kierownik: @Team.ManagerName</label>
-<br />
-
-<div>
+    <!-- Toast z powiadomieniami -->
     <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
-</div>
 
-<SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
-          Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć ten zespół?">
-    <DialogButtons>
-        <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
-        <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
-    </DialogButtons>
-</SfDialog>
+    <!-- Dialog potwierdzenia usunięcia -->
+    <SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
+              Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć ten zespół?">
+        <DialogButtons>
+            <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
+            <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
+        </DialogButtons>
+    </SfDialog>
+</div>

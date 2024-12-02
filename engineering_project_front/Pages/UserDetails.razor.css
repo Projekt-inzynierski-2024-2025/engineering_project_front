@@ -1,0 +1,92 @@
+﻿/* Ogólny styl dla strony */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Kontener główny */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Karta szczegółów użytkownika */
+.user-details-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.header-text {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Szczegóły użytkownika */
+.user-details label {
+    font-size: 16px;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Przyciski */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.e-flat {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+    .e-flat.e-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+        .e-flat.e-primary:hover {
+            background-color: #0056b3;
+        }
+
+/* Dialog */
+.sf-dialog {
+    text-align: center;
+}
+
+    .sf-dialog .e-dlg-content {
+        font-size: 16px;
+        color: #555;
+    }
+
+/* Toast */
+.sf-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

@@ -1,0 +1,102 @@
+﻿/* Ogólny styl dla strony */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f3f3; /* Kolor tła */
+}
+
+/* Kontener główny */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Nagłówki */
+.header-text {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Sekcja kontrolna z wyszukiwaniem i przyciskami */
+.control-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Układ elementów kontrolnych */
+.control-wrapper {
+    display: flex;
+    gap: 15px;
+}
+
+/* Pole wyszukiwania */
+.form-input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+}
+
+/* Przyciski */
+button, .sf-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sf-button {
+    background-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+    .sf-button:hover {
+        background-color: #0056b3;
+    }
+
+/* Tabela zespołów */
+.sf-grid {
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+    .sf-grid .e-headercell,
+    .sf-grid .e-rowcell {
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+/* Tosty */
+.sf-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .control-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-input {
+        width: 100%;
+    }
+
+    .sf-grid {
+        width: 100%;
+    }
+}

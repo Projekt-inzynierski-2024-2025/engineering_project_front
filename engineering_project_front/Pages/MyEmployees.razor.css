@@ -1,0 +1,86 @@
+﻿/* Ogólny styl dla strony */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f3f3; /* Kolor tła */
+}
+
+/* Kontener główny */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Nagłówki */
+.header-text {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Sekcja kontrolna z wyszukiwaniem i przyciskami */
+.control-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+/* Sekcja kontrolera z przyciskami */
+.control-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+/* Dialog wybierania zespołu */
+.sf-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Tabela godzin pracowników */
+.sf-grid {
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+    .sf-grid .e-headercell,
+    .sf-grid .e-rowcell {
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+/* Tosty */
+.sf-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .sf-dialog {
+        width: 90%;
+    }
+
+    .sf-grid {
+        width: 100%;
+    }
+}

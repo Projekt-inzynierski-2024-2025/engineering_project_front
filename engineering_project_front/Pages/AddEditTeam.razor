@@ -1,6 +1,5 @@
 ﻿@page "/add-edit-team/{teamId:long?}"
 
-
 @using Syncfusion.Blazor.DataForm
 @using System.ComponentModel.DataAnnotations
 @using Syncfusion.Blazor.Notifications
@@ -11,35 +10,43 @@
 @using engineering_project_front.Models.Responses;
 <link href="css/sf-styles.css" rel="stylesheet" />
 
-<PageTitle>@(IsEditing ? "Edytuj zespół" : "Dodaj zespół")</PageTitle>
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">
+        @(IsEditing ? "Edytuj zespół" : "Dodaj zespół")
+    </h3>
 
+    <!-- Formularz dodawania/edycji zespołu -->
+    <EditForm Model="@Team" OnValidSubmit="HandleValidSubmit" class="team-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-
-<EditForm Model="@Team" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-<div class="col-log-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+        <div class="form-grid">
+            <!-- Nazwa zespołu -->
+            <div class="form-field">
                 <SfTextBox Placeholder="Nazwa zespołu" @bind-Value="Team.Name" FloatLabelType="FloatLabelType.Auto" Type="InputType.Text"></SfTextBox>
             </div>
-                <div>
-                    <label for="manager">Kierownik:</label>
-                    <SfDropDownList TValue="long" TItem="UsersResponse" Placeholder="Wybierz kierownika" DataSource="@Managers" @bind-Value="Team.ManagerID">
-                   <DropDownListFieldSettings Value="ID" Text="FirstName"></DropDownListFieldSettings>
-                    </SfDropDownList>
-                </div>
-                <SfButton CssClass="e-flat" IsPrimary="true"  type="submit">@(IsEditing ? "Zaktualizuj zespół" : "Dodaj zespół")</SfButton>
-                <SfButton CssClass="e-flat"  @onclick="Cancel">Anuluj</SfButton>
+
+            <!-- Kierownik -->
+            <div class="form-field">
+                <label for="manager">Kierownik:</label>
+                <SfDropDownList TValue="long" TItem="UsersResponse" Placeholder="Wybierz kierownika" DataSource="@Managers" @bind-Value="Team.ManagerID">
+                    <DropDownListFieldSettings Value="ID" Text="FirstName"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+
+            <!-- Przyciski -->
+            <div class="form-buttons">
+                <SfButton CssClass="e-flat" IsPrimary="true" type="submit">
+                    @(IsEditing ? "Zaktualizuj zespół" : "Dodaj zespół")
+                </SfButton>
+                <SfButton CssClass="e-flat" @onclick="Cancel">Anuluj</SfButton>
+            </div>
         </div>
-    </div>
-</div>
-</EditForm>
+    </EditForm>
 
-
-<div>
-<SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true" >
-    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
-</SfToast>
+    <!-- Toast z powiadomieniami -->
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
+        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+    </SfToast>
 </div>

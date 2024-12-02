@@ -213,6 +213,46 @@ namespace engineering_project_front.Services
             }
         }
 
+
+        public async Task<OperationResponse<List<AvailabilitiesResponse>>> GetAvailabilitiesForTeam(DateTime day, long teamID)
+            {
+            _logger.LogInformation($"Method {nameof(GetAvailabilitiesForTeam)} entered");
+
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.GetAsync($"api/Availabilities/GetAvailabilitiesForTeam/{day.ToString("yyyy-MM-dd")}/{teamID}");
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<List<AvailabilitiesResponse>>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                    };
+                }
+
+                var availabilities = await apiResponse.Content.ReadFromJsonAsync<List<AvailabilitiesResponse>>(_serializerOptions);
+
+                return new OperationResponse<List<AvailabilitiesResponse>>
+                {
+                    Success = true,
+                    Data = availabilities,
+                    Message = "Pomyślnie zedytowano twoją pracę"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting availabilities for month.");
+                return new OperationResponse<List<AvailabilitiesResponse>>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas zdobywania dyspozycji do pracy."
+                };
+            }
+        }
+
         public async Task<OperationResponse<bool>> RemoveAvailability(AvailabilitiesRequest availability)
         {
             _logger.LogInformation($"Method {nameof(RemoveAvailability)} entered.");
