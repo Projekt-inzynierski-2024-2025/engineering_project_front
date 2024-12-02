@@ -2,26 +2,34 @@
 @implements IDisposable
 
 @using engineering_project_front.Services.Interfaces
-
 @using Syncfusion.Blazor.Buttons
 
-<PageTitle>Strona g³ówna</PageTitle>
+<div class="container">
+    <!-- Nag³ówek strony -->
+    <h1 class="header-text">Witaj, @firstName @lastName!</h1>
 
-<h1>Witaj, @firstName @lastName!</h1>
+    <!-- Informacje o pracy -->
+    <div class="work-info">
+        <div class="info-item">
+            <strong>Czas pracy:</strong> @workTime
+        </div>
+        <div class="info-item">
+            <strong>Twoja przerwa:</strong> @breakTime
+        </div>
+    </div>
 
-<div>
-<div>Czas pracy: @workTime</div>
-<div>Twoja przerwa: @breakTime</div>
+    <!-- Przyciski akcji -->
+    <div class="button-section">
+        <!-- Praca -->
+        <div class="button-group">
+            <SfButton CssClass="e-success" Disabled="workStartDisabled" OnClick="OnWorkStartClick">Zacznij pracê</SfButton>
+            <SfButton CssClass="e-danger" Disabled="workEndDisabled" OnClick="OnWorkEndClick">Zakoñcz pracê</SfButton>
+        </div>
+
+        <!-- Przerwa -->
+        <div class="button-group">
+            <SfButton CssClass="e-success" Disabled="breakStartDisabled" OnClick="OnBreakStartClick">Rozpocznij przerwê</SfButton>
+            <SfButton CssClass="e-danger" Disabled="breakEndDisabled" OnClick="OnBreakEndClick">Zakoñcz przerwê</SfButton>
+        </div>
+    </div>
 </div>
-
-<div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-    <SfButton CssClass="e-success" Disabled="workStartDisabled" OnClick="OnWorkStartClick">Zacznij pracê</SfButton>
-    <SfButton CssClass="e-danger" Disabled="workEndDisabled" OnClick="OnWorkEndClick">Zakoñcz pracê</SfButton>
-</div>
-
-<div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-    <SfButton CssClass="e-success" Disabled="breakStartDisabled" OnClick="OnBreakStartClick">Rozpocznij przerwê</SfButton>
-    <SfButton CssClass="e-danger" Disabled="breakEndDisabled" OnClick="OnBreakEndClick">Zakoñcz przerwê</SfButton>
-</div>
-
-

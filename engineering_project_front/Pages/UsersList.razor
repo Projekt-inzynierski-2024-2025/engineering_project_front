@@ -14,17 +14,17 @@
 <h3 class="header-text">Lista użytkowników</h3>
 
 <div class="container">
-<!-- Sekcja wyszukiwania i dodawania zespołów -->
-<div class="control-section">
-<div class="control-wrapper">
+    <!-- Sekcja wyszukiwania i dodawania zespołów -->
+    <div class="control-section">
+        <div class="control-wrapper">
             <input @bind="SearchTerm" placeholder="Wyszukaj użytkowników..." class="form-input" />
             <SfButton IsPrimary="true" CssClass="sf-button" @onclick="FilterUsers">Wyszukaj</SfButton>
-            <SfButton IsPrimary="true" CssClass="sf-button"  @onclick="AddUser">Dodaj użytkownika</SfButton>
-</div>
-</div>
+            <SfButton IsPrimary="true" CssClass="sf-button" @onclick="AddUser">Dodaj użytkownika</SfButton>
+        </div>
+    </div>
 
 
-@* Initialize the DataGrid component for users *@
+    @* Initialize the DataGrid component for users *@
     <div class="content-wrapper">
         <div class="row">
             <SfGrid DataSource="FilteredUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
@@ -42,9 +42,9 @@
         </div>
     </div>
 
-<div>
+    <div>
         <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true" CssClass="sf-toast">
-        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
-    </SfToast>
-</div>
+            <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+        </SfToast>
+    </div>
 </div>

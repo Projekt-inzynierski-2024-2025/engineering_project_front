@@ -3,58 +3,61 @@
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Schedule
-@using Syncfusion.Blazor.Schedule.Internal
 @using engineering_project_front.Models.Responses
 
-<PageTitle>Kalendarz dostępności</PageTitle>
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">Kalendarz dostępności</h3>
 
-<div class="col-lg-12 control-section">
-    <SfSchedule @ref="ScheduleRef" TValue="AvailabilitiesResponse" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView" AllowDragAndDrop="false">
-        <ScheduleTemplates>
-            <EditorTemplate>
-                @{
-                    var Data = (context as AvailabilitiesResponse)!;
-                    <table class="custom-event-editor" width="100%" cellpadding="5">
-                        <tbody>
-                            <tr>
-                                <td class="e-textlabel">Data</td>
-                                <td>
-                                    <SfDatePicker @bind-Value="@(Data.Date)"></SfDatePicker>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="e-textlabel">Początek pracy</td>
-                                <td>
-                                    <SfTimePicker @bind-Value="@(Data.TimeStart)"></SfTimePicker>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="e-textlabel">Koniec pracy</td>
-                                <td>
-                                    <SfTimePicker @bind-Value="@(Data.TimeEnd)"></SfTimePicker>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                }
-            </EditorTemplate>
-        </ScheduleTemplates>
-        <ScheduleEventSettings DataSource="@dataSource">
-            <ScheduleField Id="ID">
-                <FieldSubject Name="FullName"></FieldSubject>
-                <FieldIsAllDay Name="Type"></FieldIsAllDay>
-                <FieldStartTime Name="TimeStart"></FieldStartTime>
-                <FieldEndTime Name="TimeEnd"></FieldEndTime>
-            </ScheduleField>
-        </ScheduleEventSettings>
-        <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose" EventRendered="OnEventRendered"></ScheduleEvents>
-        <ScheduleViews>
-            <ScheduleView Option="View.Day"></ScheduleView>
-            <ScheduleView Option="View.Week"></ScheduleView>
-            <ScheduleView Option="View.WorkWeek"></ScheduleView>
-            <ScheduleView Option="View.Month"></ScheduleView>
-            <ScheduleView Option="View.Agenda"></ScheduleView>
-            <ScheduleView Option="View.MonthAgenda"></ScheduleView>
-        </ScheduleViews>
-    </SfSchedule>
+    <!-- Harmonogram dostępności -->
+    <div class="schedule-container">
+        <SfSchedule @ref="ScheduleRef" TValue="AvailabilitiesResponse" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView" AllowDragAndDrop="false">
+            <ScheduleTemplates>
+                <EditorTemplate>
+                    @{
+                        var Data = (context as AvailabilitiesResponse)!;
+                        <table class="custom-event-editor" width="100%" cellpadding="5">
+                            <tbody>
+                                <tr>
+                                    <td class="e-textlabel">Data</td>
+                                    <td>
+                                        <SfDatePicker @bind-Value="@(Data.Date)"></SfDatePicker>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="e-textlabel">Początek pracy</td>
+                                    <td>
+                                        <SfTimePicker @bind-Value="@(Data.TimeStart)"></SfTimePicker>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="e-textlabel">Koniec pracy</td>
+                                    <td>
+                                        <SfTimePicker @bind-Value="@(Data.TimeEnd)"></SfTimePicker>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </EditorTemplate>
+            </ScheduleTemplates>
+            <ScheduleEventSettings DataSource="@dataSource">
+                <ScheduleField Id="ID">
+                    <FieldSubject Name="FullName"></FieldSubject>
+                    <FieldIsAllDay Name="Type"></FieldIsAllDay>
+                    <FieldStartTime Name="TimeStart"></FieldStartTime>
+                    <FieldEndTime Name="TimeEnd"></FieldEndTime>
+                </ScheduleField>
+            </ScheduleEventSettings>
+            <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose" EventRendered="OnEventRendered"></ScheduleEvents>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.Agenda"></ScheduleView>
+                <ScheduleView Option="View.MonthAgenda"></ScheduleView>
+            </ScheduleViews>
+        </SfSchedule>
+    </div>
 </div>

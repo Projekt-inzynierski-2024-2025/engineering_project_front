@@ -4,35 +4,38 @@
 @using Syncfusion.Blazor.Grids
 @using engineering_project_front.Models.Responses
 
-<div class="col-lg-12 control-section">
-    <div class="control-wrapper">
-        <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="true" FullScreen="true">
-            <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
-        </SfDatePicker>
+<div class="container">
+    <!-- Wybór miesiąca -->
+    <div class="control-section">
+        <div class="control-wrapper">
+            <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="true" FullScreen="true">
+                <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
+            </SfDatePicker>
+        </div>
     </div>
-</div>
 
-<div class="col-lg-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
+    <!-- Tabela czasu pracy -->
+    <div class="control-section">
+        <div class="content-wrapper">
             <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true">
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridColumns>
-                    <GridColumn Field=@nameof(WorksResponse.Date.Date) HeaderText="Dzień" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.TimeStart) HeaderText="Początek pracy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.TimeEnd) HeaderText="Koniec pracy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.BreakStart) HeaderText="Początek przerwy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.BreakEnd) HeaderText="Koniec przerwy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.StatusName) HeaderText="Status pracy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.WorkTime) HeaderText="Czas pracy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.BreakTime) HeaderText="Czas przerwy" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.Date.Date) HeaderText="Dzień" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.TimeStart) HeaderText="Początek pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.TimeEnd) HeaderText="Koniec pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.BreakStart) HeaderText="Początek przerwy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.BreakEnd) HeaderText="Koniec przerwy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.StatusName) HeaderText="Status pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.WorkTime) HeaderText="Czas pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.BreakTime) HeaderText="Czas przerwy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
     </div>
-</div>
 
-<div>
-    <label>Twój łączny czas pracy na miesiąc @Month roku: @MonthlyWorkTime</label>
-    <label>Twój łączny czas przerwy na miesiąc @Month roku: @MonthlyBreakTime</label>
+    <!-- Podsumowanie czasu pracy i przerw -->
+    <div class="summary-section">
+        <label><strong>Twój łączny czas pracy na miesiąc @Month roku:</strong> @MonthlyWorkTime</label>
+        <label><strong>Twój łączny czas przerwy na miesiąc @Month roku:</strong> @MonthlyBreakTime</label>
+    </div>
 </div>

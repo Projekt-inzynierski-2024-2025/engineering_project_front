@@ -4,51 +4,52 @@
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Notifications
 
-<PageTitle>Edytuj pracę</PageTitle>
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">Edytuj pracę</h3>
 
-<div>
+    <!-- Toast powiadomień -->
     <SfToast ID="toast_default" @ref="ToastObj" Title="Edycja" Content="@ToastContent" Timeout="5000">
         <ToastPosition X="Center" Y="Top"></ToastPosition>
     </SfToast>
-</div>
 
-<div class="col-lg-12 control-section">
-    <div class="control-wrapper">
-        <label class="example-label">Dzień do edycji</label>
-        <SfDatePicker TValue="DateTime?" @ref="@datePickerObj" @bind-Value="@datePicker" Readonly="true">
-            <DatePickerEvents TValue="DateTime?" OnRenderDayCell="@DisableDate" ValueChange="GetWorkToEdit"></DatePickerEvents>
-        </SfDatePicker>
+    <!-- Formularz edycji pracy -->
+    <div class="edit-work-form">
+        <!-- Dzień do edycji -->
+        <div class="form-field">
+            <label class="example-label">Dzień do edycji</label>
+            <SfDatePicker TValue="DateTime?" @ref="@datePickerObj" @bind-Value="@datePicker" Readonly="true">
+                <DatePickerEvents TValue="DateTime?" OnRenderDayCell="@DisableDate" ValueChange="GetWorkToEdit"></DatePickerEvents>
+            </SfDatePicker>
+        </div>
+
+        <!-- Początek pracy -->
+        <div class="form-field">
+            <label class="example-label">Początek pracy</label>
+            <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@workStart" ShowClearButton="true"></SfTimePicker>
+        </div>
+
+        <!-- Koniec pracy -->
+        <div class="form-field">
+            <label class="example-label">Koniec pracy</label>
+            <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@workEnd" ShowClearButton="true"></SfTimePicker>
+        </div>
+
+        <!-- Początek przerwy -->
+        <div class="form-field">
+            <label class="example-label">Początek przerwy</label>
+            <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@breakStart" ShowClearButton="true"></SfTimePicker>
+        </div>
+
+        <!-- Koniec przerwy -->
+        <div class="form-field">
+            <label class="example-label">Koniec przerwy</label>
+            <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@breakEnd" ShowClearButton="true"></SfTimePicker>
+        </div>
+
+        <!-- Zatwierdź zmiany -->
+        <div class="form-buttons">
+            <SfButton CssClass="e-success" OnClick="EditWorkTimes">Zatwierdź zmiany</SfButton>
+        </div>
     </div>
-</div>
-
-<div class="col-lg-12 control-section">
-    <div class="control-wrapper">
-        <label class="example-label">Początek pracy</label>
-        <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@workStart" ShowClearButton="true"></SfTimePicker>
-    </div>
-</div>
-
-<div class="col-lg-12 control-section">
-    <div class="control-wrapper">
-        <label class="example-label">Koniec pracy</label>
-        <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@workEnd" ShowClearButton="true"></SfTimePicker>
-    </div>
-</div>
-
-<div class="col-lg-12 control-section">
-    <div class="control-wrapper">
-        <label class="example-label">Początek przerwy</label>
-        <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@breakStart" ShowClearButton="true"></SfTimePicker>
-    </div>
-</div>
-
-<div class="col-lg-12 control-section">
-    <div class="control-wrapper">
-        <label class="example-label">Koniec przerwy</label>
-        <SfTimePicker TValue="DateTime?" FullScreen="true" @bind-value="@breakEnd" ShowClearButton="true"></SfTimePicker>
-    </div>
-</div>
-
-<div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-    <SfButton CssClass="e-success" OnClick="EditWorkTimes">Zatwierdź zmiany</SfButton>
 </div>

@@ -2,13 +2,22 @@
 
 @using Syncfusion.Blazor.Buttons
 
-<PageTitle>Moje konto</PageTitle>
+<div class="container">
+    <!-- Nagłówek strony -->
+    <h3 class="header-text">Moje konto</h3>
 
-<div>Twoje imię: @firstName</div>
-<div>Twoje nazwisko: @lastName</div>
-<div>Twój email: @email</div>
-<div>Nazwa twojego zespołu: @team</div>
-<div>Twój kierownik: @manager</div>
-<div>Twoja rola: @role</div>
+    <!-- Informacje o użytkowniku -->
+    <div class="account-info">
+        <div class="info-item"><strong>Twoje imię:</strong> @firstName</div>
+        <div class="info-item"><strong>Twoje nazwisko:</strong> @lastName</div>
+        <div class="info-item"><strong>Twój email:</strong> @email</div>
+        <div class="info-item"><strong>Nazwa twojego zespołu:</strong> @team</div>
+        <div class="info-item"><strong>Twój kierownik:</strong> @manager</div>
+        <div class="info-item"><strong>Twoja rola:</strong> @role</div>
+    </div>
 
-<SfButton CssClass="e-info" OnClick="onChangePasswordClicked">Zmień hasło</SfButton>
+    <!-- Przycisk zmiany hasła -->
+    <div class="button-container">
+        <SfButton CssClass="e-info" OnClick="onChangePasswordClicked">Zmień hasło</SfButton>
+    </div>
+</div>

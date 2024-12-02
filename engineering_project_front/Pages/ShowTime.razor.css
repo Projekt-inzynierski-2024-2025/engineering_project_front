@@ -1,0 +1,48 @@
+﻿/* Ogólny styl dla strony */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Kontener główny */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Wybór miesiąca */
+.control-section {
+    margin-bottom: 20px;
+}
+
+.control-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* Tabela czasu pracy */
+.content-wrapper {
+    margin-top: 20px;
+}
+
+.sf-grid {
+    width: 100%;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Podsumowanie czasu pracy */
+.summary-section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.

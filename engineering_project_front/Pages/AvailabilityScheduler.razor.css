@@ -1,0 +1,47 @@
+﻿/* Ogólny styl dla strony */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Kontener główny */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Nagłówki */
+.header-text {
+    color: #333;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Harmonogram */
+.schedule-container {
+    margin-top: 20px;
+}
+
+.custom-event-editor {
+    width: 100%;
+}
+
+    .custom-event-editor .e-textlabel {
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+        width: 120px;
+        padding-right: 10px;
+    }
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+}
