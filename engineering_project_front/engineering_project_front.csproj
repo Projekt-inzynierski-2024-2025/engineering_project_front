@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\TeamDetails.css" />
+    <None Include="wwwroot\css\TeamsList.css" />
+    <None Include="wwwroot\css\UserDetails.css" />
     <None Include="wwwroot\css\UsersList.css" />
   </ItemGroup>
 
