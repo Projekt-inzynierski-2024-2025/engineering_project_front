@@ -8,6 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\AddEditTeam.css" />
+    <None Include="wwwroot\css\AddEditUser.css" />
+    <None Include="wwwroot\css\AddSchedule.css" />
+    <None Include="wwwroot\css\AvailabilityScheduler.css" />
+    <None Include="wwwroot\css\EditWork.css" />
+    <None Include="wwwroot\css\ForgotPassword.css" />
+    <None Include="wwwroot\css\Home.css" />
+    <None Include="wwwroot\css\Login.css" />
+    <None Include="wwwroot\css\MyEmployees.css" />
+    <None Include="wwwroot\css\MyShifts.css" />
+    <None Include="wwwroot\css\Options.css" />
+    <None Include="wwwroot\css\ResetPassword.css" />
+    <None Include="wwwroot\css\ResetPasswordWithCode.css" />
+    <None Include="wwwroot\css\Schedule.css" />
+    <None Include="wwwroot\css\ScheduleMonth.css" />
+    <None Include="wwwroot\css\ShowTime.css" />
     <None Include="wwwroot\css\TeamDetails.css" />
     <None Include="wwwroot\css\TeamsList.css" />
     <None Include="wwwroot\css\UserDetails.css" />
