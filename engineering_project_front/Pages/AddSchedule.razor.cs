@@ -22,9 +22,11 @@ namespace engineering_project_front.Pages
         private long ID => long.Parse(ParamID);
 
         private DailySchedulesRequest Schedule { get; set; } = new DailySchedulesRequest();
+ 
+        DateTime minDate { get; set;} = new DateTime(DateTime.Now.Year, DateTime.Now.Month,01);
 
-        #region Toast
-        private SfToast? Toast;
+    #region Toast
+    private SfToast? Toast;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
@@ -32,6 +34,7 @@ namespace engineering_project_front.Pages
         protected override async Task OnInitializedAsync()
         {
             Schedule.TeamID = ID;
+            await InvokeAsync(StateHasChanged);
         }
 
         private async Task HandleValidSubmit()

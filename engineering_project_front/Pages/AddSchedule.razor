@@ -24,7 +24,7 @@
         <div class="form-grid">
             <!-- Data -->
             <div class="form-field">
-                <SfDatePicker TValue="DateTime" @bind-Value="Schedule.Date" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker>
+                <SfDatePicker TValue="DateTime" @bind-Value="Schedule.Date" Min="@minDate" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker>
             </div>
 
             <!-- Ilość godzin -->
@@ -45,3 +45,4 @@
         <ToastPosition X="Right" Y="Bottom"></ToastPosition>
     </SfToast>
 </div>
+

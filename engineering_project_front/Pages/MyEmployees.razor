@@ -16,7 +16,7 @@
 
 
    
-    <!-- Dialog wybierania zespołu -->
+ <!-- Dialog do wybierania zespołu -->
     <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsTeamDialogVisible" Header="Wybierz zespół" CssClass="sf-dialog">
         <DialogContent>
             <select @bind="SelectedTeamID" class="form-select select">
@@ -34,7 +34,7 @@
     </SfDialog>
 
 
-    <div class="container">
+
         <div class="control-section">
     <div class="control-wrapper">
         <SfButton IsPrimary="true" CssClass="sf-button" @onclick="OpenTeamDialog">Wybierz Zespół</SfButton>
@@ -63,4 +63,4 @@
         </SfToast>
     </div>
 </div>
-</div>
+
