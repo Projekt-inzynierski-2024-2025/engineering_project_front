@@ -77,10 +77,11 @@ namespace engineering_project_front.Pages
 
             var startOfTheNextMonth = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, 1);
             var endOfTheNextMonth = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month));
+            var aWeekBeforeEndOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).AddDays(-7);
             var selectedDate = args.StartTime;
             
 
-            if (selectedDate < startOfTheNextMonth || selectedDate > endOfTheNextMonth) return;
+            if (selectedDate < startOfTheNextMonth || selectedDate > endOfTheNextMonth || DateTime.Today >= aWeekBeforeEndOfMonth) return;
             await ScheduleRef.OpenEditorAsync(args, CurrentAction.Add); //to open the editor window on cell click
         }
         public async Task OnEventClick(EventClickArgs<AvailabilitiesResponse> args)

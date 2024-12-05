@@ -18,7 +18,7 @@
         public string TypeName => Type switch { 0 => "Pełny dzień", 1 => "Od Do", _ => "Nieznany" };
         public int Status { get; set; }
         public string StatusName => Status switch { 0 => "Aktywny", 1 => "Zablokowany", _ => "Nieznany" };
-        public bool IsReadonly => Date.Month == DateTime.Today.Month;
+        public bool IsReadonly => Date.Month == DateTime.Today.Month || DateTime.Today >= new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).AddDays(-7);
         public string CategoryColor { get; set; } = "#0000FF";
     }
 }
