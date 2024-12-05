@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using global::engineering_project_front.Models;
-using global::engineering_project_front.Services.Interfaces;
-using global::engineering_project_front.Layout;
+using engineering_project_front.Services.Interfaces;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 using engineering_project_front.Models.Responses;

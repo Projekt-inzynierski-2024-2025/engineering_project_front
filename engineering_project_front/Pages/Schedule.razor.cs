@@ -1,15 +1,12 @@
-﻿using engineering_project_front.Layout;
-using engineering_project_front.Models;
+﻿using engineering_project_front.Models;
 using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
-using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Navigations;
 using Syncfusion.Blazor.Notifications;
 using Syncfusion.Blazor.Schedule;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace engineering_project_front.Pages
 {

@@ -1,5 +1,4 @@
-﻿
-using Blazored.SessionStorage;
+﻿using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
 
 namespace engineering_project_front.Layout

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace engineering_project_front.Models.Responses
+﻿namespace engineering_project_front.Models.Responses
 {
     public class UsersResponse
     {

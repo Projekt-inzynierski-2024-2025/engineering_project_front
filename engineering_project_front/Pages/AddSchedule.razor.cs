@@ -2,10 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using engineering_project_front.Models.Request;
 using Syncfusion.Blazor.Notifications;
-using engineering_project_front.Models.Responses;
-using engineering_project_front.Layout;
-using engineering_project_front.Models;
-using engineering_project_front.Services;
 
 namespace engineering_project_front.Pages
 {

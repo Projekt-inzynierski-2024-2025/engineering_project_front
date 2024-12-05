@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace engineering_project_front.Models.Request
+﻿namespace engineering_project_front.Models.Request
 {
     public class DailySchedulesRequest
     {
