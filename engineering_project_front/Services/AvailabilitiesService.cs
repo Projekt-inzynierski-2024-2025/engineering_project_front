@@ -96,45 +96,6 @@ namespace engineering_project_front.Services
             }
         }
 
-        public async Task<OperationResponse<IEnumerable<AvailabilitiesResponse>>> GetAvailabilitiesForDay(DateTime day)
-        {
-            _logger.LogInformation($"Method {nameof(GetAvailabilitiesForDay)} entered");
-
-            try
-            {
-                var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.GetAsync($"api/Availabilities/GetAvailabilitiesForMonth/{day.ToString("yyyy-MM-dd")}");
-
-                if (!apiResponse.IsSuccessStatusCode)
-                {
-                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
-                    return new OperationResponse<IEnumerable<AvailabilitiesResponse>>
-                    {
-                        Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
-                    };
-                }
-
-                var availabilities = await apiResponse.Content.ReadFromJsonAsync<IEnumerable<AvailabilitiesResponse>>(_serializerOptions);
-
-                return new OperationResponse<IEnumerable<AvailabilitiesResponse>>
-                {
-                    Success = true,
-                    Data = availabilities,
-                    Message = "Pomyślnie zedytowano twoją pracę"
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while getting availabilities for month.");
-                return new OperationResponse<IEnumerable<AvailabilitiesResponse>>
-                {
-                    Success = false,
-                    Message = "Wystąpił błąd podczas zdobywania dyspozycji do pracy."
-                };
-            }
-        }
-
         public async Task<OperationResponse<IEnumerable<AvailabilitiesResponse>>> GetAvailabilitiesForMonth(long userID, DateTime month)
         {
             _logger.LogInformation($"Method {nameof(GetAvailabilitiesForMonth)} entered");
@@ -212,7 +173,6 @@ namespace engineering_project_front.Services
                 };
             }
         }
-
 
         public async Task<OperationResponse<List<AvailabilitiesResponse>>> GetAvailabilitiesForTeam(DateTime day, long teamID)
             {
