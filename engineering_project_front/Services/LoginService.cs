@@ -50,7 +50,7 @@ namespace engineering_project_front.Services
             }
         }
 
-        public string HashPassword(string password)
+        private string HashPassword(string password)
         {
             _logger.Log(LogLevel.Information, $"Method {nameof(HashPassword)} entered");
 

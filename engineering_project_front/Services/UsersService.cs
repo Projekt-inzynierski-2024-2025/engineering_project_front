@@ -1,3 +1,4 @@
+using Blazored.SessionStorage;
 using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
@@ -10,11 +11,13 @@ public class UsersService : IUsersService
     private readonly ILogger<UsersService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly JsonSerializerOptions _serializerOptions;
+    private readonly ISessionStorageService _sessionStorage;
 
-    public UsersService(ILogger<UsersService> logger, IHttpClientFactory httpClientFactory)
+    public UsersService(ILogger<UsersService> logger, IHttpClientFactory httpClientFactory, ISessionStorageService sessionStorage)
     {
         _logger = logger;
         _httpClientFactory = httpClientFactory;
+        _sessionStorage = sessionStorage;
         _serializerOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -27,6 +30,14 @@ public class UsersService : IUsersService
         try
         {
             var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+            var token = await _sessionStorage.GetItemAsync<string>("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
             var apiResponse = await httpClient.GetAsync("api/Users/GetUsers");
 
             if (!apiResponse.IsSuccessStatusCode)
@@ -64,6 +75,14 @@ public class UsersService : IUsersService
         try
         {
             var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+            var token = await _sessionStorage.GetItemAsync<string>("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
             var apiResponse = await httpClient.GetAsync($"api/Users/GetUser/{ID}");
 
             if (!apiResponse.IsSuccessStatusCode)
@@ -101,6 +120,14 @@ public class UsersService : IUsersService
         try
         {
             var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+            var token = await _sessionStorage.GetItemAsync<string>("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
             var apiResponse = await httpClient.PostAsJsonAsync("api/Users/addUser", user);
 
             if (!apiResponse.IsSuccessStatusCode)
@@ -137,6 +164,14 @@ public class UsersService : IUsersService
         try
         {
             var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+            var token = await _sessionStorage.GetItemAsync<string>("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
             var apiResponse = await httpClient.PutAsJsonAsync("api/Users/updateUser", user);
 
             if (!apiResponse.IsSuccessStatusCode)
@@ -173,6 +208,14 @@ public class UsersService : IUsersService
         try
         {
             var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+            var token = await _sessionStorage.GetItemAsync<string>("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
             var apiResponse = await httpClient.GetAsync("api/Users/GetManagers");
 
             if (!apiResponse.IsSuccessStatusCode)
@@ -210,6 +253,14 @@ public class UsersService : IUsersService
         try
         {
             var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+            var token = await _sessionStorage.GetItemAsync<string>("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
             var apiResponse = await httpClient.DeleteAsync($"api/Users/deleteUser/{ID}");
 
             if (!apiResponse.IsSuccessStatusCode)
@@ -246,6 +297,14 @@ public class UsersService : IUsersService
         try
         {
             var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+            var token = await _sessionStorage.GetItemAsync<string>("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
             var apiResponse = await httpClient.GetAsync($"api/Users/teamUsers/{ID}");
 
             if (!apiResponse.IsSuccessStatusCode)
