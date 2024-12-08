@@ -12,7 +12,6 @@
 <div class="container">
 
     <!-- Dane zespołu -->
-    <div class="team-details-card">
         <h3 class="header-text">Dane zespołu</h3>
         <div class="team-details">
             <label><strong>Nazwa zespołu:</strong> @Team.Name</label>
@@ -20,8 +19,8 @@
         </div>
         <!-- Przyciski akcji -->
         <div class="button-container">
-            <SfButton IsPrimary="true" CssClass="e-flat" @onclick="ShowDeleteConfirmation">Usuń zespół</SfButton>
             <SfButton IsPrimary="true" CssClass="e-flat" @onclick="EditTeam">Edytuj zespół</SfButton>
+            <SfButton IsPrimary="true" CssClass="e-flat" @onclick="ShowDeleteConfirmation">Usuń zespół</SfButton>
         </div>
     </div>
 
@@ -38,4 +37,3 @@
             <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
         </DialogButtons>
     </SfDialog>
-</div>

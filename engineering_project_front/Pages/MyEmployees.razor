@@ -14,7 +14,7 @@
 
 <div class="container">
     <!-- Nagłówek strony -->
-    <h3 class="header-text">Lista Pracowników</h3>
+    <h3 class="header-text">Lista Pracowników dla zespołu: @TeamName</h3>
 
 
    
@@ -67,14 +67,14 @@
     <!-- Tabela godzin pracowników -->
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="HoursForUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" CssClass="sf-grid">
-                <GridEvents QueryCellInfo="OnQueryCellInfo" TValue="HoursForUserForMonthResponse"></GridEvents>
+            <SfGrid DataSource="HoursForUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" ContextMenuItems="@(new List<ContextMenuItemModel>() { new ContextMenuItemModel { Text = "Zobacz zmiany pracownika", Target = ".e-content", Id = "seeDetails" } })" CssClass="sf-grid">
+                <GridEvents ContextMenuItemClicked="OnContextMenuClick"  QueryCellInfo="OnQueryCellInfo" TValue="HoursForUserForMonthResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
                     <GridColumn Field="@nameof(HoursForUserForMonthResponse.userName)" HeaderText="Imię" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
                     <GridColumn Field="@nameof(HoursForUserForMonthResponse.userSurname)" HeaderText="Nazwisko" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.workHoursForMonth)" HeaderText="Ilość godzin miesięcznie" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(HoursForUserForMonthResponse.workHoursForMonth)" HeaderText="Planowany czas pracy na miesiąc" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>

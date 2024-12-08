@@ -3,6 +3,8 @@ using engineering_project_front.Services.Interfaces;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
+using Blazored.SessionStorage;
 
 namespace engineering_project_front.Pages
 {
@@ -16,6 +18,7 @@ namespace engineering_project_front.Pages
         [Inject]
         private IUsersService UsersService { get; set; } = default!;
 
+        
         #endregion
         private List<UsersResponse> Users { get; set; } = new();
         private List<UsersResponse> FilteredUsers { get; set; } = new();
@@ -53,9 +56,7 @@ namespace engineering_project_front.Pages
             {
                 FilteredUsers = Users.Where(user =>
                     user.FirstName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    user.TeamName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
                     user.Email.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    user.RoleName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
                     user.LastName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
             }
         }
@@ -110,6 +111,9 @@ namespace engineering_project_front.Pages
                 Console.WriteLine($"Navigation error: {ex.Message}");
             }
         }
+
+
+      
     }
 }
 

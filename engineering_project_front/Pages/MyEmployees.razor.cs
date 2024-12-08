@@ -32,6 +32,7 @@ namespace engineering_project_front.Pages
 
         private List<HoursForUserForMonthResponse> HoursForUsers { get; set; } = new();
         private long TeamID { get; set; } = 0;
+        private string TeamName { get; set; } = "";
         private SfDialog? TeamDialog;
         private bool IsTeamDialogVisible { get; set; } = false;
         private List<TeamsResponse> Teams { get; set; } = new();
@@ -39,6 +40,7 @@ namespace engineering_project_front.Pages
         private bool IsEmployeeWorkDialogVisible { get; set; } = false;
         private long  SelectedUserID { get; set; } 
         private DateTime SelectedWorkDate { get; set; }
+        private long UserID { get; set; } = 0;
 
         DateTime minDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
 
@@ -56,6 +58,7 @@ namespace engineering_project_front.Pages
         {
 
             Teams = await GetTeams();
+            await GetUserToCheck();
 
             if (Teams is null)
             {
@@ -66,6 +69,7 @@ namespace engineering_project_front.Pages
             if(Teams.Count == 1)
             {
                 TeamID = Teams[0].ID;
+                TeamName = Teams[0].Name;
                 await LoadEmployesForTeam();
             }
             else
@@ -131,6 +135,7 @@ namespace engineering_project_front.Pages
             if (SelectedTeamID > 0)
             {
                 TeamID = SelectedTeamID;
+                TeamName = Teams.Find(team => team.ID == SelectedTeamID).Name;
                 IsTeamDialogVisible = false;
                await LoadEmployesForTeam();
                 await InvokeAsync(StateHasChanged);
@@ -191,10 +196,18 @@ namespace engineering_project_front.Pages
             if (args == null)
                 return;
 
-            switch (args.Item.Id)
+                switch (args.Item.Id)
             {
+                
                 case "seeDetails":
-                    NavManager.NavigateTo($"/myShifts/{args.RowInfo.RowData.userID}");
+                    if (args.RowInfo.RowData.userID != UserID)
+                    {
+                        NavManager.NavigateTo($"/myShifts/{args.RowInfo.RowData.userID}");
+                    }
+                    else
+                    {
+                        ShowToast("Przejdz do zakładki moje zmiany", false);
+                    }
                     break;
                 default:
                     break;
@@ -245,6 +258,8 @@ namespace engineering_project_front.Pages
 
         #endregion
 
+     
+
         private async Task OnDateChange(ChangedEventArgs<DateTime> args)
         {
             DataChoose = args.Value;
@@ -258,11 +273,24 @@ namespace engineering_project_front.Pages
             if (args.Column.Field == nameof(HoursForUserForMonthResponse.workHoursForMonth))
             {
                 var workHours = Convert.ToDouble(args.Data.workHoursForMonth);
-                if (workHours > 5)
+                if (workHours > 5 || workHours ==0)
                 {
                     args.Cell.AddClass(new string[] { "highlight-red" });
                 }
             }
+        }
+
+        private async Task GetUserToCheck()
+        {
+           
+                var token = await SessionStorage.GetItemAsStringAsync("token");
+
+                token = token.Trim('"');
+
+                var user = await UsersService.GetUserFromToken(token);
+                UserID = user.ID;
+
+            
         }
     }
 }

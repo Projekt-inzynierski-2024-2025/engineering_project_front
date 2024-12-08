@@ -29,7 +29,7 @@
 
             <!-- Ilość godzin -->
             <div class="form-field">
-                <SfNumericTextBox TValue="int" @bind-Value="Schedule.HoursAmount" Placeholder="Ilość godzin do wyrobienia" FloatLabelType="FloatLabelType.Auto"></SfNumericTextBox>
+                <SfNumericTextBox TValue="int" @bind-Value="Schedule.HoursAmount"  Min="0" Placeholder="Ilość godzin do wyrobienia" FloatLabelType="FloatLabelType.Auto"></SfNumericTextBox>
             </div>
 
             <!-- Przyciski -->

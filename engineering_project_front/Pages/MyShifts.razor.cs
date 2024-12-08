@@ -54,6 +54,7 @@ namespace engineering_project_front.Pages
 
             await GetUserToCheck();
             if (UserID.HasValue)
+
             {
                 // Kierownik przegląda zmiany pracownika
                 IsManager = true;
@@ -73,6 +74,8 @@ namespace engineering_project_front.Pages
             if(status)
             {
                 UserShiftWorks = new List<ShiftWork>();
+                WorkTime = TimeSpan.Zero;
+                PlannedWorkTime = TimeSpan.Zero;
             }
 
             await InvokeAsync(StateHasChanged);
@@ -90,7 +93,7 @@ namespace engineering_project_front.Pages
             {
                 ShowToast(responseUserDailySchedule.Message, responseUserDailySchedule.Success);
             }
-            var userPlanedShifts = responseUserDailySchedule.Data;
+            var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
 
             // Pobranie przepracowanych zmian
             var responseUserWorkedShifts = await WorksService.GetWorkForMonth(userID, date);
@@ -98,7 +101,7 @@ namespace engineering_project_front.Pages
             {
                 ShowToast(responseUserWorkedShifts.Message, responseUserWorkedShifts.Success);
             }
-            var userWorkedShifts = responseUserWorkedShifts.Data;
+            var userWorkedShifts = responseUserWorkedShifts.Data ?? new List<WorksResponse>();
 
             // Resetowanie zmiennych globalnych
             WorkTime = TimeSpan.Zero;
@@ -113,7 +116,7 @@ namespace engineering_project_front.Pages
 
             // Iteracja po wszystkich dniach miesiąca
             var daysInMonth = Enumerable.Range(1, DateTime.DaysInMonth(date.Year, date.Month))
-                                        .Select(day => new DateTime(date.Year, date.Month, day));
+                                         .Select(day => new DateTime(date.Year, date.Month, day));
 
             foreach (var day in daysInMonth)
             {
@@ -224,21 +227,22 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.GetUser(UserID.Value);
                 if (response.Success)
                 {
-                    UserToCheck =  response.Data;
+                    UserToCheck = response.Data;
                 }
                 else
                 {
                     ShowToast(response.Message, response.Success);
-                    
+
                 }
             }
-            else {
+            else
+            {
                 var token = await SessionStorage.GetItemAsStringAsync("token");
 
                 token = token.Trim('"');
 
                 UserToCheck = await UsersService.GetUserFromToken(token);
-               
+
             }
         }
 

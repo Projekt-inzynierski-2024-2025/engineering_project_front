@@ -13,6 +13,22 @@ body {
     padding: 20px;
 }
 
+/* Sekcja wyboru daty z układem kolumnowym */
+.control-section.column-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* Wyrównanie etykiet czasu pracy */
+.work-time-info label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
+}
+
 /* Nagłówki */
 .header-text {
     color: #333;

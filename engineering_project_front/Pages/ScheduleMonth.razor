@@ -13,6 +13,7 @@
 @using Syncfusion.Blazor.Calendars
 
 <div class="container">
+    <h3>Grafik dla zespołu: @TeamName</h3>
     <!-- Dialog do wybierania zespołu -->
     <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsTeamDialogVisible" Header="Wybierz zespół" CssClass="sf-dialog">
         <DialogContent>
@@ -46,21 +47,20 @@
         </div>
     </div>
 
-    <!-- Nagłówek strony -->
-    <h3>Grafik dla zespołu: @TeamName</h3>
+
+   
 
     <!-- Tabela godzin -->
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="Hours" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>() { new ContextMenuItemModel { Text = "Zobacz detale", Target = ".e-content", Id = "seeDetails" } })" CssClass="sf-grid">
+            <SfGrid DataSource="Hours" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true"  ContextMenuItems="@(new List<ContextMenuItemModel>() { new ContextMenuItemModel { Text = "Przejdź do grafiku", Target = ".e-content", Id = "seeDetails" } })" CssClass="sf-grid">
                 <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="HoursForDayResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
-                    <GridColumn Field="@nameof(HoursForDayResponse.DailyScheduleID)" HeaderText="Id" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(HoursForDayResponse.Date)" HeaderText="Data" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(HoursForDayResponse.WorkHours)" HeaderText="Aktualna ilość godzin" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(HoursForDayResponse.ToDoHours)" HeaderText="Ilość godzin do wyrobienia" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(HoursForDayResponse.Date)" HeaderText="Dzień pracy" MinWidth="120" Width="150" MaxWidth="200" Format="dd.MM.yyyy"></GridColumn>
+                    <GridColumn Field="@nameof(HoursForDayResponse.WorkHours)" HeaderText="Aktualna ilość przepracowanych godzin" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn Field="@nameof(HoursForDayResponse.ToDoHours)" HeaderText="Ilość godzin do przepracowania" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>

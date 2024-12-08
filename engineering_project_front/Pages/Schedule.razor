@@ -13,13 +13,13 @@
 
 <div class="container">
     <!-- Nagłówek strony -->
-    <h3 class="header-text">Grafik</h3>
+    <h3 class="header-text">Widok grafiku dziennego</h3>
 
     <!-- Informacje o harmonogramie -->
     <div class="schedule-info">
         <!-- Ilość godzin w jednej linii -->
         <div class="info-row">
-            <label class="total-hours"><strong>Aktualna ilość godzin:</strong> @TotalHours</label>
+            <label class="total-hours"><strong>Zaplanowane godziny:</strong> @TotalHours</label>
             <label><strong>Ilość godzin do przepracowania:</strong></label>
             @if (isEditingHours)
             {
@@ -37,7 +37,7 @@
         <!-- Status harmonogramu -->
         <div class="info-row">
             <label><strong>Status:</strong>  @(DailySchedule.Status == 0 ? "Otwarty" : "Zamknięty") </label>
-            <SfButton CssClass="e-flat" OnClick="OpenAddShift" Disabled="@(Editable == false)">Dodaj zmiane</SfButton>
+            <SfButton CssClass="sf-button" OnClick="OpenAddShift" Disabled="@(Editable == false)">Dodaj zmiane</SfButton>
             <SfButton CssClass="e-flat" OnClick="ShowDeleteConfirmation" Disabled="@(Editable == false)">Usuń grafik</SfButton>
         </div>
     </div>
@@ -48,13 +48,13 @@
             <ScheduleTimeScale Interval="@IntervalInMinutes" SlotCount="4"></ScheduleTimeScale>
             <ScheduleGroup Resources="@Resources"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource TItem="EmployeeResource" TValue="long" DataSource="@EmployeeResources" Field="EmployeeID" Title="Pracownicy" Name="Employees" TextField="Name" IdField="Id" ColorField="Color" AllowMultiple="true">
+                <ScheduleResource TItem="EmployeeResource" TValue="long" DataSource="@EmployeeResources" Field="EmployeeID" Title="Pracownicy" Name="Employees" TextField="Name" IdField="Id" AllowMultiple="true">
                 </ScheduleResource>
             </ScheduleResources>
             <ScheduleViews>
                 <ScheduleView Option="View.TimelineDay" StartHour="@StartTime" EndHour="@EndTime"></ScheduleView>
             </ScheduleViews>
-            <ScheduleEventSettings AllowAdding="false" AllowEditing="false" AllowEditFollowingEvents="false" AllowDeleting="false" DataSource="@ShiftAppointments"></ScheduleEventSettings>
+            <ScheduleEventSettings AllowAdding="false" AllowEditing="false" AllowEditFollowingEvents="false" AllowDeleting="false" DataSource="@ShiftAppointments" ></ScheduleEventSettings>
         </SfSchedule>
 
         <!-- Menu kontekstowe -->
@@ -67,18 +67,18 @@
     </div>
 
     <!-- Dialog zmiany -->
-    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsShiftDialogVisible" Header="Wybierz zespół">
+    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsShiftDialogVisible" Header="Wybierz zespół">
         <DialogContent>
             <label><strong>@(ShiftToEdit.IsEditing ? "Edytuj zmianę" : "Dodaj zmianę")</strong></label>
             <div class="dialog-timepickers">
-                <SfTimePicker TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
-                <SfTimePicker TValue="DateTime" @bind-Value="@End"></SfTimePicker>
+                <SfTimePicker  StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
+                <SfTimePicker StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@End"></SfTimePicker>
             </div>
         </DialogContent>
         <DialogButtons>
             @if (ShiftToEdit.IsEditing)
             {
-                <DialogButton Content="Zapisz" IsPrimary="true" OnClick="SaveShiftAsync" />
+                <DialogButton Content="Zapisz" IsPrimary="true" OnClick="SaveEditedShiftAsync" />
                 <DialogButton Content="Usuń zmianę" OnClick="DeleteShiftAsync" />
             }
             else
@@ -89,12 +89,12 @@
         </DialogButtons>
     </SfDialog>
 
-    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsAddShiftToEmployeeWithoutAvaDialogVisible" Header="Wybierz zespół">
+    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsAddShiftToEmployeeWithoutAvaDialogVisible" Header="Wybierz zespół">
         <DialogContent>
             <label><strong>"Dodaj zmianę"</strong></label>
             <div class="dialog-timepickers">
-                <SfTimePicker TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
-                <SfTimePicker TValue="DateTime" @bind-Value="@End"></SfTimePicker>
+                <SfTimePicker StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
+                <SfTimePicker  StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@End"></SfTimePicker>
             </div>
             <select @bind="SelectedEmployeeID" class="form-select select">
                 <option value="0" disabled selected>Wybierz pracownika</option>
@@ -111,10 +111,10 @@
     </SfDialog>
 
 
-    <SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
+    <SfDialog IsModal="true" Width="300px" ShowCloseIcon="false" Visible="@IsDeleteDialogVisible"
               Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć grafik na ten dzień?">
         <DialogButtons>
-            <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
+            <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDeleteSchedule" />
             <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
         </DialogButtons>
     </SfDialog>
@@ -127,3 +127,24 @@
 
 </div>
 
+
+
+<style>
+    .e-schedule .e-timeline-view .e-all-day-appointment-wrapper .e-appointment.ava,
+    .e-schedule .e-timeline-view .e-appointment.ava,
+    .e-schedule .e-timeline-month-view .e-appointment.ava {
+        background: #32CD32;
+    }
+
+    .e-schedule .e-timeline-view .e-all-day-appointment-wrapper .e-appointment.shift,
+    .e-schedule .e-timeline-view .e-appointment.shift,
+    .e-schedule .e-timeline-month-view .e-appointment.shift {
+        background: #58A4B0;
+    }
+
+    .e-schedule .e-timeline-view .e-all-day-appointment-wrapper .e-appointment.work,
+    .e-schedule .e-timeline-view .e-appointment.work,
+    .e-schedule .e-timeline-month-view .e-appointment.work {
+        background: #5F1A37;
+    }
+</style>

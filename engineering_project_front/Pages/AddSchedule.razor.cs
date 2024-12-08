@@ -18,11 +18,11 @@ namespace engineering_project_front.Pages
         private long ID => long.Parse(ParamID);
 
         private DailySchedulesRequest Schedule { get; set; } = new DailySchedulesRequest();
- 
-        DateTime minDate { get; set;} = new DateTime(DateTime.Now.Year, DateTime.Now.Month,01);
 
-    #region Toast
-    private SfToast? Toast;
+        DateTime minDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1);
+
+        #region Toast
+        private SfToast? Toast;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion

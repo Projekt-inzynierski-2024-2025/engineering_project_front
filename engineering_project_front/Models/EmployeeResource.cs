@@ -4,6 +4,6 @@
     {
         public string Name { get; set; } = string.Empty;
         public long Id { get; set; }
-        public string Color { get; set; } = "#0000FF"; // Domyślny kolor
+        public string Color { get; set; } = "#0000FF";
     }
 }

@@ -80,6 +80,15 @@ body {
 .e-flat.e-primary:hover {
     background-color: #0056b3;
 }
+.sf-button {
+    background-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+    .sf-button:hover {
+        background-color: #0056b3;
+    }
 
 /* Responsywność */
 @media (max-width: 768px) {
