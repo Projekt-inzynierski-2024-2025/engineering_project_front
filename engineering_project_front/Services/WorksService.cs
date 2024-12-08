@@ -320,6 +320,43 @@ namespace engineering_project_front.Services
             }
         }
 
+        public async Task<OperationResponse<IEnumerable<WorksResponse>>> GetWorksForTeamForDay(DateTime day, long teamID)
+        {
+            _logger.LogInformation($"Method {nameof(GetWorksForTeamForDay)} entered.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                string uri = $"api/Works/GetWorksForTeamForDay/{day.ToString("yyyy-MM-dd")}/{teamID}";
+                var apiResponse = await httpClient.GetAsync(uri);
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<IEnumerable<WorksResponse>>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                    };
+                }
+
+                var work = await apiResponse.Content.ReadFromJsonAsync<IEnumerable<WorksResponse>>(_serializerOptions);
+
+                return new OperationResponse<IEnumerable<WorksResponse>>
+                {
+                    Success = true,
+                    Data = work,
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while starting work.");
+                return new OperationResponse<IEnumerable<WorksResponse>>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas pobierania czasów pracy dla danego zespołu."
+                };
+            }
+        }
 
         public async Task<OperationResponse<bool>> ChangeWorkStatus(long userID, DateTime date)
             {

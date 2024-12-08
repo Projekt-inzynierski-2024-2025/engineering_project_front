@@ -14,5 +14,6 @@ namespace engineering_project_front.Services.Interfaces
         Task<OperationResponse<IEnumerable<WorksResponse>>> GetWorkForMonth(long userID, DateTime month);
         Task<OperationResponse<bool>> RemoveWorkTime(WorksRequest work);
         Task<OperationResponse<bool>> ChangeWorkStatus(long userID, DateTime date);
+        Task<OperationResponse<IEnumerable<WorksResponse>>> GetWorksForTeamForDay(DateTime day, long teamID);
     }
 }
