@@ -10,11 +10,11 @@
 @using global::engineering_project_front.Models;
 @using engineering_project_front.Models.Responses;
 
-<PageTitle>Użytkownicy</PageTitle>
-<!-- Nagłówek tabeli -->
-<h3 class="header-text">Lista użytkowników</h3>
+
+
 
 <div class="container">
+    <h3 class="header-text">Lista użytkowników</h3>
     <!-- Sekcja wyszukiwania i dodawania zespołów -->
     <div class="control-section">
         <div class="control-wrapper">
@@ -28,7 +28,7 @@
     @* Initialize the DataGrid component for users *@
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="FilteredUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Zobacz detale", Target=".e-content",Id="seeDetails"}})">
+            <SfGrid DataSource="FilteredUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true"  ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Szczegóły użytkownika", Target=".e-content",Id="seeDetails"}})">
                 <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="UsersResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>

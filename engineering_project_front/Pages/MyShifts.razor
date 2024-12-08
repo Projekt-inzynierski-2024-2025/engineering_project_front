@@ -16,19 +16,22 @@
 <div class="container">
     <!-- Nagłówek strony -->
     <h3 class="header-text">
-        @(IsManager ? "Zmiany pracownika" : "Moje zmiany")
+        @(IsManager ? $"Zmiany pracownika - {UserToCheck.FirstName} {UserToCheck.LastName}" : "Moje zmiany")
     </h3>
 
     <!-- Wybór daty -->
-    <div class="control-section">
+    <div class="control-section column-layout">
         <div class="control-wrapper short-datepicker">
             <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="true" FullScreen="true">
                 <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
             </SfDatePicker>
         </div>
-        <label><strong>Miesięczny planowany czas pracy :</strong> @PlannedWorkTime</label>
-        <label><strong>Miesięczny rzeczywisty czas pracy :</strong> @WorkTime</label>
+        <div class="work-time-info">
+            <label><strong>Miesięczny planowany czas pracy:</strong> @PlannedWorkTime.ToString("hh\\:mm")</label>
+            <label><strong>Miesięczny rzeczywisty czas pracy:</strong> @WorkTime.ToString("hh\\:mm")</label>
+        </div>
     </div>
+
 
     <!-- Tabela zmian -->
     <div class="content-wrapper">
@@ -41,9 +44,10 @@
                         <Template>
                             @{
                                 var data = context as ShiftWork;
-                               
-                                 <span>@data.Date</span>
-                             
+                                if (data != null)
+                                {
+                                    <span>@data.Date.ToString("dd.MM.yyyy")</span>
+                                }
                             }
                         </Template>
                     </GridColumn>
@@ -51,13 +55,9 @@
                         <Template>
                             @{
                                 var data = context as ShiftWork;
-                                @if (data.TimeStartShift.Year == 0001)
+                                if (data != null)
                                 {
-                                    <span>-</span>
-                                }
-                                else
-                                {
-                                    <span>@data.TimeStartShift</span>
+                                    <span>@(data.TimeStartShift.Year == 1 ? "-" : data.TimeStartShift.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
@@ -66,13 +66,9 @@
                         <Template>
                             @{
                                 var data = context as ShiftWork;
-                                @if (data.TimeEndShift.Year == 0001)
+                                if (data != null)
                                 {
-                                    <span>-</span>
-                                }
-                                else
-                                {
-                                    <span>@data.TimeEndShift</span>
+                                    <span>@(data.TimeEndShift.Year == 1 ? "-" : data.TimeEndShift.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
@@ -81,13 +77,9 @@
                         <Template>
                             @{
                                 var data = context as ShiftWork;
-                                @if (data.TimeStartWork.Year == 0001)
+                                if (data != null)
                                 {
-                                    <span>-</span>
-                                }
-                                else
-                                {
-                                    <span>@data.TimeStartWork</span>
+                                    <span>@(data.TimeStartWork.Year == 1 ? "-" : data.TimeStartWork.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
@@ -96,48 +88,15 @@
                         <Template>
                             @{
                                 var data = context as ShiftWork;
-                                @if (data.TimeEndWork.Year == 0001)
+                                if (data != null)
                                 {
-                                    <span>-</span>
-                                }
-                                else
-                                {
-                                    <span>@data.TimeEndWork</span>
-                                }
-                            }
-                        </Template>
-                    </GridColumn>
-                    <GridColumn HeaderText="Początek przerwy" MinWidth="120" Width="150" MaxWidth="200">
-                        <Template>
-                            @{
-                                var data = context as ShiftWork;
-                                @if (data.TimeStartBreak.Year == 0001)
-                                {
-                                    <span>-</span>
-                                }
-                                else
-                                {
-                                    <span>@data.TimeStartBreak</span>
-                                }
-                            }
-                        </Template>
-                    </GridColumn>
-                    <GridColumn HeaderText="Koniec przerwy" MinWidth="120" Width="150" MaxWidth="200">
-                        <Template>
-                            @{
-                                var data = context as ShiftWork;
-                                @if (data.TimeEndBreak.Year == 0001)
-                                {
-                                    <span>-</span>
-                                }
-                                else
-                                {
-                                    <span>@data.TimeEndBreak</span>
+                                    <span>@(data.TimeEndWork.Year == 1 ? "-" : data.TimeEndWork.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
                     </GridColumn>
                 </GridColumns>
+
             </SfGrid>
         </div>
     </div>

@@ -1,4 +1,5 @@
-﻿using engineering_project_front.Models.Responses;
+﻿using Blazored.SessionStorage;
+using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Notifications;
@@ -13,6 +14,10 @@ namespace engineering_project_front.Pages
         private IUsersService UsersService { get; set; } = default!;
         [Inject]
         private NavigationManager NavManager { get; set; } = default!;
+
+        [Inject]
+        private ISessionStorageService SessionStorage { get; set; } = default!;
+
         #endregion
 
 
@@ -21,6 +26,8 @@ namespace engineering_project_front.Pages
 
         private long ID => long.Parse(ParamID);
         private UsersResponse? User { get; set; } = new UsersResponse();
+
+        private long UserID { get; set; } = 0;
 
         #region ToastAndNotification
         private SfToast? Toast;
@@ -32,7 +39,7 @@ namespace engineering_project_front.Pages
         protected async override Task OnInitializedAsync()
         {
             await GetUser();
-
+            await GetActualUser();
             await base.OnInitializedAsync();
         }
 
@@ -78,13 +85,23 @@ namespace engineering_project_front.Pages
 
         private void EditUser()
         {
-
+            if(UserID == ID)
+            {
+                ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
+                return;
+            }
             NavManager.NavigateTo($"/add-edit-user/{User.ID}");
 
         }
 
         private async Task ConfirmDelete()
         {
+            if (UserID == ID)
+            {
+                ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
+                return;
+            }
+
             IsDeleteDialogVisible = false;
             var response = await UsersService.DeleteUser(ID);
 
@@ -98,6 +115,18 @@ namespace engineering_project_front.Pages
             {
                 ShowToast(response.Message, response.Success );
             }
+        }
+
+        private async Task GetActualUser()
+        {
+            var token = await SessionStorage.GetItemAsStringAsync("token");
+
+
+            token = token.Trim('"');
+
+            var response = await UsersService.GetUserFromToken(token);
+
+            UserID = response.ID;
         }
     }
 }

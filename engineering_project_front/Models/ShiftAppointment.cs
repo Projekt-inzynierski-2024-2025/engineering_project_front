@@ -7,5 +7,7 @@
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public long EmployeeID { get; set; }
+        public string CssClass { get; set; }
+
     }
 }
