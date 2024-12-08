@@ -319,5 +319,43 @@ namespace engineering_project_front.Services
                 };
             }
         }
+
+
+        public async Task<OperationResponse<bool>> ChangeWorkStatus(long userID, DateTime date)
+            {
+            _logger.LogInformation($"Method {nameof(ChangeWorkStatus)} entered.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.PutAsync($"api/Works/ChangeWorkStatus/{userID}/{date.ToString("yyyy-MM-dd")}",null);
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                    };
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Data = true,
+                    Message = "Pomyślnie zmieniono status pracy."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while starting work.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas zmiany statusu pracy."
+                };
+            }
+        }
+           
     }
 }

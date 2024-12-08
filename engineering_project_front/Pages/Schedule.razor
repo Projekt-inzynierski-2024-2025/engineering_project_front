@@ -19,7 +19,8 @@
     <div class="schedule-info">
         <!-- Ilość godzin w jednej linii -->
         <div class="info-row">
-            <label><strong>Ilość godzin do wyrobienia:</strong></label>
+            <label class="total-hours"><strong>Aktualna ilość godzin:</strong> @TotalHours</label>
+            <label><strong>Ilość godzin do przepracowania:</strong></label>
             @if (isEditingHours)
             {
                 <input type="number" @bind="DailySchedule.HoursAmount" class="hours-input" />
@@ -29,17 +30,15 @@
             else
             {
                 <label>@DailySchedule.HoursAmount</label>
-                <SfButton CssClass="e-flat" OnClick="EnableEditHours">Edytuj</SfButton>
-            }
-            <label class="total-hours"><strong>Aktualna ilość godzin:</strong> @TotalHours</label>
+                <SfButton CssClass="e-flat" OnClick="EnableEditHours" Disabled="@(Editable == false)">Edytuj</SfButton>
+            }           
         </div>
 
         <!-- Status harmonogramu -->
         <div class="info-row">
-            <label><strong>Status:</strong> @DailySchedule.Status </label>
-            <SfButton CssClass="e-flat" OnClick="ToggleStatus">
-                @(DailySchedule.Status == 0 ? "Udostępnij" : "Schowaj")
-            </SfButton>
+            <label><strong>Status:</strong>  @(DailySchedule.Status == 0 ? "Otwarty" : "Zamknięty") </label>
+            <SfButton CssClass="e-flat" OnClick="OpenAddShift" Disabled="@(Editable == false)">Dodaj zmiane</SfButton>
+            <SfButton CssClass="e-flat" OnClick="ShowDeleteConfirmation" Disabled="@(Editable == false)">Usuń grafik</SfButton>
         </div>
     </div>
 
@@ -89,4 +88,42 @@
             <DialogButton Content="Anuluj" OnClick="CancelEditShift" />
         </DialogButtons>
     </SfDialog>
+
+    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsAddShiftToEmployeeWithoutAvaDialogVisible" Header="Wybierz zespół">
+        <DialogContent>
+            <label><strong>"Dodaj zmianę"</strong></label>
+            <div class="dialog-timepickers">
+                <SfTimePicker TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
+                <SfTimePicker TValue="DateTime" @bind-Value="@End"></SfTimePicker>
+            </div>
+            <select @bind="SelectedEmployeeID" class="form-select select">
+                <option value="0" disabled selected>Wybierz pracownika</option>
+                @foreach (var user in Employees)
+                {
+                    <option value="@user.ID">@user.FirstName @user.LastName</option>
+                }
+            </select>
+        </DialogContent>
+        <DialogButtons>          
+            <DialogButton Content="Zapisz" IsPrimary="true" OnClick="AddShiftIfNoAvailabilitieAsync" />
+            <DialogButton Content="Anuluj" OnClick="CancelAddShift" />
+        </DialogButtons>
+    </SfDialog>
+
+
+    <SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
+              Header="Potwierdzenie usunięcia" Content="Czy na pewno chcesz usunąć grafik na ten dzień?">
+        <DialogButtons>
+            <DialogButton Content="Usuń" IsPrimary="true" OnClick="ConfirmDelete" />
+            <DialogButton Content="Anuluj" OnClick="CloseDeleteDialog" />
+        </DialogButtons>
+    </SfDialog>
+
+    <div>
+        <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true" CssClass="sf-toast">
+            <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+        </SfToast>
+    </div>
+
 </div>
+

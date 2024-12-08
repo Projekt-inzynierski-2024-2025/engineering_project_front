@@ -72,7 +72,7 @@ public class UsersService : IUsersService
                 return new OperationResponse<UsersResponse>
                 {
                     Success = false,
-                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    Message = $"Błąd: {errorMessage}"
                 };
             }
 
@@ -109,7 +109,7 @@ public class UsersService : IUsersService
                 return new OperationResponse<bool>
                 {
                     Success = false,
-                    Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                    Message = $"Błąd: {errorMessage}"
                 };
             }
 
@@ -145,7 +145,7 @@ public class UsersService : IUsersService
                 return new OperationResponse<bool>
                 {
                     Success = false,
-                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    Message = $"Błąd: {errorMessage}"
                 };
             }
 
@@ -181,7 +181,7 @@ public class UsersService : IUsersService
                 return new OperationResponse<List<UsersResponse>>
                 {
                     Success = false,
-                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    Message = $"Błąd: {errorMessage}"
                 };
             }
 
@@ -218,7 +218,7 @@ public class UsersService : IUsersService
                 return new OperationResponse<bool>
                 {
                     Success = false,
-                    Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                    Message = $"Błąd: {errorMessage}"
                 };
             }
 

@@ -11,6 +11,7 @@
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Calendars
+@using engineering_project_front.Models;
 
 <div class="container">
     <!-- Nagłówek strony -->
@@ -25,22 +26,122 @@
                 <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
             </SfDatePicker>
         </div>
+        <label><strong>Miesięczny planowany czas pracy :</strong> @PlannedWorkTime</label>
+        <label><strong>Miesięczny rzeczywisty czas pracy :</strong> @WorkTime</label>
     </div>
 
     <!-- Tabela zmian -->
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="UserShifts" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>() { new ContextMenuItemModel { Text = "Zobacz detale", Target = ".e-content", Id = "seeDetails" } })" CssClass="sf-grid">
-                <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="UsersDailySchedulesResponse"></GridEvents>
+            <SfGrid DataSource="UserShiftWorks" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true">
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
-                    <GridColumn Field="@nameof(UsersDailySchedulesResponse.TimeStart)" HeaderText="Początek zmiany" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
-                    <GridColumn Field="@nameof(UsersDailySchedulesResponse.TimeEnd)" HeaderText="Koniec zmiany" MinWidth="120" Width="150" MaxWidth="200"></GridColumn>
+                    <GridColumn HeaderText="Data" MinWidth="120" Width="150" MaxWidth="200">
+                        <Template>
+                            @{
+                                var data = context as ShiftWork;
+                               
+                                 <span>@data.Date</span>
+                             
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Początek planowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                        <Template>
+                            @{
+                                var data = context as ShiftWork;
+                                @if (data.TimeStartShift.Year == 0001)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <span>@data.TimeStartShift</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Koniec planowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                        <Template>
+                            @{
+                                var data = context as ShiftWork;
+                                @if (data.TimeEndShift.Year == 0001)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <span>@data.TimeEndShift</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Początek przepracowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                        <Template>
+                            @{
+                                var data = context as ShiftWork;
+                                @if (data.TimeStartWork.Year == 0001)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <span>@data.TimeStartWork</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Koniec przepracowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                        <Template>
+                            @{
+                                var data = context as ShiftWork;
+                                @if (data.TimeEndWork.Year == 0001)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <span>@data.TimeEndWork</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Początek przerwy" MinWidth="120" Width="150" MaxWidth="200">
+                        <Template>
+                            @{
+                                var data = context as ShiftWork;
+                                @if (data.TimeStartBreak.Year == 0001)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <span>@data.TimeStartBreak</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Koniec przerwy" MinWidth="120" Width="150" MaxWidth="200">
+                        <Template>
+                            @{
+                                var data = context as ShiftWork;
+                                @if (data.TimeEndBreak.Year == 0001)
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <span>@data.TimeEndBreak</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
     </div>
+
 
     <!-- Toasty z powiadomieniami -->
     <div>

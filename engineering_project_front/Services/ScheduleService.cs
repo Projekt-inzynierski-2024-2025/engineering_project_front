@@ -37,7 +37,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<List<HoursForDayResponse>>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -75,7 +75,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -110,7 +110,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -145,7 +145,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -182,7 +182,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<Double>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -220,7 +220,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<DailySchedulesResponse>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -259,7 +259,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<List<UsersDailySchedulesResponse>>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -297,7 +297,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -333,7 +333,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -368,7 +368,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -404,7 +404,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<List<HoursForUserForMonthResponse>>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -444,7 +444,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<List<UsersDailySchedulesResponse>>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
 
                 }
@@ -464,6 +464,81 @@ namespace engineering_project_front.Services
                 {
                     Success = false,
                     Message = "Wystąpił błąd podczas pobierania harmonogramu."
+                };
+            }
+        }
+
+        public async Task<OperationResponse<bool>> GetEditStatusMonthSchedule(long teamID, int year, int month)
+            {
+            _logger.LogInformation("Fetching schedule from API.");
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.GetAsync($"api/DailySchedules/GetEditStatusMonthSchedule/{teamID}/{year}/{month}");
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd: {errorMessage}"
+                    };
+
+                }
+
+                var status = await apiResponse.Content.ReadFromJsonAsync<bool>(_serializerOptions);
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Data = status,
+                    Message = $"Pobrano status."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching status.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas pobierania statusu."
+                };
+            }
+        }
+
+        public async Task<OperationResponse<bool>> ChangeEditStatusMonthSchedule(long teamID, int year, int month)
+            {
+            _logger.LogInformation("Fetching schedule from API.");
+            try
+            {
+             
+                var httpClient = _httpClientFactory.CreateClient("engineering-project");
+                var apiResponse = await httpClient.PutAsync($"api/DailySchedules/ChangeStatusMonthSchedule/{teamID}/{year}/{month}",null);
+
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    var errorMessage = await apiResponse.Content.ReadAsStringAsync();
+                    return new OperationResponse<bool>
+                    {
+                        Success = false,
+                        Message = $"Błąd: {errorMessage}"
+                    };
+
+                }
+
+                return new OperationResponse<bool>
+                {
+                    Success = true,
+                    Message = $"Zmieniono status."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error changing status.");
+                return new OperationResponse<bool>
+                {
+                    Success = false,
+                    Message = "Wystąpił błąd podczas zmiany statusu."
                 };
             }
         }

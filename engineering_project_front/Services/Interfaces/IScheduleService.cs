@@ -17,5 +17,7 @@ namespace engineering_project_front.Services.Interfaces
         Task<OperationResponse<bool>> DeleteUserSchedule(long ID);
         Task<OperationResponse<List<HoursForUserForMonthResponse>>> GetUsersHoursForMonth(int year, int month, long teamID);
         Task<OperationResponse<List<UsersDailySchedulesResponse>>> GetUsersDailySchedulesForMonth(long userID, DateTime month);
+        Task<OperationResponse<bool>> GetEditStatusMonthSchedule(long teamID, int year, int month);
+        Task<OperationResponse<bool>> ChangeEditStatusMonthSchedule(long teamID, int year, int month);
     }
 }
