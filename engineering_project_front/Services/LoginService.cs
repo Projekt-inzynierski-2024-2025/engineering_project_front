@@ -1,4 +1,5 @@
-﻿using engineering_project_front.Models.Parameters;
+﻿using Blazored.SessionStorage;
+using engineering_project_front.Models.Parameters;
 using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text;
@@ -11,11 +12,15 @@ namespace engineering_project_front.Services
         private readonly ILogger<LoginService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly JsonSerializerOptions _serializerOptions;
+        private readonly ISessionStorageService _sessionStorage;
+        private readonly IUsersService _usersService;
 
-        public LoginService(ILogger<LoginService> logger, IHttpClientFactory httpClientFactory)
+        public LoginService(ILogger<LoginService> logger, IHttpClientFactory httpClientFactory , IUsersService usersService, ISessionStorageService sessionStorage)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _usersService = usersService;
+            _sessionStorage = sessionStorage;
             _serializerOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
@@ -40,6 +45,12 @@ namespace engineering_project_front.Services
                 }
 
                 var token = await apiResponse.Content.ReadAsStringAsync();
+
+                var usersResponse = await _usersService.GetUserFromToken(token);
+
+                await _sessionStorage.SetItemAsStringAsync("token", token);
+
+                await _sessionStorage.SetItemAsStringAsync("role", usersResponse.RoleName);
 
                 return token;
             }
