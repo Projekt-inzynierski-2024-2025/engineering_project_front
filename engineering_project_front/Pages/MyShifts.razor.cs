@@ -1,7 +1,9 @@
 ﻿using Blazored.SessionStorage;
+using engineering_project_front.Models;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Calendars;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
@@ -20,6 +22,9 @@ namespace engineering_project_front.Pages
         private IUsersService UsersService { get; set; } = default!;
 
         [Inject]
+        private IWorksService WorksService { get; set; } = default!;
+
+        [Inject]
         private ISessionStorageService SessionStorage { get; set; } = default!;
         #endregion
 
@@ -29,7 +34,12 @@ namespace engineering_project_front.Pages
         private bool IsManager { get; set; } = false;
         private DateTime DataChoose = DateTime.Today;
         public string Month => DataChoose.ToString("Y");
-        private List<UsersDailySchedulesResponse> UserShifts { get; set; } = new();
+        private UsersResponse UserToCheck { get; set; } = new UsersResponse();
+
+
+        private List<ShiftWork> UserShiftWorks { get; set; } = new();
+        private TimeSpan WorkTime = TimeSpan.Zero;
+        private TimeSpan PlannedWorkTime = TimeSpan.Zero;
 
         #region ToastAndNotification
         private SfToast? Toast;
@@ -41,35 +51,112 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnParametersSetAsync()
         {
+
+            await GetUserToCheck();
             if (UserID.HasValue)
             {
                 // Kierownik przegląda zmiany pracownika
                 IsManager = true;
-                var response = await ScheduleService.GetUsersDailySchedulesForMonth(UserID.Value, DataChoose);
+                UserShiftWorks = await GetUserShiftWork(UserID.Value, DataChoose);
 
-                if (response.Success)
-                {
-                    UserShifts= response.Data;
-                }
-                else
-                {
-                    ShowToast(response.Message, response.Success);
-                    
-                }
-                 
+
             }
             else
             {
                 // Pracownik przegląda swoje zmiany
                 IsManager = false;
-                UserShifts = await GetUsersDailySchedulesForMonth();
+                UserShiftWorks = await GetUserShiftWork(UserToCheck.ID, DataChoose);
             }
+
+            
+            var status = await ShiftStatus();
+            if(status)
+            {
+                UserShiftWorks = new List<ShiftWork>();
+            }
+
+            await InvokeAsync(StateHasChanged);
+
         }
 
 
 
 
+        private async Task<List<ShiftWork>> GetUserShiftWork(long userID, DateTime date)
+        {
+            // Pobranie zaplanowanych zmian
+            var responseUserDailySchedule = await ScheduleService.GetUsersDailySchedulesForMonth(userID, date);
+            if (!responseUserDailySchedule.Success)
+            {
+                ShowToast(responseUserDailySchedule.Message, responseUserDailySchedule.Success);
+            }
+            var userPlanedShifts = responseUserDailySchedule.Data;
 
+            // Pobranie przepracowanych zmian
+            var responseUserWorkedShifts = await WorksService.GetWorkForMonth(userID, date);
+            if (!responseUserWorkedShifts.Success)
+            {
+                ShowToast(responseUserWorkedShifts.Message, responseUserWorkedShifts.Success);
+            }
+            var userWorkedShifts = responseUserWorkedShifts.Data;
+
+            // Resetowanie zmiennych globalnych
+            WorkTime = TimeSpan.Zero;
+            PlannedWorkTime = TimeSpan.Zero;
+
+            // Lista wynikowa
+            var userShiftWorks = new List<ShiftWork>();
+
+            // Grupowanie danych według dni
+            var groupedPlanedShifts = userPlanedShifts.GroupBy(x => x.TimeStart.Date);
+            var groupedWorkedShifts = userWorkedShifts.GroupBy(x => x.Date.Date);
+
+            // Iteracja po wszystkich dniach miesiąca
+            var daysInMonth = Enumerable.Range(1, DateTime.DaysInMonth(date.Year, date.Month))
+                                        .Select(day => new DateTime(date.Year, date.Month, day));
+
+            foreach (var day in daysInMonth)
+            {
+                var plannedShift = groupedPlanedShifts.FirstOrDefault(x => x.Key == day)?.FirstOrDefault();
+                var workedShift = groupedWorkedShifts.FirstOrDefault(x => x.Key == day)?.FirstOrDefault();
+
+                // Pomijamy dzień, jeśli nie ma ani zaplanowanej, ani przepracowanej zmiany
+                if (plannedShift == null && workedShift == null)
+                {
+                    continue;
+                }
+
+                // Obliczanie czasu pracy
+                if (workedShift != null)
+                {
+                    var dailyWorkTime = workedShift.TimeEnd - workedShift.TimeStart - workedShift.BreakTime;
+                    WorkTime += dailyWorkTime > TimeSpan.Zero ? dailyWorkTime : TimeSpan.Zero;
+                }
+
+                // Obliczanie zaplanowanego czasu pracy
+                if (plannedShift != null)
+                {
+                    var dailyPlannedTime = plannedShift.TimeEnd - plannedShift.TimeStart;
+                    PlannedWorkTime += dailyPlannedTime > TimeSpan.Zero ? dailyPlannedTime : TimeSpan.Zero;
+                }
+
+                var shiftWork = new ShiftWork
+                {
+                    ID = plannedShift?.ID ?? workedShift?.UserID ?? 0,
+                    Date = day,
+                    TimeStartShift = plannedShift?.TimeStart ?? DateTime.MinValue,
+                    TimeEndShift = plannedShift?.TimeEnd ?? DateTime.MinValue,
+                    TimeStartWork = workedShift?.TimeStart ?? DateTime.MinValue,
+                    TimeEndWork = workedShift?.TimeEnd ?? DateTime.MinValue,
+                    TimeStartBreak = workedShift?.BreakStart ?? DateTime.MinValue,
+                    TimeEndBreak = workedShift?.BreakEnd ?? DateTime.MinValue,
+                };
+
+                userShiftWorks.Add(shiftWork);
+            }
+
+            return userShiftWorks;
+        }
 
 
 
@@ -89,7 +176,22 @@ namespace engineering_project_front.Pages
 
 
 
+        private async Task<bool> ShiftStatus()
+        {
+            var response = await ScheduleService.GetEditStatusMonthSchedule(UserToCheck.TeamID, DataChoose.Year, DataChoose.Month);
 
+            if (response.Success)
+            {
+                return response.Data;
+            }
+            else
+            {
+                ShowToast(response.Message, response.Success);
+                return false;
+                
+            }
+
+        }
 
         private async Task<List<UsersDailySchedulesResponse>> GetUsersDailySchedulesForMonth()
         {
@@ -114,35 +216,48 @@ namespace engineering_project_front.Pages
             }
         }
 
+
+        private async Task GetUserToCheck()
+        {
+            if (UserID.HasValue)
+            {
+                var response = await UsersService.GetUser(UserID.Value);
+                if (response.Success)
+                {
+                    UserToCheck =  response.Data;
+                }
+                else
+                {
+                    ShowToast(response.Message, response.Success);
+                    
+                }
+            }
+            else {
+                var token = await SessionStorage.GetItemAsStringAsync("token");
+
+                token = token.Trim('"');
+
+                UserToCheck = await UsersService.GetUserFromToken(token);
+               
+            }
+        }
+
         private async Task OnDateChange(ChangedEventArgs<DateTime> args)
         {
             DataChoose = args.Value;
 
            if(IsManager)
             {
-                var response = await ScheduleService.GetUsersDailySchedulesForMonth(UserID.Value, DataChoose);
-
-                if (response.Success)
-                {
-                    UserShifts = response.Data;
-                }
-                else
-                {
-                    ShowToast(response.Message, response.Success);
-
-                }
+                UserShiftWorks = await GetUserShiftWork(UserID.Value, DataChoose);
             }
             else
             {
-                UserShifts = await GetUsersDailySchedulesForMonth();
+                UserShiftWorks = await GetUserShiftWork(UserToCheck.ID, DataChoose);
             }
 
             await InvokeAsync(StateHasChanged);
         }
 
-        private void OnContextMenuClick(ContextMenuClickEventArgs<UsersDailySchedulesResponse> args)
-        {
-            ShowToast("response.Message", true);
-        }
+        
     }
 }

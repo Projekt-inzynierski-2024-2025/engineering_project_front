@@ -38,7 +38,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<List<TeamsResponse>>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
                   
                 }
@@ -77,7 +77,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<TeamsResponse>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
                    
                 }
@@ -126,7 +126,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
                 }
 
@@ -161,7 +161,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Bład {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Bład: {errorMessage}"
                     };
                 }
 
@@ -197,7 +197,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
                 }
 
@@ -233,7 +233,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<List<long>>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}: {errorMessage}"
+                        Message = $"Błąd: {errorMessage}"
                     };
                 }
 

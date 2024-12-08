@@ -37,6 +37,7 @@ namespace engineering_project_front.Pages
         private string TeamName { get; set; } =  "Wybierz zespoł";
         private DateTime DataChoose = DateTime.Today;
         public string Month => DataChoose.ToString("Y");
+        private bool EditStatus { get; set; } = false;
 
         #region ToastAndNotification
         private SfToast? Toast;
@@ -48,6 +49,7 @@ namespace engineering_project_front.Pages
         {
 
             Teams = await GetTeams();
+           
 
             if (Teams is null)
             {
@@ -55,11 +57,23 @@ namespace engineering_project_front.Pages
                 return;
             }
 
-            IsTeamDialogVisible = true;
-            await InvokeAsync(StateHasChanged);
+            if (Teams.Count == 1)
+            {
+                TeamID = Teams[0].ID;
+                await LoadScheduleForTeam();
+                await GetScheduleStatus();
+                TeamName = Teams.FirstOrDefault(t => t.ID == TeamID)?.Name;
+                await InvokeAsync(StateHasChanged);
+            }
+            else
+            {
+                IsTeamDialogVisible = true;
+                await InvokeAsync(StateHasChanged);
+            }
 
-        
+            
 
+            
         }
 
         #region ToastAndNotification
@@ -116,6 +130,7 @@ namespace engineering_project_front.Pages
                 IsTeamDialogVisible = false;
                 await LoadScheduleForTeam();
                 TeamName = Teams.FirstOrDefault(t => t.ID == TeamID)?.Name;
+                await GetScheduleStatus();
                 await InvokeAsync(StateHasChanged);
             }
             else
@@ -172,13 +187,42 @@ namespace engineering_project_front.Pages
             }
         }
 
+        private async Task GetScheduleStatus()
+        {
+            var response = await ScheduleService.GetEditStatusMonthSchedule(TeamID, DataChoose.Year, DataChoose.Month);
+            if (response.Success)
+            {
+                EditStatus = response.Data;
+            }
+            else
+            {
+                ShowToast(response.Message, response.Success);
+            }
+            
+        }
+
+        private async Task ChangeScheduleStatus()
+        {
+            var response = await ScheduleService.ChangeEditStatusMonthSchedule(TeamID, DataChoose.Year, DataChoose.Month);
+            if (response.Success)
+            {
+                EditStatus = !EditStatus;
+                ShowToast("Zmieniono status edycji", true);
+                await InvokeAsync(StateHasChanged);
+            }
+            else
+            {
+                ShowToast(response.Message, response.Success);
+            }
+        }
+
 
         private async Task OnDateChange(ChangedEventArgs<DateTime> args)
         {
             DataChoose = args.Value;
 
             await LoadScheduleForTeam();
-
+            await GetScheduleStatus();
             await InvokeAsync(StateHasChanged);
         }
         private void OnContextMenuClick(ContextMenuClickEventArgs<HoursForDayResponse> args)

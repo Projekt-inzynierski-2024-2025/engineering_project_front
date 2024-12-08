@@ -9,6 +9,8 @@
 @using engineering_project_front.Models.Responses;
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
 
 <div class="container">
     <!-- Nagłówek strony -->
@@ -33,18 +35,40 @@
         </DialogButtons>
     </SfDialog>
 
+     <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsEmployeeWorkDialogVisible" Header="Wybierz pracownika oraz date" CssClass="sf-dialog">
+        <DialogContent>
+            <select @bind="SelectedUserID" class="form-select select">
+                <option value="0" disabled selected>Wybierz pracownika</option>
+                @foreach (var user in HoursForUsers)
+                {
+                    <option value="@user.userID">@user.userName @user.userSurname</option>
+                }
+            </select>
+        </DialogContent>
+        <SfDatePicker TValue="DateTime" @bind-Value="SelectedWorkDate" Min="@minDate" Max="@maxDate" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker> 
+        <DialogButtons>
+            <DialogButton Content="Potwierdź" IsPrimary="true" OnClick="ConfirmEmployeeWorkSelection" />
+            <DialogButton Content="Anuluj" OnClick="CloseEmployeeWorkDialog" />
+        </DialogButtons>
+    </SfDialog>
 
 
         <div class="control-section">
     <div class="control-wrapper">
         <SfButton IsPrimary="true" CssClass="sf-button" @onclick="OpenTeamDialog">Wybierz Zespół</SfButton>
-    </div>
+            <SfButton IsPrimary="true" CssClass="sf-button" @onclick="OpenEmployeeWorkDialog">Czas pracy pracownika</SfButton>
+            <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="true" FullScreen="true">
+                <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
+            </SfDatePicker>
         </div>
+        </div>
+
+   
     <!-- Tabela godzin pracowników -->
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="HoursForUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" ContextMenuItems="@(new List<ContextMenuItemModel>() { new ContextMenuItemModel { Text = "Zobacz detale", Target = ".e-content", Id = "seeDetails" } })" CssClass="sf-grid">
-                <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="HoursForUserForMonthResponse"></GridEvents>
+            <SfGrid DataSource="HoursForUsers" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true" CssClass="sf-grid">
+                <GridEvents QueryCellInfo="OnQueryCellInfo" TValue="HoursForUserForMonthResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
