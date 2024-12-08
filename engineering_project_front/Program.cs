@@ -34,6 +34,7 @@ namespace Program
             builder.Services.AddScoped<ITeamsService, TeamsService>();
             builder.Services.AddScoped<IUsersService, UsersService>();
             builder.Services.AddScoped<IWorksService, WorksService>();
+            builder.Services.AddScoped<IValidateRole, ValidateRole>();
 
             builder.Services.AddScoped<SfDialogService>();
 

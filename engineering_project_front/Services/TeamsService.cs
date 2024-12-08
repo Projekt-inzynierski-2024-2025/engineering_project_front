@@ -1,4 +1,5 @@
-﻿using engineering_project_front.Models.Request;
+﻿using Blazored.SessionStorage;
+using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
@@ -13,10 +14,12 @@ namespace engineering_project_front.Services
         private readonly ILogger<TeamsService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly JsonSerializerOptions _serializerOptions;
-        public TeamsService(ILogger<TeamsService> logger, IHttpClientFactory httpClientFactory)
+        private readonly ISessionStorageService _sessionStorage;
+        public TeamsService(ILogger<TeamsService> logger, IHttpClientFactory httpClientFactory, ISessionStorageService sessionStorage)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _sessionStorage = sessionStorage;
             _serializerOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -30,6 +33,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.GetAsync("api/Teams/getTeams");
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -69,6 +80,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.GetAsync($"api/Teams/getTeam/{ID}");
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -118,6 +137,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PostAsJsonAsync("api/Teams/addTeam", team);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -153,6 +180,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PutAsJsonAsync("api/Teams/updateTeam", team);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -189,6 +224,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.DeleteAsync($"/api/Teams/deleteTeam/{ID}");
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -225,6 +268,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.GetAsync($"api/Teams/getTeamsIDForManager/{managerEmail}");
 
                 if (!apiResponse.IsSuccessStatusCode)

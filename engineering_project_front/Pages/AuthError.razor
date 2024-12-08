@@ -1,0 +1,21 @@
+﻿@page "/auth-error"
+
+@layout NotLoggedLayout
+
+@using Syncfusion.Blazor.Buttons
+
+@inject IJSRuntime JSRuntime
+
+<header>
+    <h1 class="text-danger">Brak dostępu</h1>
+    <p class="text-danger">Nie masz uprawnień, by wejść na tą stronę</p>
+    <SfButton OnClick="GoBack">Wróć</SfButton>
+</header>
+
+@code{
+    // Go back in browser using Javascript on a Razor Page
+    private async Task GoBack()
+    {
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
+}

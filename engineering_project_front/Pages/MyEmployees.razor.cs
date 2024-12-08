@@ -275,6 +275,7 @@ namespace engineering_project_front.Pages
                 var workHours = Convert.ToDouble(args.Data.workHoursForMonth);
                 if (workHours > 5 || workHours ==0)
                 {
+
                     args.Cell.AddClass(new string[] { "highlight-red" });
                 }
             }

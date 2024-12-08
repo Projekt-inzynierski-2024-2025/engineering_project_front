@@ -4,6 +4,7 @@ using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
+using Blazored.SessionStorage;
 
 namespace engineering_project_front.Services
 {
@@ -12,10 +13,12 @@ namespace engineering_project_front.Services
         private readonly ILogger<AvailabilitiesService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly JsonSerializerOptions _serializerOptions;
-        public AvailabilitiesService(ILogger<AvailabilitiesService> logger, IHttpClientFactory httpClientFactory)
+        private readonly ISessionStorageService _sessionStorage;
+        public AvailabilitiesService(ILogger<AvailabilitiesService> logger, IHttpClientFactory httpClientFactory, ISessionStorageService sessionStorage)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _sessionStorage = sessionStorage;
             _serializerOptions = new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true,
@@ -28,6 +31,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PostAsJsonAsync("api/Availabilities/CreateAvailability", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -64,6 +75,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.GetAsync($"api/Availabilities/GetAvailabilitiesForDay/{userID}/{day.ToString("yyyy-MM-dd")}");
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -103,6 +122,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.GetAsync($"api/Availabilities/GetAvailabilitiesForMonth/{userID}/{month.ToString("yyyy-MM-dd")}");
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -142,6 +169,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.GetAsync($"api/Availabilities/GetAvailabilitiesForMonth/{month.ToString("yyyy-MM-dd")}");
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -181,6 +216,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.GetAsync($"api/Availabilities/GetAvailabilitiesForTeam/{day.ToString("yyyy-MM-dd")}/{teamID}");
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -219,6 +262,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 HttpRequestMessage request = new()
                 {
                     Content = new StringContent(JsonSerializer.Serialize(availability), encoding:Encoding.UTF8, "application/json"),
@@ -260,6 +311,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PutAsJsonAsync("api/Availabilities/UpdateAvailability", request);
 
                 if (!apiResponse.IsSuccessStatusCode)

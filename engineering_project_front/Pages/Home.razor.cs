@@ -11,6 +11,12 @@ namespace engineering_project_front.Pages
     public partial class Home
     {
         [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
+
+        [Inject]
+        private NavigationManager navManager { get; set; } = default!;
+
+        [Inject]
         private ISessionStorageService sessionStorage { get; set; } = default!;
 
         [Inject]
@@ -43,6 +49,9 @@ namespace engineering_project_front.Pages
 
         protected async override Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Administrator", "Kierownik", "Pracownik"))
+                navManager.NavigateTo("/auth-error");
+
             await GetUser();
 
             await GetWork();

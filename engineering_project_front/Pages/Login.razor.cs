@@ -60,8 +60,6 @@ namespace engineering_project_front.Pages
                 return;
             }
 
-            await SessionStorage.SetItemAsync("token", token);
-
             NavManager.NavigateTo("/home");
         }
 

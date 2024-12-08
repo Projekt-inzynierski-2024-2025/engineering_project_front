@@ -1,4 +1,5 @@
-﻿using engineering_project_front.Models.Request;
+﻿using Blazored.SessionStorage;
+using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using System.Net.Http.Json;
@@ -12,11 +13,13 @@ namespace engineering_project_front.Services
         private readonly ILogger<WorksService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly JsonSerializerOptions _serializerOptions;
+        private readonly ISessionStorageService _sessionStorage;
 
-        public WorksService(ILogger<WorksService> logger, IHttpClientFactory httpClientFactory)
+        public WorksService(ILogger<WorksService> logger, IHttpClientFactory httpClientFactory, ISessionStorageService sessionStorage)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _sessionStorage = sessionStorage;
             _serializerOptions = new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true,
@@ -29,6 +32,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PostAsJsonAsync("api/Works/EndBreak", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -65,6 +76,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PostAsJsonAsync("api/Works/EndWork", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -101,6 +120,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 string uri = $"api/Works/GetWorkTimeForDay/{userID}/{day.ToString("yyyy-MM-dd")}";
                 var apiResponse = await httpClient.GetAsync(uri);
 
@@ -139,6 +166,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PostAsJsonAsync("api/Works/StartBreak", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -175,6 +210,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PostAsJsonAsync("api/Works/StartWork", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -211,6 +254,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 var apiResponse = await httpClient.PutAsJsonAsync("api/Works/EditWorkTime", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
@@ -247,6 +298,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 string uri = $"api/Works/GetWorkTimeForMonth/{userID}/{month.ToString("yyyy-MM-dd")}";
                 var apiResponse = await httpClient.GetAsync(uri);
 
@@ -285,6 +344,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 HttpRequestMessage request = new()
                 {
                     Content = new StringContent(JsonSerializer.Serialize(work), encoding: Encoding.UTF8, "application/json"),
@@ -326,6 +393,14 @@ namespace engineering_project_front.Services
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
                 string uri = $"api/Works/GetWorksForTeamForDay/{day.ToString("yyyy-MM-dd")}/{teamID}";
                 var apiResponse = await httpClient.GetAsync(uri);
 
@@ -359,12 +434,20 @@ namespace engineering_project_front.Services
         }
 
         public async Task<OperationResponse<bool>> ChangeWorkStatus(long userID, DateTime date)
-            {
+        {
             _logger.LogInformation($"Method {nameof(ChangeWorkStatus)} entered.");
             try
             {
                 var httpClient = _httpClientFactory.CreateClient("engineering-project");
-                var apiResponse = await httpClient.PutAsync($"api/Works/ChangeWorkStatus/{userID}/{date.ToString("yyyy-MM-dd")}",null);
+
+                var token = await _sessionStorage.GetItemAsync<string>("token");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
+
+                var apiResponse = await httpClient.PutAsync($"api/Works/ChangeWorkStatus/{userID}/{date.ToString("yyyy-MM-dd")}", null);
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -393,6 +476,6 @@ namespace engineering_project_front.Services
                 };
             }
         }
-           
+
     }
 }
