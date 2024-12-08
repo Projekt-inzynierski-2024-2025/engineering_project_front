@@ -75,7 +75,7 @@ namespace engineering_project_front.Pages
         private List<UsersResponse> Employees { get; set; } = new List<UsersResponse>();
         private List<UsersDailySchedulesResponse> UsersDailySchedulesResponses { get; set; } = new List<UsersDailySchedulesResponse>();
         private List<AvailabilitiesResponse> Availabilities { get; set; } = new List<AvailabilitiesResponse>();
-        private List<WorksResponse> Works { get; set; } = new List<WorksResponse>();
+        private IEnumerable<WorksResponse> Works { get; set; } = new List<WorksResponse>();
 
     
 
@@ -267,19 +267,17 @@ namespace engineering_project_front.Pages
 
         private async Task GetWork()
         {
-           foreach(var user in Employees)
+          
+                var response = await WorksService.GetWorksForTeamForDay(DailySchedule.Date, DailySchedule.TeamID);
+            if (response.Success)
             {
-                var response = await WorksService.GetWorkForDay(user.ID, DailySchedule.Date);
-                if (response.Success)
-                {
-                    response.Data.UserID = user.ID;
-                    Works.Add(response.Data);
-                }
-                else
-                {
-                    ShowToast(response.Message, response.Success);
-                }
+                Works = response.Data;
             }
+            else
+            {
+                ShowToast(response.Message, response.Success);
+            }
+             
         }
 
         #endregion

@@ -22,14 +22,14 @@
             <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true">
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridColumns>
-                    <GridColumn Field=@nameof(WorksResponse.Date.Date) HeaderText="Dzień" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.TimeStart) HeaderText="Początek pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.TimeEnd) HeaderText="Koniec pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.BreakStart) HeaderText="Początek przerwy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.BreakEnd) HeaderText="Koniec przerwy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.StatusName) HeaderText="Status pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.WorkTime) HeaderText="Czas pracy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.BreakTime) HeaderText="Czas przerwy" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.Date.Date) HeaderText="Dzień" TextAlign="TextAlign.Right" Width="120" Format="dd.MM.yyyy"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.TimeStart) HeaderText="Początek pracy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.TimeEnd) HeaderText="Koniec pracy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.BreakStart) HeaderText="Początek przerwy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.BreakEnd) HeaderText="Koniec przerwy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.StatusName) HeaderText="Status pracy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.WorkTime) HeaderText="Czas pracy" TextAlign="TextAlign.Right" Width="120" ></GridColumn>
+                    <GridColumn Field=@nameof(WorksResponse.BreakTime) HeaderText="Czas przerwy" TextAlign="TextAlign.Right" Width="120" ></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>

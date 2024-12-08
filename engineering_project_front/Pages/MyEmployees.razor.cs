@@ -253,17 +253,16 @@ namespace engineering_project_front.Pages
             await InvokeAsync(StateHasChanged);
         }
 
-     /*   private void OnQueryCellInfo(QueryCellInfoEventArgs<HoursForUserForMonthResponse> args)
+        private void OnQueryCellInfo(QueryCellInfoEventArgs<HoursForUserForMonthResponse> args)
         {
             if (args.Column.Field == nameof(HoursForUserForMonthResponse.workHoursForMonth))
             {
-                if (args.Data != null && args.Data.workHoursForMonth > 168)
+                var workHours = Convert.ToDouble(args.Data.workHoursForMonth);
+                if (workHours > 5)
                 {
-                    // Dodaj klasę CSS do atrybutów komórki
-                    args.CellAttributes ??= new Dictionary<string, object>();
-                    args.CellAttributes["class"] = "highlight-red";
+                    args.Cell.AddClass(new string[] { "highlight-red" });
                 }
             }
-        }*/
+        }
     }
 }
