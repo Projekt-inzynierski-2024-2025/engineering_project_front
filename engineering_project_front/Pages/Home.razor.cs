@@ -149,6 +149,7 @@ namespace engineering_project_front.Pages
                 work.TimeEnd = request.TimeEnd;
                 await timer.DisposeAsync();
                 workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
+                await InvokeAsync(StateHasChanged);
             }
         }
 

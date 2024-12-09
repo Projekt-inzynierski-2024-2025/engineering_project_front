@@ -84,7 +84,7 @@ code {
 }
 
     .e-toolbar .e-toolbar-items {
-        background: #DBE2EF;
+        background: #DBE2EF !important;
     }
 
 
@@ -95,6 +95,10 @@ code {
 
 .e-grid .e-headercell, .e-grid .e-detailheadercell {
     background-color: #DBE2EF;
+}
+
+.e-treeview .e-list-item .e-hover > .e-fullrow {
+    background-color: #3F72AF !important
 }
 
 html, body {

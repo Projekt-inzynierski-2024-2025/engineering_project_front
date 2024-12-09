@@ -39,12 +39,15 @@ namespace engineering_project_front.Pages
         private DateTime? workEnd { get; set; }
         private DateTime? breakEnd { get; set; }
 
+        private bool disablePickingTime = true;
         protected async override Task OnInitializedAsync()
         {
             if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
                 navManager.NavigateTo("/auth-error");
 
             await GetUser();
+
+            await GetWorkToEdit();
 
             await base.OnInitializedAsync();
         }
@@ -75,6 +78,8 @@ namespace engineering_project_front.Pages
                     breakEnd = result.Data!.BreakEnd;
                 else
                     breakEnd = null;
+
+                disablePickingTime = false;
             }
             else
             {
@@ -82,6 +87,10 @@ namespace engineering_project_front.Pages
                 workEnd = null;
                 breakStart = null;
                 breakEnd = null;
+                ToastContent = "Brak pracy do edycji.";
+                disablePickingTime = true;
+                await InvokeAsync(StateHasChanged);
+                await ToastObj.ShowAsync();
             }
 
             await InvokeAsync(StateHasChanged);
