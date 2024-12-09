@@ -128,6 +128,7 @@ namespace engineering_project_front.Pages
             args.Data.TimeEnd = args.Data.Date.Date + args.Data.TimeEnd.TimeOfDay;
             args.Data.FirstName = FirstName;
             args.Data.LastName = LastName;
+            args.Data.CategoryColor = "#008000";
 
             var data = args.Data;
 
