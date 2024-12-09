@@ -18,16 +18,16 @@ namespace engineering_project_front.Pages
         [Inject]
         private IResetPassword resetPassword { get; set; } = default!;
 
-        public void OnConfirmChangeClicked()
+        public async Task OnConfirmChangeClicked()
         {
             //TO DO - Uładnij to
-            if (email != string.Empty)
+            if (string.IsNullOrEmpty(email))
                 return;
 
-            if (password != string.Empty)
+            if (string.IsNullOrEmpty(password))
                 return;
 
-            if (confirmPassword != string.Empty)
+            if (string.IsNullOrEmpty(confirmPassword))
                 return;
 
             if (password != confirmPassword)
@@ -40,7 +40,7 @@ namespace engineering_project_front.Pages
                 NewPassword = password
             };
 
-            if (resetPassword.ChangePassword(parameters))
+            if (await resetPassword.ChangePassword(parameters))
                 navManager.NavigateTo("/");
         }
     }
