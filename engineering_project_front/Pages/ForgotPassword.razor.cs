@@ -7,6 +7,7 @@ namespace engineering_project_front.Pages
     public partial class ForgotPassword
     {
         SfToast ToastObj = new();
+        private string ToastTitle = string.Empty;
         private string ToastContent = string.Empty;
 
         private string mail = string.Empty;
@@ -21,7 +22,8 @@ namespace engineering_project_front.Pages
         {
             if (mail == string.Empty)
             {
-                ToastContent = "Login is empty.";
+                ToastTitle = "Błąd";
+                ToastContent = "Pole jest puste.";
                 await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
                 return;
@@ -29,7 +31,9 @@ namespace engineering_project_front.Pages
 
             await resetPassword.SendAskForResetCode(mail);
 
-            ToastContent = "If e-mail is correct, you should receive code and link to reset your password.";
+            ToastTitle = "Wysłano kod";
+            ToastContent = "Jeżeli mail jest poprawny, kod powinien zostać wysłany na podaną skrzynkę pocztową.";
+            await InvokeAsync(StateHasChanged);
             await ToastObj.ShowAsync();
         }
 
