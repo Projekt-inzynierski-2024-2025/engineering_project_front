@@ -30,6 +30,7 @@ namespace engineering_project_front.Pages
         private long ID = -1;
         private string firstName = "<FIRST_NAME_PH>";
         private string lastName = "<LAST_NAME_PH>";
+        private string role = string.Empty;
 
         private WorksResponse work = new();
 
@@ -51,6 +52,8 @@ namespace engineering_project_front.Pages
         {
             if (!await validateRole.IsAuthorized("Administrator","Kierownik", "Pracownik"))
                 navManager.NavigateTo("/auth-error");
+
+            role = await sessionStorage.GetItemAsStringAsync("role");
 
             await GetUser();
 

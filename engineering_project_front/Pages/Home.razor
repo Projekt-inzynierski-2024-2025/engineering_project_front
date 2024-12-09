@@ -9,29 +9,31 @@
 <div class="container">
     <!-- Nag³ówek strony -->
     <h1 class="header-text">Witaj, @firstName @lastName!</h1>
-
-    <!-- Informacje o pracy -->
-    <div class="work-info">
-        <div class="info-item">
-            <strong>Czas pracy:</strong> @workTime
-        </div>
-        <div class="info-item">
-            <strong>Twoja przerwa:</strong> @breakTime
-        </div>
-    </div>
-
-    <!-- Przyciski akcji -->
-    <div class="button-section">
-        <!-- Praca -->
-        <div class="button-group">
-            <SfButton CssClass="e-success" Disabled="workStartDisabled" OnClick="OnWorkStartClick">Zacznij pracê</SfButton>
-            <SfButton CssClass="e-danger" Disabled="workEndDisabled" OnClick="OnWorkEndClick">Zakoñcz pracê</SfButton>
+    @if (role != "Administrator")
+    {
+        <!-- Informacje o pracy -->
+        <div class="work-info">
+            <div class="info-item">
+                <strong>Czas pracy:</strong> @workTime
+            </div>
+            <div class="info-item">
+                <strong>Twoja przerwa:</strong> @breakTime
+            </div>
         </div>
 
-        <!-- Przerwa -->
-        <div class="button-group">
-            <SfButton CssClass="e-success" Disabled="breakStartDisabled" OnClick="OnBreakStartClick">Rozpocznij przerwê</SfButton>
-            <SfButton CssClass="e-danger" Disabled="breakEndDisabled" OnClick="OnBreakEndClick">Zakoñcz przerwê</SfButton>
+        <!-- Przyciski akcji -->
+        <div class="button-section">
+            <!-- Praca -->
+            <div class="button-group">
+                <SfButton CssClass="e-success" Disabled="workStartDisabled" OnClick="OnWorkStartClick">Zacznij pracê</SfButton>
+                <SfButton CssClass="e-danger" Disabled="workEndDisabled" OnClick="OnWorkEndClick">Zakoñcz pracê</SfButton>
+            </div>
+
+            <!-- Przerwa -->
+            <div class="button-group">
+                <SfButton CssClass="e-success" Disabled="breakStartDisabled" OnClick="OnBreakStartClick">Rozpocznij przerwê</SfButton>
+                <SfButton CssClass="e-danger" Disabled="breakEndDisabled" OnClick="OnBreakEndClick">Zakoñcz przerwê</SfButton>
+            </div>
         </div>
-    </div>
+    }
 </div>
