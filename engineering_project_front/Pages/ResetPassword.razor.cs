@@ -24,7 +24,7 @@ namespace engineering_project_front.Pages
         [Inject]
         private IResetPassword resetPassword { get; set; } = default!;
 
-        public void OnConfirmChangeClicked()
+        public async Task OnConfirmChangeClicked()
         {
             var token = sessionStorage.GetItemAsStringAsync("token").Result;
 
@@ -49,7 +49,7 @@ namespace engineering_project_front.Pages
                 NewPassword = password
             };
 
-            if (resetPassword.ChangePassword(parameters))
+            if (await resetPassword.ChangePassword(parameters))
                 navManager.NavigateTo("/home");
         }
     }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace engineering_project_front.Pages
 {
-    public partial class ResetPasswordWithCodes
+    public partial class ResetPasswordWithCode
     {
         [Parameter]
         public string Code { get; set; } = string.Empty;
