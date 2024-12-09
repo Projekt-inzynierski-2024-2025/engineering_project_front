@@ -51,10 +51,25 @@ button, .sf-button {
 }
 
 .sf-button {
-    background-color: #007bff;
+    background-color: #3F72AF;
     color: #fff;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
+
+    .sf-button:hover {
+        background-color: #0056b3;
+    }
+
+.e-btn.e-primary, .e-css.e-btn.e-primary {
+    background-color: #3F72AF;
+}
+
+
+.e-grid .e-headercell, .e-grid .e-detailheadercell {
+    background-color: #DBE2EF;
+}
+
+
 
     .sf-button:hover {
         background-color: #0056b3;

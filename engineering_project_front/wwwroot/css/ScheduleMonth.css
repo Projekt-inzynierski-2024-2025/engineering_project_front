@@ -102,6 +102,12 @@ h3 {
                 background-color: #5a6268;
             }
 
+.e-footer-content .e-btn.e-primary.e-flat:not([DISABLED]):not(.e-success):not(.e-danger):not(.e-warning):not(.e-info) {
+    background: #3F72AF;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
 /* Sekcja wyboru zespołu i miesiąca */
 .control-section {
     display: flex;

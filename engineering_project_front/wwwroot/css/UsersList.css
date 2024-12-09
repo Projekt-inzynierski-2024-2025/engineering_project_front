@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    /* Kolor tła */
+    background-color: #DBE2EF;
 }
 
 /* Kontener główny */
@@ -53,9 +53,17 @@ button, .sf-button {
 }
 
 .sf-button {
-    background-color: #007bff;
+    background-color: #3F72AF;
     color: #fff;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
+}
+
+    .sf-button:hover {
+        background-color: #0056b3;
+    }
+
+.e-btn.e-primary, .e-css.e-btn.e-primary {
+    background-color: #3F72AF;
 }
 
     .sf-button:hover {
@@ -77,6 +85,10 @@ button, .sf-button {
         text-align: center;
         font-size: 14px;
     }
+
+.e-grid .e-headercell, .e-grid .e-detailheadercell {
+    background-color: #DBE2EF;
+}
 
 /* Tosty */
 .sf-toast {
