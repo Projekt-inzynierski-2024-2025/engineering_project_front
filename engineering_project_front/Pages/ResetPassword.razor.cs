@@ -26,18 +26,14 @@ namespace engineering_project_front.Pages
 
         public async Task OnConfirmChangeClicked()
         {
-            var token = sessionStorage.GetItemAsStringAsync("token").Result;
+            var token = await sessionStorage.GetItemAsStringAsync("token");
 
-            if (token == null)
-                return;
-            token = token.Trim('"');
+            var user = await usersService.GetUserFromToken(token);
 
-            var user = usersService.GetUserFromToken(token).Result;
-
-            if (password != string.Empty)
+            if (string.IsNullOrEmpty(password))
                 return;
 
-            if (confirmPassword != string.Empty)
+            if (string.IsNullOrEmpty(confirmPassword))
                 return;
 
             if (password != confirmPassword)
@@ -49,7 +45,7 @@ namespace engineering_project_front.Pages
                 NewPassword = password
             };
 
-            if (await resetPassword.ChangePassword(parameters))
+            if (await resetPassword.ChangePassword(parameters, token))
                 navManager.NavigateTo("/home");
         }
     }

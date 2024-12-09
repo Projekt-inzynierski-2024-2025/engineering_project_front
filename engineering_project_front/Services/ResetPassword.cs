@@ -31,11 +31,12 @@ namespace engineering_project_front.Services
                 if (token != null)
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                    apiResponse = await httpClient.PostAsJsonAsync("api/PasswordReset/ChangePassword", parameters);
+
+                    apiResponse = await httpClient.PutAsJsonAsync("api/PasswordReset/ChangePassword", parameters);
                 }
                 else
                 {
-                    apiResponse = await httpClient.PostAsJsonAsync("api/PasswordReset/ResetPassword", parameters);
+                    apiResponse = await httpClient.PutAsJsonAsync("api/PasswordReset/ResetPassword", parameters);
                 }
 
                 if (apiResponse.IsSuccessStatusCode)

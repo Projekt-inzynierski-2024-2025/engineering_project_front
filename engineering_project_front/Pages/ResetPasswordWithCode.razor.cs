@@ -40,7 +40,7 @@ namespace engineering_project_front.Pages
                 NewPassword = password
             };
 
-            if (await resetPassword.ChangePassword(parameters, Code))
+            if (await resetPassword.ChangePassword(parameters))
                 navManager.NavigateTo("/");
         }
     }
