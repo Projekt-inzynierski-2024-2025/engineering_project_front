@@ -18,7 +18,8 @@ namespace engineering_project_front.Pages
         [Inject]
         private IUsersService UsersService { get; set; } = default!;
 
-        
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
         #endregion
         private List<UsersResponse> Users { get; set; } = new();
         private List<UsersResponse> FilteredUsers { get; set; } = new();
@@ -31,6 +32,9 @@ namespace engineering_project_front.Pages
         #endregion
         protected override async Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Administrator"))
+                NavManager.NavigateTo("/auth-error");
+
             var response = await UsersService.GetUsersAsync();
             if (response.Success)
             {

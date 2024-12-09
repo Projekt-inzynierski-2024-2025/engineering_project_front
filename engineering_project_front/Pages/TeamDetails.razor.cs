@@ -12,6 +12,9 @@ namespace engineering_project_front.Pages
         private ITeamsService TeamsService { get; set; } = default!;
         [Inject]
         private NavigationManager NavManager { get; set; } = default!;
+
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
         #endregion
 
 
@@ -40,6 +43,8 @@ namespace engineering_project_front.Pages
 
         private async Task GetTeam()
         {
+            if (!await validateRole.IsAuthorized("Administrator"))
+                NavManager.NavigateTo("/auth-error");
 
             var response = await TeamsService.GetTeam(ID);
 

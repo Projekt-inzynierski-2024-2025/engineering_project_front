@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #DBE2EF;
 }
 
 /* Kontener dla całej strony */
@@ -125,7 +126,7 @@ button, .sf-button {
 }
 
 .sf-button {
-    background-color: #007bff;
+    background-color: #3F72AF;
     color: #fff;
     transition: background-color 0.3s;
 }
@@ -134,7 +135,12 @@ button, .sf-button {
         background-color: #0056b3;
     }
 
-/* Siatka tabeli */
+.e-btn.e-primary, .e-css.e-btn.e-primary {
+    background-color: #3F72AF;
+}
+
+
+
 .sf-grid {
     background-color: #fff;
     border-radius: 5px;
@@ -148,6 +154,11 @@ button, .sf-button {
         text-align: center;
         font-size: 14px;
     }
+
+
+.e-grid .e-headercell, .e-grid .e-detailheadercell {
+    background-color: #DBE2EF;
+}
 
 /* Styl dla stopki */
 .footer {

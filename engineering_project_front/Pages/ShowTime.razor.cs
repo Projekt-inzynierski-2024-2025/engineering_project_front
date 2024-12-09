@@ -23,6 +23,7 @@ namespace engineering_project_front.Pages
         [Inject]
         private IUsersService usersService { get; set; } = default!;
 
+
         protected async override Task OnInitializedAsync()
         {
             await GetUser();

@@ -28,6 +28,9 @@ namespace engineering_project_front.Pages
         private IWorksService WorksService { get; set; } = default!;
         [Inject]
         private IAvailabilitiesService AvailabilitiesService { get; set; } = default!;
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
+
         #endregion
 
         #region parameters
@@ -101,7 +104,9 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            
+            if (!await validateRole.IsAuthorized("Kierownik"))
+                NavManager.NavigateTo("/auth-error");
+
             await GetSchedule();
             CurrentDate = DailySchedule.Date;
             await GetEmployees();

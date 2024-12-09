@@ -17,6 +17,8 @@ namespace engineering_project_front.Pages
 
         [Inject]
         private ISessionStorageService SessionStorage { get; set; } = default!;
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
 
         #endregion
 
@@ -38,6 +40,9 @@ namespace engineering_project_front.Pages
 
         protected async override Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Administrator"))
+                NavManager.NavigateTo("/auth-error");
+
             await GetUser();
             await GetActualUser();
             await base.OnInitializedAsync();

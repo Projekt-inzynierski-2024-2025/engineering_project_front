@@ -79,9 +79,26 @@ code {
     color: #c02d76;
 }
 
+.e-toolbar {
+    background: #DBE2EF;
+}
+
+    .e-toolbar .e-toolbar-items {
+        background: #DBE2EF;
+    }
+
+
+.e-btn, .e-css.e-btn {
+    background: #112D4E;
+}
+
+
+.e-grid .e-headercell, .e-grid .e-detailheadercell {
+    background-color: #DBE2EF;
+}
 
 html, body {
-    background-color: #B18597;
+    background-color: #DBE2EF;
     margin: 0;
     padding: 0;
     height: 100%; /* Upewnij siê, ¿e pokrywa ca³¹ stronê */

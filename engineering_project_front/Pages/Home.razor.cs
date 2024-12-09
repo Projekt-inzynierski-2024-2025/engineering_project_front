@@ -49,7 +49,7 @@ namespace engineering_project_front.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            if (!await validateRole.IsAuthorized("Administrator", "Kierownik", "Pracownik"))
+            if (!await validateRole.IsAuthorized("Administrator","Kierownik", "Pracownik"))
                 navManager.NavigateTo("/auth-error");
 
             await GetUser();

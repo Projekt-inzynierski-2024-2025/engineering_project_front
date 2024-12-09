@@ -115,6 +115,11 @@ namespace engineering_project_front.Services
             }
         }
 
+        public Task<OperationResponse<IEnumerable<AvailabilitiesResponse>>> GetAvailabilitiesForDay(DateTime day)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<OperationResponse<IEnumerable<AvailabilitiesResponse>>> GetAvailabilitiesForMonth(long userID, DateTime month)
         {
             _logger.LogInformation($"Method {nameof(GetAvailabilitiesForMonth)} entered");

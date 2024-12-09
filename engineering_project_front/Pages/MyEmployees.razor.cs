@@ -27,7 +27,8 @@ namespace engineering_project_front.Pages
         [Inject]
         private ISessionStorageService SessionStorage { get; set; } = default!;
 
-
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
         #endregion
 
         private List<HoursForUserForMonthResponse> HoursForUsers { get; set; } = new();
@@ -56,6 +57,8 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Kierownik"))
+                NavManager.NavigateTo("/auth-error");
 
             Teams = await GetTeams();
             await GetUserToCheck();

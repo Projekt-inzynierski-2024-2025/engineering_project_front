@@ -12,6 +12,8 @@ namespace engineering_project_front.Pages
         private NavigationManager NavManager { get; set; } = default!;
         [Inject]
         private IScheduleService ScheduleService { get; set; } = default!;
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
         #endregion
         [Parameter]
         public required string ParamID { get; set; }
@@ -29,6 +31,9 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Kierownik"))
+                NavManager.NavigateTo("/auth-error");
+
             Schedule.TeamID = ID;
             await InvokeAsync(StateHasChanged);
         }

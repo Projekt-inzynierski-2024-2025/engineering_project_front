@@ -26,6 +26,9 @@ namespace engineering_project_front.Pages
 
         [Inject]
         private ISessionStorageService SessionStorage { get; set; } = default!;
+
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
         #endregion
 
 
@@ -51,6 +54,8 @@ namespace engineering_project_front.Pages
 
         protected override async Task OnParametersSetAsync()
         {
+            if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
+                NavManager.NavigateTo("/auth-error");
 
             await GetUserToCheck();
             if (UserID.HasValue)

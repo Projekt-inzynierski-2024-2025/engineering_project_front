@@ -174,6 +174,7 @@ namespace engineering_project_front.Layout
                     break;
                 case "13":
                     sessionStorage.RemoveItemAsync("token");
+                    sessionStorage.RemoveItemAsync("role");
                     NavManager.NavigateTo("/");
                     break;
                 default:

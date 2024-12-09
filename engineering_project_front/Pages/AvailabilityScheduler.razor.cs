@@ -29,6 +29,7 @@ namespace engineering_project_front.Pages
 
         protected async override Task OnInitializedAsync()
         {
+
             await GetUser();
 
             await GetAvailabilities();
