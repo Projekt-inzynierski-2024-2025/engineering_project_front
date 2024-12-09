@@ -18,6 +18,10 @@ namespace engineering_project_front.Pages
         public string FirstName = string.Empty;
         public string LastName = string.Empty;
 
+        #region Injections
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
+
         [Inject]
         private IAvailabilitiesService availabilitiesService { get; set; } = default!;
 
@@ -27,8 +31,14 @@ namespace engineering_project_front.Pages
         [Inject]
         private IUsersService usersService { get; set; } = default!;
 
+        [Inject]
+        private NavigationManager navManager { get; set; } = default!;
+        #endregion
+
         protected async override Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
+                navManager.NavigateTo("/auth-error");
 
             await GetUser();
 

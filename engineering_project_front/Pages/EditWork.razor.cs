@@ -9,6 +9,13 @@ namespace engineering_project_front.Pages
 {
     public partial class EditWork
     {
+        #region Injections
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
+
+        [Inject]
+        private NavigationManager navManager { get; set; } = default!;
+
         [Inject]
         private ISessionStorageService sessionStorage { get; set; } = default!;
 
@@ -17,6 +24,7 @@ namespace engineering_project_front.Pages
 
         [Inject]
         private IWorksService worksService { get; set; } = default!;
+        #endregion
 
         private long ID = -1;
 
@@ -33,6 +41,8 @@ namespace engineering_project_front.Pages
 
         protected async override Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
+                navManager.NavigateTo("/auth-error");
 
             await GetUser();
 

@@ -16,16 +16,25 @@ namespace engineering_project_front.Pages
 
         private long ID;
 
+        #region
+        [Inject]
+        private IValidateRole validateRole { get; set; } = default!;
+
+        [Inject]
+        private NavigationManager navManager { get; set; } = default!;
         [Inject]
         private ISessionStorageService sessionStorage { get; set; } = default!;
         [Inject]
         private IWorksService worksService { get; set; } = default!;
         [Inject]
         private IUsersService usersService { get; set; } = default!;
-
+        #endregion
 
         protected async override Task OnInitializedAsync()
         {
+            if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
+                navManager.NavigateTo("/auth-error");
+
             await GetUser();
 
             await GetWork(DataChoose);
