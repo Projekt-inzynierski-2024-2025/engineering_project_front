@@ -16,12 +16,12 @@
     <div class="login-form">
         <!-- Pole email -->
         <div class="form-field">
-            <SfTextBox Placeholder="Email" @bind-Value="@login" FloatLabelType="FloatLabelType.Auto" Type="InputType.Email" @onkeypress="Enter"></SfTextBox>
+            <SfTextBox Placeholder="Email" @bind-Value="@login" FloatLabelType="FloatLabelType.Always" Type="InputType.Email"></SfTextBox>
         </div>
 
         <!-- Pole hasło -->
         <div class="form-field">
-            <SfTextBox Placeholder="Hasło" @bind-Value="@password" FloatLabelType="FloatLabelType.Auto" Type="InputType.Password" @onkeypress="Enter"></SfTextBox>
+            <SfTextBox Placeholder="Hasło" @bind-Value="@password" FloatLabelType="FloatLabelType.Always" Type="InputType.Password"></SfTextBox>
         </div>
 
         <!-- Przyciski logowania -->

@@ -45,7 +45,7 @@
                 }
             </select>
         </DialogContent>
-        <SfDatePicker TValue="DateTime" @bind-Value="SelectedWorkDate" Min="@minDate" Max="@maxDate" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker> 
+        <SfDatePicker TValue="DateTime" @bind-Value="SelectedWorkDate" Min="@minDate" Max="@maxDate" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Always"></SfDatePicker>
         <DialogButtons>
             <DialogButton Content="Potwierdź" IsPrimary="true" OnClick="ConfirmEmployeeWorkSelection" />
             <DialogButton Content="Anuluj" OnClick="CloseEmployeeWorkDialog" />

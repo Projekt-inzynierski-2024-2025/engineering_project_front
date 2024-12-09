@@ -24,12 +24,12 @@
         <div class="form-grid">
             <!-- Data -->
             <div class="form-field">
-                <SfDatePicker TValue="DateTime" @bind-Value="Schedule.Date" Min="@minDate" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Auto"></SfDatePicker>
+                <SfDatePicker TValue="DateTime" @bind-Value="Schedule.Date" Min="@minDate" Placeholder="Wybierz dzień" FloatLabelType="FloatLabelType.Always"></SfDatePicker>
             </div>
 
             <!-- Ilość godzin -->
             <div class="form-field">
-                <SfNumericTextBox TValue="int" @bind-Value="Schedule.HoursAmount"  Min="0" Placeholder="Ilość godzin do wyrobienia" FloatLabelType="FloatLabelType.Auto"></SfNumericTextBox>
+                <SfNumericTextBox TValue="int" @bind-Value="Schedule.HoursAmount" Min="0" Placeholder="Ilość godzin do wyrobienia" FloatLabelType="FloatLabelType.Always"></SfNumericTextBox>
             </div>
 
             <!-- Przyciski -->

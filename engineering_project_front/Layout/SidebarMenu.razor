@@ -6,7 +6,7 @@
     <div id="sidebar-wrapper">
         <div>
             @*Initialize the Sidebar component*@
-            <SfSidebar class="default-sidebar" Width="260px" Target=".maincontent" Position="SidebarPosition.Left" @bind-IsOpen="SidebarToggle" Type="SidebarType.Push">
+            <SfSidebar class="default-sidebar" Width="260px" Target=".maincontent" CloseOnDocumentClick="true" Position="SidebarPosition.Left" @bind-IsOpen="SidebarToggle" Type="SidebarType.Push">
                 <ChildContent>
                     <SfTreeView TValue="TreeData">
                         <TreeViewEvents TValue="TreeData" NodeSelecting="BeforeSelect" NodeSelected="OnSelect"></TreeViewEvents>
