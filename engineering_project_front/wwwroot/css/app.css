@@ -98,7 +98,11 @@ code {
 }
 
 .e-treeview .e-list-item .e-hover > .e-fullrow {
-    background-color: #3F72AF !important
+    background-color: #3F72AF !important;
+}
+
+.e-treeview .e-list-item.e-hover>.e-text-content .e-list-text{
+    color:white!important;
 }
 
 html, body {
