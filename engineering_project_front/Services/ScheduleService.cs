@@ -40,7 +40,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.GetAsync($"api/UsersDailySchedules/GetDailyScheduleUsersHoursAmount/{year}/{month}/{teamID}");
+                var apiResponse = await httpClient.GetAsync($"api/UsersDailySchedules/GetHoursForEachDayInMonth/{year}/{month}/{teamID}");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -217,7 +217,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.GetAsync($"api/UsersDailySchedules/GetDailyScheduleUsersHoursAmount/{teamID}/{formattedDate}");
+                var apiResponse = await httpClient.GetAsync($"api/UsersDailySchedules/GetHoursForDayForTeam/{teamID}/{formattedDate}");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
