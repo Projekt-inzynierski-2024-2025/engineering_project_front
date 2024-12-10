@@ -25,7 +25,7 @@ namespace Program
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://localhost:7059/"));
+            builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://smartmanagerserver-cqa9g8djbva3h0de.polandcentral-01.azurewebsites.net/"));
 
             builder.Services.AddScoped<IAvailabilitiesService, AvailabilitiesService>();
             builder.Services.AddScoped<ILoginService, LoginService>();
@@ -41,7 +41,7 @@ namespace Program
             builder.Services.AddBlazoredSessionStorage();
 
             builder.Services.AddSyncfusionBlazor();
-
+S
             builder.Services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(Localizer));
 
 
