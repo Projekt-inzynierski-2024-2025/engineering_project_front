@@ -41,7 +41,7 @@ namespace Program
             builder.Services.AddBlazoredSessionStorage();
 
             builder.Services.AddSyncfusionBlazor();
-S
+
             builder.Services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(Localizer));
 
 
