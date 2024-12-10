@@ -62,9 +62,13 @@ body {
     color: #fff;
 }
 
-    .e-flat.e-primary:hover {
-        background-color: #0056b3;
-    }
+.e-btn.e-primary {
+    background-color: #3F72AF;
+}
+
+.e-flat.e-primary:hover {
+    background-color: #0056b3;
+}
 
 /* Toast */
 .sf-toast {

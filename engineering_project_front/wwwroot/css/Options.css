@@ -57,6 +57,9 @@ body {
         background-color: #138496;
     }
 
+.e-btn.e-primary, .e-css.e-btn.e-primary {
+    background-color: #3F72AF;
+}
 /* Responsywność */
 @media (max-width: 768px) {
     .container {
