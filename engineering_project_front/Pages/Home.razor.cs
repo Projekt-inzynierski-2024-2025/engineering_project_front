@@ -105,12 +105,12 @@ namespace engineering_project_front.Pages
         }
         private void TickWork(object? _)
         {
-            workTime = (DateTimeNowOffsetted.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
+            workTime = (DateTime.Now.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
             InvokeAsync(StateHasChanged);
         }
         private void TickBreak(object? _)
         {
-            breakTime = (DateTimeNowOffsetted.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
+            breakTime = (DateTime.Now.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
             InvokeAsync(StateHasChanged);
         }
         public void Dispose()
