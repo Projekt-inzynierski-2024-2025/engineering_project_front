@@ -60,6 +60,8 @@ namespace engineering_project_front.Pages
 
             await GetUser();
 
+            work.UserID = ID;
+
             await GetWork();
 
 
@@ -123,6 +125,8 @@ namespace engineering_project_front.Pages
         #region OnClick
         private async void OnWorkStartClick()
         {
+            work.TimeStart = DateTime.Now;
+
             WorksRequest request = new()
             {
                 UserID = ID,
@@ -159,6 +163,8 @@ namespace engineering_project_front.Pages
 
         private async void OnBreakStartClick()
         {
+            work.BreakStart = DateTime.Now;
+
             WorksRequest request = new()
             {
                 UserID = ID,
