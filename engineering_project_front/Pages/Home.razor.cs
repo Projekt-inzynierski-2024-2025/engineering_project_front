@@ -34,6 +34,9 @@ namespace engineering_project_front.Pages
 
         private WorksResponse work = new();
 
+        TimeZoneInfo timeZoneInfo { get; set; }= TimeZoneInfo.Local;
+        private int getHourOffset(DateTime date) => timeZoneInfo.GetUtcOffset(date).Hours;
+        private DateTime DateTimeNowOffsetted =>DateTime.Now.AddHours(getHourOffset(DateTime.Now));
 
         private bool workStarted => work.TimeStart != DateTime.MinValue;
         private bool workEnded => work.TimeEnd != DateTime.MinValue;
@@ -102,12 +105,12 @@ namespace engineering_project_front.Pages
         }
         private void TickWork(object? _)
         {
-            workTime = (DateTime.Now.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
+            workTime = (DateTimeNowOffsetted.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
             InvokeAsync(StateHasChanged);
         }
         private void TickBreak(object? _)
         {
-            breakTime = (DateTime.Now.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
+            breakTime = (DateTimeNowOffsetted.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
             InvokeAsync(StateHasChanged);
         }
         public void Dispose()
@@ -122,7 +125,8 @@ namespace engineering_project_front.Pages
         {
             WorksRequest request = new()
             {
-                UserID = ID
+                UserID = ID,
+                TimeStart = DateTimeNowOffsetted
             };
 
             var result = await worksService.StartWork(request);
@@ -139,7 +143,7 @@ namespace engineering_project_front.Pages
             WorksRequest request = new()
             {
                 UserID = ID,
-                TimeEnd = DateTime.Now,
+                TimeEnd = DateTimeNowOffsetted,
             };
 
             var result = await worksService.EndWork(request);
@@ -158,7 +162,7 @@ namespace engineering_project_front.Pages
             WorksRequest request = new()
             {
                 UserID = ID,
-                BreakStart = DateTime.Now,
+                BreakStart = DateTimeNowOffsetted,
             };
 
             var result = await worksService.StartBreak(request);
@@ -177,7 +181,7 @@ namespace engineering_project_front.Pages
             WorksRequest request = new()
             {
                 UserID = ID,
-                BreakEnd = DateTime.Now,
+                BreakEnd = DateTimeNowOffsetted,
             };
 
             var result = await worksService.EndBreak(request);
@@ -212,7 +216,7 @@ namespace engineering_project_front.Pages
         {
             if (ID == -1) return;
 
-            var response = await worksService.GetWorkForDay(ID, DateTime.Today);
+            var response = await worksService.GetWorkForDay(ID, DateTimeNowOffsetted);
 
             if (response.Success)
             {
