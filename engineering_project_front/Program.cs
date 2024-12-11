@@ -24,9 +24,11 @@ namespace Program
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
-
+#if RELEASE
             builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://smartmanagerserver-cqa9g8djbva3h0de.polandcentral-01.azurewebsites.net/"));
-
+#else
+            builder.Services.AddHttpClient("engineering-project", options => options.BaseAddress = new Uri("https://localhost:7059/"));
+#endif
             builder.Services.AddScoped<IAvailabilitiesService, AvailabilitiesService>();
             builder.Services.AddScoped<ILoginService, LoginService>();
             builder.Services.AddScoped<IResetPassword, ResetPassword>();
