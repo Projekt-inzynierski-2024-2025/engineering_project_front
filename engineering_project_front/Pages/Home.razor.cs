@@ -34,9 +34,9 @@ namespace engineering_project_front.Pages
 
         private WorksResponse work = new();
 
-        TimeZoneInfo timeZoneInfo { get; set; }= TimeZoneInfo.Local;
+        TimeZoneInfo timeZoneInfo { get; set; } = TimeZoneInfo.Local;
         private int getHourOffset(DateTime date) => timeZoneInfo.GetUtcOffset(date).Hours;
-        private DateTime DateTimeNowOffsetted =>DateTime.Now.AddHours(getHourOffset(DateTime.Now));
+        private DateTime DateTimeNowOffsetted => DateTime.Now.AddHours(getHourOffset(DateTime.Now));
 
         private bool workStarted => work.TimeStart != DateTime.MinValue;
         private bool workEnded => work.TimeEnd != DateTime.MinValue;
@@ -53,7 +53,7 @@ namespace engineering_project_front.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            if (!await validateRole.IsAuthorized("Administrator","Kierownik", "Pracownik"))
+            if (!await validateRole.IsAuthorized("Administrator", "Kierownik", "Pracownik"))
                 navManager.NavigateTo("/auth-error");
 
             role = await sessionStorage.GetItemAsStringAsync("role");
@@ -125,8 +125,6 @@ namespace engineering_project_front.Pages
         #region OnClick
         private async void OnWorkStartClick()
         {
-            work.TimeStart = DateTimeNowOffsetted;
-
             WorksRequest request = new()
             {
                 UserID = ID,
@@ -137,7 +135,8 @@ namespace engineering_project_front.Pages
 
             if (result.Success == true)
             {
-                work.TimeStart = request.TimeStart;
+
+                work.TimeStart = DateTime.Now;
                 SetTimer(TickWork);
             }
         }
@@ -163,8 +162,6 @@ namespace engineering_project_front.Pages
 
         private async void OnBreakStartClick()
         {
-            work.BreakStart = DateTimeNowOffsetted;
-
             WorksRequest request = new()
             {
                 UserID = ID,
@@ -175,7 +172,7 @@ namespace engineering_project_front.Pages
 
             if (result.Success == true)
             {
-                work.BreakStart = request.BreakStart;
+                work.BreakStart = DateTime.Now;
                 await timer.DisposeAsync();
                 workTime = (work.BreakStart.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm':'ss");
                 SetTimer(TickBreak);
