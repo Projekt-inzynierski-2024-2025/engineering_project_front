@@ -125,7 +125,7 @@ namespace engineering_project_front.Pages
         #region OnClick
         private async void OnWorkStartClick()
         {
-            work.TimeStart = DateTime.Now;
+            work.TimeStart = DateTimeNowOffsetted;
 
             WorksRequest request = new()
             {
@@ -163,7 +163,7 @@ namespace engineering_project_front.Pages
 
         private async void OnBreakStartClick()
         {
-            work.BreakStart = DateTime.Now;
+            work.BreakStart = DateTimeNowOffsetted;
 
             WorksRequest request = new()
             {
