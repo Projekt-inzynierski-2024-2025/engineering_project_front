@@ -137,7 +137,7 @@ namespace engineering_project_front.Pages
                 // Obliczanie czasu pracy
                 if (workedShift != null)
                 {
-                    var dailyWorkTime = workedShift.TimeEnd - workedShift.TimeStart - workedShift.BreakTime;
+                    var dailyWorkTime = workedShift.TimeEnd.TimeOfDay - workedShift.TimeStart.TimeOfDay - workedShift.BreakTime.TimeOfDay;
                     WorkTime += dailyWorkTime > TimeSpan.Zero ? dailyWorkTime : TimeSpan.Zero;
                 }
 

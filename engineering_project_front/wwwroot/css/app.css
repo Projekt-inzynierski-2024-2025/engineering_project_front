@@ -97,12 +97,20 @@ code {
     background-color: #DBE2EF;
 }
 
-.e-treeview .e-list-item .e-hover > .e-fullrow {
+.e-treeview .e-list-item .e-hover > .e-fullrow { /* Tu zmienia siê kolor dziecka w sidebar (Moje konto, Wyloguj siê, itd.)*/
     background-color: #3F72AF !important;
 }
 
-.e-treeview .e-list-item.e-hover>.e-text-content .e-list-text{
-    color:white!important;
+.e-treeview .e-list-item.e-hover > .e-text-content .e-list-text { /* Tu zmienia siê kolor tekstu w sidebar (Zarówno dziecko, jak i rodzic. Nie ma podzia³u)*/
+    color: white !important;
+}
+
+.e-treeview .e-list-item.e-hover > .e-fullrow {
+    background-color: #3F72AF !important; /* Tu zmienia siê kolor rodzica w sidebar (Ogólne, kierownik, administrator)*/
+}
+
+.center {
+    text-align: center;
 }
 
 html, body {

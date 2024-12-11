@@ -14,6 +14,9 @@ namespace engineering_project_front.Pages
         private View CurrentView { get; set; } = View.Week;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
 
+        private DateTime minDate = new DateTime(0, 0, 0, 5, 0, 0);
+        private DateTime maxDate = new DateTime(0, 0, 0, 23, 0, 0);
+
         public long? UserID;
         public string FirstName = string.Empty;
         public string LastName = string.Empty;

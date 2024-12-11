@@ -28,6 +28,7 @@
     <None Include="wwwroot\css\TeamsList.css" />
     <None Include="wwwroot\css\UserDetails.css" />
     <None Include="wwwroot\css\UsersList.css" />
+    <None Include="wwwroot\Images\notAuthorizedPhoto.jpg" />
   </ItemGroup>
 
   <ItemGroup>

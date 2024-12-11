@@ -8,13 +8,13 @@
         public DateTime TimeEnd { get; set; }
         public DateTime BreakStart { get; set; }
         public DateTime BreakEnd { get; set; }
-        public TimeSpan BreakTime
+        public DateTime BreakTime
         {
-            get => BreakEnd != DateTime.MinValue ? BreakEnd - BreakStart : TimeSpan.Zero;
+            get => BreakEnd != DateTime.MinValue ? BreakEnd - BreakStart.TimeOfDay : DateTime.MinValue;
         }
-        public TimeSpan WorkTime
+        public DateTime WorkTime
         {
-            get => TimeEnd != DateTime.MinValue ? TimeEnd - TimeStart - BreakTime : TimeSpan.Zero;
+            get => TimeEnd != DateTime.MinValue ? TimeEnd - TimeStart.TimeOfDay - BreakTime.TimeOfDay : DateTime.MinValue;
         }
         public int Status { get; set; }
         public string StatusName => Status switch { 0 => "Aktywny", 1 => "Ukończony", _ => "Nieznany" };

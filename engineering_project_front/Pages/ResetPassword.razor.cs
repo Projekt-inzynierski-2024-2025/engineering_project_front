@@ -46,7 +46,7 @@ namespace engineering_project_front.Pages
             };
 
             if (await resetPassword.ChangePassword(parameters, token))
-                navManager.NavigateTo("/home");
+                navManager.NavigateTo("/my-account");
         }
     }
 }

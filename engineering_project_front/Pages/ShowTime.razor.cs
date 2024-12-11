@@ -72,17 +72,17 @@ namespace engineering_project_front.Pages
 
             if (response.Success)
             {
-                TimeSpan allWorkTime = TimeSpan.Zero;
-                TimeSpan allBreakTime = TimeSpan.Zero;
+                DateTime allWorkTime = DateTime.MinValue;
+                DateTime allBreakTime = DateTime.MinValue;
                 GridData = response.Data!.ToList()!;
                 foreach(var workTime in response.Data!)
                 {
-                    allWorkTime += workTime.WorkTime;
-                    allBreakTime += workTime.BreakTime;
+                    allWorkTime +=(workTime.WorkTime.TimeOfDay);
+                    allBreakTime += workTime.BreakTime.TimeOfDay;
                 }
 
-                MonthlyWorkTime = allWorkTime.ToString("hh':'mm':'ss");
-                MonthlyBreakTime = allBreakTime.ToString("hh':'mm':'ss");
+                MonthlyWorkTime = allWorkTime.ToString("HH':'mm'");
+                MonthlyBreakTime = allBreakTime.ToString("HH':'mm'");
             }
             else
             {

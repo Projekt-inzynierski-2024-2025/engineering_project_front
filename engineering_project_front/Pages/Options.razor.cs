@@ -1,4 +1,5 @@
 ﻿using Blazored.SessionStorage;
+using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 
@@ -13,13 +14,7 @@ namespace engineering_project_front.Pages
         [Inject]
         private IUsersService usersService { get; set; } = default!;
 
-        private long ID { get; set; }
-        private string firstName { get; set; } = string.Empty;
-        private string lastName { get; set; } = string.Empty;
-        private string email { get; set; } = string.Empty;
-        private string team { get; set; } = string.Empty;
-        private string manager { get; set; } = string.Empty;
-        private string role {  get; set; } = string.Empty;
+        private UsersResponse? User = new();
 
         protected async override Task OnInitializedAsync()
         {
@@ -41,13 +36,13 @@ namespace engineering_project_front.Pages
 
             var user = await usersService.GetUserFromToken(token);
 
-            ID = user.ID!;
-            firstName = user.FirstName!;
-            lastName = user.LastName!;
-            email = user.Email!;
-            team = user.TeamName!;
-            manager = user.Manager!;
-            role = user.RoleName;
+            User!.ID = user.ID!;
+            User!.FirstName = user.FirstName!;
+            User!.LastName = user.LastName!;
+            User!.Email = user.Email!;
+            User!.TeamName = user.TeamName!;
+            User!.Manager = user.Manager!;
+            User!.Role = user.Role;
         }
     }
 }
