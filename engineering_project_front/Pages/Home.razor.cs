@@ -153,7 +153,7 @@ namespace engineering_project_front.Pages
 
             if (result.Success == true)
             {
-                work.TimeEnd = request.TimeEnd;
+                work.TimeEnd = DateTime.Now;
                 await timer.DisposeAsync();
                 workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
                 await InvokeAsync(StateHasChanged);
@@ -191,7 +191,7 @@ namespace engineering_project_front.Pages
 
             if (result.Success == true)
             {
-                work.BreakEnd = request.BreakEnd;
+                work.BreakEnd = DateTime.Now;
                 await timer.DisposeAsync();
                 breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
                 SetTimer(TickWork);
