@@ -28,21 +28,19 @@
                                 <tr>
                                     <td class="e-textlabel">Data</td>
                                     <td>
-                                        <SfDatePicker @bind-Value="@(Data.Date)" Readonly="true"></SfDatePicker>
+                                        <SfDatePicker @bind-Value="@(Data.Date)" Min="@minDate" Max="@maxDate"></SfDatePicker>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="e-textlabel">Początek pracy</td>
                                     <td>
-                                        <ValidationMessage For="@(() => Data.TimeStart)" />
-                                        <SfTimePicker @bind-Value="@(Data.TimeStart)" Min="@minTime" Max="maxTime" ValidateOnInput="true"></SfTimePicker>
+                                        <SfTimePicker @bind-Value="@(Data.TimeStart)" Min="minTime" Max="maxTime" StrictMode="true" Step="15" ></SfTimePicker>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="e-textlabel">Koniec pracy</td>
                                     <td>
-                                        <ValidationMessage For="@(() => Data.TimeEnd)" />
-                                        <SfTimePicker @bind-Value="@(Data.TimeEnd)" Min="minTime" Max="maxTime" ValidateOnInput="true"></SfTimePicker>
+                                        <SfTimePicker @bind-Value="@(Data.TimeEnd)" Min="minTime" Max="maxTime" StrictMode="true" Step="15"></SfTimePicker>
                                     </td>
                                 </tr>
                             </tbody>

@@ -15,8 +15,10 @@ namespace engineering_project_front.Pages
         private View CurrentView { get; set; } = View.Week;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
 
-        private DateTime minTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 5, 0, 0);
-        private DateTime maxTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 23, 0, 0);
+        private DateTime minDate = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, 1);
+        private DateTime maxDate = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month));
+        private DateTime minTime = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, 1, 5, 0, 0);
+        private DateTime maxTime = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month), 23, 0, 0);
 
         public long? UserID;
         public string FirstName = string.Empty;
@@ -134,20 +136,11 @@ namespace engineering_project_front.Pages
             args.Attributes = attributes;
         }
 
-        public async Task OnPopupClose(PopupCloseEventArgs<AvailabilitiesResponse> args)
+        public void OnPopupClose(PopupCloseEventArgs<AvailabilitiesResponse> args)
         {
             if (args.Cancel) return;
 
             if (UserID == null) return;
-
-            if (dataSource.Any(a => a.Date.Date == args.Data.Date.Date)) 
-            {
-                Title = "Nie utworzono dyspozycyjności";
-                Message = "Dyspozycyjność istnieje dla tego dnia.";
-                await InvokeAsync(StateHasChanged);
-                await Toast!.ShowAsync();
-                return;
-            };
 
             args.Data.TimeStart = args.Data.Date.Date + args.Data.TimeStart.TimeOfDay;
             args.Data.TimeEnd = args.Data.Date.Date + args.Data.TimeEnd.TimeOfDay;
@@ -156,6 +149,15 @@ namespace engineering_project_front.Pages
             args.Data.CategoryColor = "#008000";
 
             var data = args.Data;
+
+            if (dataSource.Any(a => a.Date.Date == data.Date.Date)) 
+            {
+                Title = "Nie utworzono dyspozycyjności";
+                Message = "Dyspozycyjność istnieje dla tego dnia.";
+                InvokeAsync(StateHasChanged);
+                Toast!.ShowAsync();
+                return;
+            };
 
             AvailabilitiesRequest request = new()
             {
@@ -173,17 +175,17 @@ namespace engineering_project_front.Pages
                 case PopupType.Editor:
                     if (args.CurrentAction == CurrentAction.Add) //Dodawanie
                     {
-                        await availabilitiesService.CreateAvailabilities(request);
+                        availabilitiesService.CreateAvailabilities(request);
                         break;
                     }
                     else if (args.CurrentAction == CurrentAction.Save) //Edycja
                     {
-                        await availabilitiesService.UpdateAvailability(request);
+                        availabilitiesService.UpdateAvailability(request);
                         break;
                     }
                     break;
                 case PopupType.DeleteAlert: //Usuwanie
-                    await availabilitiesService.RemoveAvailability(request);
+                    availabilitiesService.RemoveAvailability(request);
                     break;
             }
         }
