@@ -209,7 +209,7 @@ namespace engineering_project_front.Pages
                     }
                     else
                     {
-                        ShowToast("Przejdz do zakładki moje zmiany", false);
+                        NavManager.NavigateTo($"/myShifts");
                     }
                     break;
                 default:

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Calendars;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace engineering_project_front.Pages
 {
@@ -44,6 +45,9 @@ namespace engineering_project_front.Pages
         private TimeSpan WorkTime = TimeSpan.Zero;
         private TimeSpan PlannedWorkTime = TimeSpan.Zero;
 
+        private string TodayShift  = "Brak";
+        private string TomorrowShift = "Brak";
+
         #region ToastAndNotification
         private SfToast? Toast;
         private string Message { get; set; } = string.Empty;
@@ -64,6 +68,7 @@ namespace engineering_project_front.Pages
                 // Kierownik przegląda zmiany pracownika
                 IsManager = true;
                 UserShiftWorks = await GetUserShiftWork(UserID.Value, DataChoose);
+                await GetTodayTomorrowShift(UserID.Value);
 
 
             }
@@ -72,6 +77,7 @@ namespace engineering_project_front.Pages
                 // Pracownik przegląda swoje zmiany
                 IsManager = false;
                 UserShiftWorks = await GetUserShiftWork(UserToCheck.ID, DataChoose);
+                await GetTodayTomorrowShift(UserToCheck.ID);
             }
 
             
@@ -81,11 +87,53 @@ namespace engineering_project_front.Pages
                 UserShiftWorks = new List<ShiftWork>();
                 WorkTime = TimeSpan.Zero;
                 PlannedWorkTime = TimeSpan.Zero;
+                TodayShift = "Brak";
+                TomorrowShift = "Brak";
             }
+
+           
 
             await InvokeAsync(StateHasChanged);
 
         }
+        private async Task GetTodayTomorrowShift(long userID)
+        {
+
+            var responseUserDailySchedule = await ScheduleService.GetUsersDailySchedulesForMonth(userID, DateTime.Now);
+            if (!responseUserDailySchedule.Success)
+            {
+                ShowToast(responseUserDailySchedule.Message, responseUserDailySchedule.Success);
+            }
+            var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
+
+
+            // Pobranie dzisiejszej i jutrzejszej daty
+            DateTime today = DateTime.Today;
+            DateTime tomorrow = today.AddDays(1);
+
+            // Znalezienie zmiany na dzisiaj
+            var todayShift = userPlanedShifts.FirstOrDefault(shift => shift.TimeStart.Date == today);
+            if (todayShift != null)
+            {
+                TodayShift = $"{todayShift.TimeStart:HH:mm} - {todayShift.TimeEnd:HH:mm}";
+            }
+            else
+            {
+                TodayShift = "Brak";
+            }
+
+            // Znalezienie zmiany na jutro
+            var tomorrowShift = userPlanedShifts.FirstOrDefault(shift => shift.TimeStart.Date == tomorrow);
+            if (tomorrowShift != null)
+            {
+                TomorrowShift = $"{tomorrowShift.TimeStart:HH:mm} - {tomorrowShift.TimeEnd:HH:mm}";
+            }
+            else
+            {
+                TomorrowShift = "Brak";
+            }
+        }
+
 
 
 

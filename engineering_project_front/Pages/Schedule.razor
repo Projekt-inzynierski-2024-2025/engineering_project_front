@@ -60,14 +60,14 @@
         <!-- Menu kontekstowe -->
         <SfContextMenu TValue="MenuItem" Target=".e-schedule">
             <MenuItems>
-                <MenuItem Text="Szczegóły" Id="Details"></MenuItem>
+                <MenuItem Text="Edytuj" Id="Details"></MenuItem>
             </MenuItems>
             <MenuEvents TValue="MenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></MenuEvents>
         </SfContextMenu>
     </div>
 
     <!-- Dialog zmiany -->
-    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsShiftDialogVisible" Header="Wybierz zespół">
+    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsShiftDialogVisible" Header="Wybierz godziny">
         <DialogContent>
             <label><strong>@(ShiftToEdit.IsEditing ? "Edytuj zmianę" : "Dodaj zmianę")</strong></label>
             <div class="dialog-timepickers">
@@ -89,9 +89,9 @@
         </DialogButtons>
     </SfDialog>
 
-    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsAddShiftToEmployeeWithoutAvaDialogVisible" Header="Wybierz zespół">
+    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsAddShiftToEmployeeWithoutAvaDialogVisible" Header="Wybierz godziny">
         <DialogContent>
-            <label><strong>"Dodaj zmianę"</strong></label>
+            <label><strong>Dodaj zmianę</strong></label>
             <div class="dialog-timepickers">
                 <SfTimePicker StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
                 <SfTimePicker  StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@End"></SfTimePicker>

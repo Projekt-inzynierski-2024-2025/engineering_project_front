@@ -19,7 +19,7 @@
 
    
  <!-- Dialog do wybierania zespołu -->
-    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsTeamDialogVisible" Header="Wybierz zespół" CssClass="sf-dialog">
+    <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsTeamDialogVisible" Header="Wybierz zespół" CssClass="sf-dialog">
         <DialogContent>
             <select @bind="SelectedTeamID" class="form-select select">
                 <option value="0" disabled selected>Wybierz zespół</option>
@@ -35,7 +35,7 @@
         </DialogButtons>
     </SfDialog>
 
-     <SfDialog IsModal="true" Width="400px" ShowCloseIcon="true" Visible="@IsEmployeeWorkDialogVisible" Header="Wybierz pracownika oraz date" CssClass="sf-dialog">
+     <SfDialog IsModal="true" Width="400px" ShowCloseIcon="false" Visible="@IsEmployeeWorkDialogVisible" Header="Wybierz pracownika oraz date" CssClass="sf-dialog">
         <DialogContent>
             <select @bind="SelectedUserID" class="form-select select">
                 <option value="0" disabled selected>Wybierz pracownika</option>

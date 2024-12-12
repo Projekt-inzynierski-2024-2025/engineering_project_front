@@ -21,7 +21,7 @@ namespace engineering_project_front.Pages
 
         private DailySchedulesRequest Schedule { get; set; } = new DailySchedulesRequest();
 
-        DateTime minDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1);
+        DateTime minDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
 
         #region Toast
         private SfToast? Toast;

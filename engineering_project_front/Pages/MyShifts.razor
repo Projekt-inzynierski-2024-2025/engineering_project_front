@@ -26,6 +26,8 @@
                 <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
             </SfDatePicker>
         </div>
+        <label>Zmiana na dziś: @TodayShift</label>
+        <label>Zmiana na jutro: @TomorrowShift </label>
         <div class="work-time-info">
             <label><strong>Miesięczny planowany czas pracy:</strong> @PlannedWorkTime.ToString("hh\\:mm")</label>
             <label><strong>Miesięczny rzeczywisty czas pracy:</strong> @WorkTime.ToString("hh\\:mm")</label>
