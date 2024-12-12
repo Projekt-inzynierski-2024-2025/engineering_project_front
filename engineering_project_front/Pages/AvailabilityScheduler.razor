@@ -4,18 +4,22 @@
 
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Schedule
 @using engineering_project_front.Models.Responses
 
 <div class="container">
     <!-- Nagłówek strony -->
-    <h3 class="header-text">Kalendarz dyspozycji</h3>
+    <h3 class="header-text">Dyspozycja</h3>
 
     <!-- Harmonogram dostępności -->
     <div class="schedule-container">
         <SfSchedule @ref="ScheduleRef" TValue="AvailabilitiesResponse" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView" AllowDragAndDrop="false" StartHour="5:00" EndHour="23:00">
             <ScheduleWorkHours Highlight="true" Start="5:00" End="23:00"></ScheduleWorkHours>
             <ScheduleTemplates>
+                <EditorHeaderTemplate>
+                    <div>Edytuj dyspozycje</div>
+                </EditorHeaderTemplate>
                 <EditorTemplate>
                     @{
                         var Data = (context as AvailabilitiesResponse)!;
@@ -24,19 +28,21 @@
                                 <tr>
                                     <td class="e-textlabel">Data</td>
                                     <td>
-                                        <SfDatePicker @bind-Value="@(Data.Date)"></SfDatePicker>
+                                        <SfDatePicker @bind-Value="@(Data.Date)" Readonly="true"></SfDatePicker>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="e-textlabel">Początek pracy</td>
                                     <td>
-                                        <SfTimePicker @bind-Value="@(Data.TimeStart)" Min="@minDate" Max="maxDate"></SfTimePicker>
+                                        <ValidationMessage For="@(() => Data.TimeStart)" />
+                                        <SfTimePicker @bind-Value="@(Data.TimeStart)" Min="@minTime" Max="maxTime" ValidateOnInput="true"></SfTimePicker>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="e-textlabel">Koniec pracy</td>
                                     <td>
-                                        <SfTimePicker @bind-Value="@(Data.TimeEnd)" Min="minDate" Max="maxDate"></SfTimePicker>
+                                        <ValidationMessage For="@(() => Data.TimeEnd)" />
+                                        <SfTimePicker @bind-Value="@(Data.TimeEnd)" Min="minTime" Max="maxTime" ValidateOnInput="true"></SfTimePicker>
                                     </td>
                                 </tr>
                             </tbody>
@@ -62,5 +68,11 @@
                 <ScheduleView Option="View.MonthAgenda"></ScheduleView>
             </ScheduleViews>
         </SfSchedule>
+    </div>
+
+    <div>
+        <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="500000" ShowCloseButton="true" CssClass="sf-toast">
+            <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+        </SfToast>
     </div>
 </div>

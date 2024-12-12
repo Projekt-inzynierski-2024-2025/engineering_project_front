@@ -3,6 +3,7 @@ using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Notifications;
 using Syncfusion.Blazor.Schedule;
 
 namespace engineering_project_front.Pages
@@ -14,8 +15,8 @@ namespace engineering_project_front.Pages
         private View CurrentView { get; set; } = View.Week;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
 
-        private DateTime minDate = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 5, 0, 0);
-        private DateTime maxDate = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 23, 0, 0);
+        private DateTime minTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 5, 0, 0);
+        private DateTime maxTime = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 23, 0, 0);
 
         public long? UserID;
         public string FirstName = string.Empty;
@@ -38,6 +39,12 @@ namespace engineering_project_front.Pages
         private NavigationManager navManager { get; set; } = default!;
         #endregion
 
+        #region Toast
+        private SfToast? Toast;
+        private string Title { get; set; } = string.Empty;
+        private string Message { get; set; } = string.Empty;
+        #endregion
+
         protected async override Task OnInitializedAsync()
         {
             if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
@@ -54,7 +61,13 @@ namespace engineering_project_front.Pages
             var token = await sessionStorage.GetItemAsStringAsync("token");
 
             if (token == null)
+            {
+                Title = "Błąd";
+                Message = "Nie można pobrać danych zalogowanej osoby. Nie będzie można podejrzeć dyspozycyjności, dodać nowych ani edytować.";
+                await InvokeAsync(StateHasChanged);
+                await Toast!.ShowAsync();
                 return;
+            }
 
             token = token.Trim('"');
 
@@ -67,8 +80,8 @@ namespace engineering_project_front.Pages
 
         private async Task GetAvailabilities()
         {
-            var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate);
-            var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate.AddMonths(1));
+            var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentDate);
+            var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentDate.AddMonths(1));
 
             if (responseCurrentMonth.Success)
             {
@@ -93,7 +106,7 @@ namespace engineering_project_front.Pages
             var endOfTheNextMonth = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month));
             var aWeekBeforeEndOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).AddDays(-7);
             var selectedDate = args.StartTime;
-            
+
 
             if (selectedDate < startOfTheNextMonth || selectedDate > endOfTheNextMonth || DateTime.Today >= aWeekBeforeEndOfMonth) return;
             await ScheduleRef.OpenEditorAsync(args, CurrentAction.Add); //to open the editor window on cell click
@@ -121,11 +134,20 @@ namespace engineering_project_front.Pages
             args.Attributes = attributes;
         }
 
-        public void OnPopupClose(PopupCloseEventArgs<AvailabilitiesResponse> args)
+        public async Task OnPopupClose(PopupCloseEventArgs<AvailabilitiesResponse> args)
         {
             if (args.Cancel) return;
 
             if (UserID == null) return;
+
+            if (dataSource.Any(a => a.Date.Date == args.Data.Date.Date)) 
+            {
+                Title = "Nie utworzono dyspozycyjności";
+                Message = "Dyspozycyjność istnieje dla tego dnia.";
+                await InvokeAsync(StateHasChanged);
+                await Toast!.ShowAsync();
+                return;
+            };
 
             args.Data.TimeStart = args.Data.Date.Date + args.Data.TimeStart.TimeOfDay;
             args.Data.TimeEnd = args.Data.Date.Date + args.Data.TimeEnd.TimeOfDay;
@@ -134,8 +156,6 @@ namespace engineering_project_front.Pages
             args.Data.CategoryColor = "#008000";
 
             var data = args.Data;
-
-            data.Date = data.TimeStart.Date;//Temporary
 
             AvailabilitiesRequest request = new()
             {
@@ -153,17 +173,17 @@ namespace engineering_project_front.Pages
                 case PopupType.Editor:
                     if (args.CurrentAction == CurrentAction.Add) //Dodawanie
                     {
-                        availabilitiesService.CreateAvailabilities(request);
+                        await availabilitiesService.CreateAvailabilities(request);
                         break;
                     }
                     else if (args.CurrentAction == CurrentAction.Save) //Edycja
                     {
-                        availabilitiesService.UpdateAvailability(request);
+                        await availabilitiesService.UpdateAvailability(request);
                         break;
                     }
                     break;
                 case PopupType.DeleteAlert: //Usuwanie
-                    availabilitiesService.RemoveAvailability(request);
+                    await availabilitiesService.RemoveAvailability(request);
                     break;
             }
         }
