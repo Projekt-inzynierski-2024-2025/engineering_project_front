@@ -4,6 +4,7 @@
     {
         public string? Code { get; set; }
         public required string Email { get; set; }
+        public string? OldPassword {  get; set; }
         public required string NewPassword { get; set; }
     }
 }

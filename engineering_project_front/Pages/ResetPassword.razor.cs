@@ -9,6 +9,7 @@ namespace engineering_project_front.Pages
     {
         [Parameter]
         public string Code { get; set; } = string.Empty;
+        private string oldPassword = string.Empty;
         private string password = string.Empty;
         private string confirmPassword = string.Empty;
 
@@ -30,6 +31,8 @@ namespace engineering_project_front.Pages
 
             var user = await usersService.GetUserFromToken(token);
 
+            if(string.IsNullOrEmpty(oldPassword))
+
             if (string.IsNullOrEmpty(password))
                 return;
 
@@ -42,6 +45,7 @@ namespace engineering_project_front.Pages
             ResetPasswordParameters parameters = new()
             {
                 Email = user.Email!,
+                OldPassword = oldPassword,
                 NewPassword = password
             };
 
