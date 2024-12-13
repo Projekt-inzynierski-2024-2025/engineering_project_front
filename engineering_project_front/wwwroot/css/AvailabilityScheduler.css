@@ -39,6 +39,10 @@ body {
         padding-right: 10px;
     }
 
+.e-success {
+    padding: 0px 0px;
+}
+
 /* Responsywność */
 @media (max-width: 768px) {
     .container {

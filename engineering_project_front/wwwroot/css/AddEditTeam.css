@@ -107,6 +107,10 @@ body {
     width: auto;
 }
 
+.e-success {
+    padding: 0px 0px;
+}
+
 .e-ddl.e-lib.e-input-group.e-control-container.e-control-wrapper.e-success.e-valid-input.modified.valid {
     width: auto !important;
 }
