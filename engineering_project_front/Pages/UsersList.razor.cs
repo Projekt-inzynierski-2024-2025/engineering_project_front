@@ -5,6 +5,8 @@ using Syncfusion.Blazor.Notifications;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services;
 using Blazored.SessionStorage;
+using engineering_project_front.Layout;
+using engineering_project_front.Models;
 
 namespace engineering_project_front.Pages
 {
@@ -25,6 +27,9 @@ namespace engineering_project_front.Pages
         private List<UsersResponse> FilteredUsers { get; set; } = new();
         private string SearchTerm { get; set; } = string.Empty;
 
+        public SidebarMenu Instance { get; private set; } = default!;
+        public List<TreeData> TreeData { get; set; } = new();
+
         #region Toast
         private SfToast? Toast;
         private string Title { get; set; } = string.Empty;
@@ -34,6 +39,8 @@ namespace engineering_project_front.Pages
         {
             if (!await validateRole.IsAuthorized("Administrator"))
                 NavManager.NavigateTo("/auth-error");
+
+         
 
             var response = await UsersService.GetUsersAsync();
             if (response.Success)
@@ -67,7 +74,7 @@ namespace engineering_project_front.Pages
 
         private void AddUser()
         {
-
+            TreeData.Find(x => x.Id == "13").Selected = false;
             NavManager.NavigateTo($"/add-edit-user/");
 
         }
