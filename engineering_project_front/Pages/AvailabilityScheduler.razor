@@ -18,7 +18,15 @@
             <ScheduleWorkHours Highlight="true" Start="5:00" End="23:00"></ScheduleWorkHours>
             <ScheduleTemplates>
                 <EditorHeaderTemplate>
-                    <div>Edytuj dyspozycje</div>
+                    <div>@if (isEditing)
+                        {
+                            <p>Edytuj dyspozycję</p>
+                        }
+                        else
+                        {
+                            <p>Dodaj dyspozycję</p>
+                        }
+                    </div>
                 </EditorHeaderTemplate>
                 <EditorTemplate>
                     @{
@@ -28,7 +36,7 @@
                                 <tr>
                                     <td class="e-textlabel">Data</td>
                                     <td>
-                                        <SfDatePicker @bind-Value="@(Data.Date)" Min="@minDate" Max="@maxDate"></SfDatePicker>
+                                        <SfDatePicker @bind-Value="@(Data.Date)" Min="@minDate" Max="@maxDate" Readonly="isEditing"></SfDatePicker>
                                     </td>
                                 </tr>
                                 <tr>
@@ -56,7 +64,7 @@
                     <FieldEndTime Name="TimeEnd"></FieldEndTime>
                 </ScheduleField>
             </ScheduleEventSettings>
-            <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose" EventRendered="OnEventRendered"></ScheduleEvents>
+            <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose" EventRendered="OnEventRendered" OnActionBegin="OnActionBegin"></ScheduleEvents>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
@@ -64,6 +72,7 @@
                 <ScheduleView Option="View.Month"></ScheduleView>
                 <ScheduleView Option="View.Agenda"></ScheduleView>
                 <ScheduleView Option="View.MonthAgenda"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="1" Option="View.TimelineDay"></ScheduleView>
             </ScheduleViews>
         </SfSchedule>
     </div>
