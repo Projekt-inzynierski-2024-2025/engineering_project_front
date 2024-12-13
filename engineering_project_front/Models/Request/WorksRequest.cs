@@ -1,9 +1,11 @@
-﻿namespace engineering_project_front.Models.Request
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace engineering_project_front.Models.Request
 {
     public class WorksRequest
     {
         public long UserID { get; set; }
-        public DateTime Date { get; set; } = DateTime.Today;
+        public DateTime Date { get; set; } = DateTime.Now.AddHours(TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).Hours);
         public DateTime TimeStart { get; set; } = DateTime.Now;
         public DateTime TimeEnd { get; set; } = new DateTime();
         public DateTime BreakStart { get; set; } = new DateTime();
