@@ -81,8 +81,8 @@ namespace engineering_project_front.Pages
                     allBreakTime += workTime.BreakTime.TimeOfDay;
                 }
 
-                MonthlyWorkTime = allWorkTime.ToString("HH':'mm'");
-                MonthlyBreakTime = allBreakTime.ToString("HH':'mm'");
+                MonthlyWorkTime = allWorkTime.ToString("HH:mm");
+                MonthlyBreakTime = allBreakTime.ToString("HH:mm");
             }
             else
             {
