@@ -123,7 +123,7 @@ namespace engineering_project_front.Layout
                     {
                         Id = "8",
                         Pid = "1",
-                        Name = "Dostępności godzinowe"
+                        Name = "Dyspozycja"
                     },
                     new TreeData()
                     {

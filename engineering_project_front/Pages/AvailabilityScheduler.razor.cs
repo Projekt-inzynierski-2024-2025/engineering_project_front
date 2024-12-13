@@ -3,6 +3,7 @@ using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Notifications;
 using Syncfusion.Blazor.Schedule;
 
 namespace engineering_project_front.Pages
@@ -14,8 +15,12 @@ namespace engineering_project_front.Pages
         private View CurrentView { get; set; } = View.Week;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
 
-        private DateTime minDate = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 5, 0, 0);
-        private DateTime maxDate = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day, 23, 0, 0);
+        private DateTime minDate = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, 1);
+        private DateTime maxDate = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month));
+        private DateTime minTime = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, 1, 5, 0, 0);
+        private DateTime maxTime = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month), 23, 0, 0);
+
+        private bool isEditing = false;
 
         public long? UserID;
         public string FirstName = string.Empty;
@@ -38,6 +43,12 @@ namespace engineering_project_front.Pages
         private NavigationManager navManager { get; set; } = default!;
         #endregion
 
+        #region Toast
+        private SfToast? Toast;
+        private string Title { get; set; } = string.Empty;
+        private string Message { get; set; } = string.Empty;
+        #endregion
+
         protected async override Task OnInitializedAsync()
         {
             if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
@@ -54,7 +65,10 @@ namespace engineering_project_front.Pages
             var token = await sessionStorage.GetItemAsStringAsync("token");
 
             if (token == null)
+            {
+                ShowToast("Błąd", "Nie można pobrać danych zalogowanej osoby. Nie będzie można podejrzeć dyspozycyjności, dodać nowych ani edytować.");
                 return;
+            }
 
             token = token.Trim('"');
 
@@ -67,8 +81,8 @@ namespace engineering_project_front.Pages
 
         private async Task GetAvailabilities()
         {
-            var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate);
-            var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(CurrentDate.AddMonths(1));
+            var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentDate);
+            var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentDate.AddMonths(1));
 
             if (responseCurrentMonth.Success)
             {
@@ -93,7 +107,7 @@ namespace engineering_project_front.Pages
             var endOfTheNextMonth = new DateTime(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month, DateTime.DaysInMonth(DateTime.Today.AddMonths(1).Year, DateTime.Today.AddMonths(1).Month));
             var aWeekBeforeEndOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).AddDays(-7);
             var selectedDate = args.StartTime;
-            
+            isEditing = false;
 
             if (selectedDate < startOfTheNextMonth || selectedDate > endOfTheNextMonth || DateTime.Today >= aWeekBeforeEndOfMonth) return;
             await ScheduleRef.OpenEditorAsync(args, CurrentAction.Add); //to open the editor window on cell click
@@ -104,6 +118,7 @@ namespace engineering_project_front.Pages
             {
                 args.Cancel = true;
                 CurrentAction action = CurrentAction.Save;
+                isEditing = true;
                 await ScheduleRef.OpenEditorAsync(args.Event, action); //to open the editor window on event click
             }
         }
@@ -120,6 +135,46 @@ namespace engineering_project_front.Pages
             }
             args.Attributes = attributes;
         }
+        public void OnActionBegin(ActionEventArgs<AvailabilitiesResponse> args)
+        {
+
+            if (args.ActionType == ActionType.EventCreate)
+            {
+                bool containsSameDate = args.AddedRecords.Any(arg => dataSource.Any(ds => ds.Date == arg.Date));
+
+                if (containsSameDate)
+                {
+                    args.AddedRecords = null;
+                    ShowToast("Błąd", "Dyspozycyjność istnieje dla tego dnia.");
+                }
+                else if(!isTimeValid(args.AddedRecords.First().TimeStart, args.AddedRecords.First().TimeEnd))
+                {
+                    args.AddedRecords = null;
+                    ShowToast("Błąd", "Podano nieprawidłowy czas.");
+                }
+
+                return;
+            }
+
+
+            if (args.ActionType == ActionType.EventChange)
+            {
+                bool containsSameDate = args.ChangedRecords.Any(arg => dataSource.Any(ds => ds.Date == arg.Date));
+
+                if (containsSameDate)
+                {
+                    args.ChangedRecords = null;
+                    ShowToast("Błąd", "Dyspozycyjność istnieje dla tego dnia.");
+                }
+                else if (!isTimeValid(args.ChangedRecords.First().TimeStart, args.ChangedRecords.First().TimeEnd))
+                {
+                    args.ChangedRecords = null;
+                    ShowToast("Błąd", "Podano nieprawidłowy czas.");
+                }
+
+                return;
+            }
+        }
 
         public void OnPopupClose(PopupCloseEventArgs<AvailabilitiesResponse> args)
         {
@@ -135,8 +190,6 @@ namespace engineering_project_front.Pages
 
             var data = args.Data;
 
-            data.Date = data.TimeStart.Date;//Temporary
-
             AvailabilitiesRequest request = new()
             {
                 ID = data.ID,
@@ -144,8 +197,8 @@ namespace engineering_project_front.Pages
                 Date = data.Date,
                 TimeStart = data.TimeStart,
                 TimeEnd = data.TimeEnd,
-                Status = data.Status,
-                Type = data.Type,
+                Status = 0,
+                Type = 1,
             };
 
             switch (args.Type)
@@ -166,6 +219,19 @@ namespace engineering_project_front.Pages
                     availabilitiesService.RemoveAvailability(request);
                     break;
             }
+        }
+
+        private void ShowToast(string title, string message)
+        {
+            Title = title;
+            Message = message;
+            InvokeAsync(StateHasChanged);
+            Toast?.ShowAsync();
+        }
+
+        private bool isTimeValid(DateTime timeStart, DateTime timeEnd)
+        {
+            return timeStart < timeEnd;
         }
     }
 }
