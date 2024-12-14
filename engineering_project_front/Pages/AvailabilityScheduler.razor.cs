@@ -159,14 +159,7 @@ namespace engineering_project_front.Pages
 
             if (args.ActionType == ActionType.EventChange)
             {
-                bool containsSameDate = args.ChangedRecords.Any(arg => dataSource.Any(ds => ds.Date == arg.Date));
-
-                if (containsSameDate)
-                {
-                    args.ChangedRecords = null;
-                    ShowToast("Błąd", "Dyspozycyjność istnieje dla tego dnia.");
-                }
-                else if (!isTimeValid(args.ChangedRecords.First().TimeStart, args.ChangedRecords.First().TimeEnd))
+                if (!isTimeValid(args.ChangedRecords.First().TimeStart, args.ChangedRecords.First().TimeEnd))
                 {
                     args.ChangedRecords = null;
                     ShowToast("Błąd", "Podano nieprawidłowy czas.");
