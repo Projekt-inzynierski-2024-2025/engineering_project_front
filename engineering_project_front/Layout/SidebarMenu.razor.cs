@@ -65,13 +65,13 @@ namespace engineering_project_front.Layout
                 },
                 new TreeData()
                 {
-                    Id = "4",
+                    Id = "5",
                     Pid = "1",
                     Name = "Moje konto"
                 },
                 new TreeData()
                 {
-                    Id = "5",
+                    Id = "6",
                     Pid = "1",
                     Name = "Wyloguj się"
                 },
@@ -83,21 +83,21 @@ namespace engineering_project_front.Layout
                 TreeData.AddRange(new List<TreeData>{
                     new TreeData
                     {
-                        Id = "3",
+                        Id = "4",
                         Name = "Panel Administracyjny",
                         HasChild = true,
                         Expanded = true,
                     },
                     new TreeData
                     {
-                        Id = "13",
-                        Pid = "3",
+                        Id = "14",
+                        Pid = "4",
                         Name = "Zarządzanie użytkownikami",
                     },
                     new TreeData
                     {
-                        Id = "14",
-                        Pid = "3",
+                        Id = "15",
+                        Pid = "4",
                         Name = "Zarządzanie zespołami",
                     },
                 });
@@ -109,32 +109,39 @@ namespace engineering_project_front.Layout
                 {
                     new TreeData
                     {
-                        Id = "6",
-                        Pid = "1",
+                        Id = "2",
+                        Name = "Panel Pracownika",
+                        HasChild = true,
+                        Expanded = true,
+                    },
+                    new TreeData
+                    {
+                        Id = "7",
+                        Pid = "2",
                         Name = "Strona głowna",
                     },
                     new TreeData()
                     {
-                        Id= "7",
-                        Pid = "1",
+                        Id= "8",
+                        Pid = "2",
                         Name = "Zmień godziny pracy"
                     },
                     new TreeData()
                     {
-                        Id = "8",
-                        Pid = "1",
+                        Id = "9",
+                        Pid = "2",
                         Name = "Dyspozycja"
                     },
                     new TreeData()
                     {
-                        Id = "9",
-                        Pid = "1",
+                        Id = "10",
+                        Pid = "2",
                         Name = "Czas pracy"
                     },
                     new TreeData()
                     {
-                        Id = "10",
-                        Pid = "1",
+                        Id = "11",
+                        Pid = "2",
                         Name = "Moje zmiany"
                     },
                 });
@@ -145,21 +152,21 @@ namespace engineering_project_front.Layout
                     TreeData.AddRange(new List<TreeData>{
                     new TreeData
                     {
-                        Id = "2",
+                        Id = "3",
                         Name = "Panel Kierownika",
                         HasChild = true,
                         Expanded = true,
                     },
                     new TreeData
                     {
-                        Id = "11",
-                        Pid = "2",
+                        Id = "12",
+                        Pid = "3",
                         Name = "Moi Pracownicy",
                     },
                     new TreeData
                     {
-                        Id = "12",
-                        Pid = "2",
+                        Id = "13",
+                        Pid = "3",
                         Name = "Grafik",
                     },
                 });
@@ -172,39 +179,39 @@ namespace engineering_project_front.Layout
         {
             switch (args.NodeData.Id)
             {
-                case "4":
+                case "5":
                     NavManager.NavigateTo("/my-account");
                     break;
-                case "5":
+                case "6":
                     sessionStorage.RemoveItemAsync("token");
                     sessionStorage.RemoveItemAsync("role");
                     NavManager.NavigateTo("/");
                     break;
-                case "6":
+                case "7":
                     NavManager.NavigateTo("/home");
                     break;
-                case "7":
+                case "8":
                     NavManager.NavigateTo("/edit-work");
                     break;
-                case "8":
+                case "9":
                     NavManager.NavigateTo("/availability-scheduler");
                     break;
-                case "9":
+                case "10":
                     NavManager.NavigateTo("/show-time");
                     break;
-                case "10":
+                case "11":
                     NavManager.NavigateTo("/myShifts");
                     break;
-                case "11":
+                case "12":
                     NavManager.NavigateTo("/MyEmployees");
                     break;
-                case "12":
+                case "13":
                     NavManager.NavigateTo("/ScheduleMonth");
                     break;
-                case "13":
+                case "14":
                     NavManager.NavigateTo("/UsersList");
                     break;
-                case "14":
+                case "15":
                     NavManager.NavigateTo("/TeamsList");
                     break;
                 default:
