@@ -10,7 +10,7 @@ using System.Data;
 
 namespace engineering_project_front.Pages
 {
-    public partial class MyEmployees:ComponentBase
+    public partial class MyEmployees : ComponentBase
     {
         #region Injection
         [Inject]
@@ -34,12 +34,12 @@ namespace engineering_project_front.Pages
         private List<HoursForUserForMonthResponse> HoursForUsers { get; set; } = new();
         private long TeamID { get; set; } = 0;
         private string TeamName { get; set; } = "";
-        private SfDialog? TeamDialog;
+        private SfDialog TeamDialog = default!;
         private bool IsTeamDialogVisible { get; set; } = false;
         private List<TeamsResponse> Teams { get; set; } = new();
         private long SelectedTeamID { get; set; }
         private bool IsEmployeeWorkDialogVisible { get; set; } = false;
-        private long  SelectedUserID { get; set; } 
+        private long SelectedUserID { get; set; }
         private DateTime SelectedWorkDate { get; set; }
         private long UserID { get; set; } = 0;
 
@@ -50,7 +50,7 @@ namespace engineering_project_front.Pages
         private DateTime DataChoose = DateTime.Today;
 
         #region ToastAndNotification
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         #endregion
@@ -65,11 +65,11 @@ namespace engineering_project_front.Pages
 
             if (Teams is null)
             {
-                ShowToast("Nie znaleziono zespołów", false);
+                await ShowToast("Nie znaleziono zespołów", false);
                 return;
             }
 
-            if(Teams.Count == 1)
+            if (Teams.Count == 1)
             {
                 TeamID = Teams[0].ID;
                 TeamName = Teams[0].Name;
@@ -80,12 +80,7 @@ namespace engineering_project_front.Pages
                 IsTeamDialogVisible = true;
                 await InvokeAsync(StateHasChanged);
             }
-
-         
-
         }
-
-
 
         #region ToastAndNotification
         private async Task ShowToast(string message, bool success)
@@ -96,7 +91,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
 
         #endregion
@@ -107,21 +102,21 @@ namespace engineering_project_front.Pages
             var token = await SessionStorage.GetItemAsStringAsync("token");
 
             if (string.IsNullOrEmpty(token))
-                return null;
+                return new();
 
             token = token.Trim('"');
 
             var user = await UsersService.GetUserFromToken(token);
-            var response = await TeamsService.GetTeamsIDForManager(user.Email);
+            var response = await TeamsService.GetTeamsIDForManager(user.Email!);
 
             if (response.Success)
             {
-                return response.Data;
+                return response.Data!;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
-                return null;
+                await ShowToast(response.Message!, response.Success);
+                return new();
             }
         }
 
@@ -138,14 +133,14 @@ namespace engineering_project_front.Pages
             if (SelectedTeamID > 0)
             {
                 TeamID = SelectedTeamID;
-                TeamName = Teams.Find(team => team.ID == SelectedTeamID).Name;
+                TeamName = Teams.Find(team => team.ID == SelectedTeamID)!.Name;
                 IsTeamDialogVisible = false;
-               await LoadEmployesForTeam();
+                await LoadEmployesForTeam();
                 await InvokeAsync(StateHasChanged);
             }
             else
             {
-                ShowToast("Proszę wybrać zespół", false);
+                await ShowToast("Proszę wybrać zespół", false);
             }
         }
 
@@ -161,19 +156,19 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 var teamsIDs = await GetTeamsID();
-                if (teamsIDs == null || teamsIDs.Count == 0)
+                if (teamsIDs.Any())
                 {
-                    ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
+                    await ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
                     return new List<TeamsResponse>();
                 }
 
                 // Przefiltruj zespoły na podstawie ID
-                var filteredTeams = response.Data.Where(team => teamsIDs.Contains(team.ID)).ToList();
+                var filteredTeams = response.Data!.Where(team => teamsIDs.Contains(team.ID)).ToList();
                 return filteredTeams;
             }
             else
             {
-                ShowToast(response.Message, false);
+                await ShowToast(response.Message!, false);
                 return new List<TeamsResponse>();
             }
         }
@@ -183,25 +178,25 @@ namespace engineering_project_front.Pages
             var response = await ScheduleService.GetUsersHoursForMonth(DataChoose.Year, DataChoose.Month, TeamID);
             if (response.Success)
             {
-                HoursForUsers = response.Data;
+                HoursForUsers = response.Data!;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
                 HoursForUsers = new List<HoursForUserForMonthResponse>();
             }
         }
 
-     
 
-        private void OnContextMenuClick(ContextMenuClickEventArgs<HoursForUserForMonthResponse> args)
+
+        private async void OnContextMenuClick(ContextMenuClickEventArgs<HoursForUserForMonthResponse> args)
         {
             if (args == null)
                 return;
 
-                switch (args.Item.Id)
+            switch (args.Item.Id)
             {
-                
+
                 case "seeDetails":
                     if (args.RowInfo.RowData.userID != UserID)
                     {
@@ -209,7 +204,7 @@ namespace engineering_project_front.Pages
                     }
                     else
                     {
-                        ShowToast("Przejdź do zakładki moje zmiany",false );
+                       await ShowToast("Przejdź do zakładki moje zmiany", false);
                     }
                     break;
                 default:
@@ -235,18 +230,18 @@ namespace engineering_project_front.Pages
                 var response = await WorksService.ChangeWorkStatus(SelectedUserID, SelectedWorkDate);
                 if (response.Success)
                 {
-                    ShowToast("Umożliwiono zmiane czasu pracy", true);
+                    await ShowToast("Umożliwiono zmiane czasu pracy", true);
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
                 IsEmployeeWorkDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
             }
             else
             {
-                ShowToast("Proszę wybrać pracownika", false);
+                await ShowToast("Proszę wybrać pracownika", false);
             }
         }
 
@@ -261,7 +256,7 @@ namespace engineering_project_front.Pages
 
         #endregion
 
-     
+
 
         private async Task OnDateChange(ChangedEventArgs<DateTime> args)
         {
@@ -276,25 +271,25 @@ namespace engineering_project_front.Pages
             if (args.Column.Field == nameof(HoursForUserForMonthResponse.workHoursForMonth))
             {
                 var workHours = Convert.ToDouble(args.Data.workHoursForMonth);
-                if (workHours > 5 || workHours ==0)
+                if (workHours > 5 || workHours == 0)
                 {
 
-                    args.Cell.AddClass(new string[] { "highlight-red" });
+                    args.Cell.AddClass(["highlight-red"]);
                 }
             }
         }
 
         private async Task GetUserToCheck()
         {
-           
-                var token = await SessionStorage.GetItemAsStringAsync("token");
 
-                token = token.Trim('"');
+            var token = await SessionStorage.GetItemAsStringAsync("token");
 
-                var user = await UsersService.GetUserFromToken(token);
-                UserID = user.ID;
+            token = token.Trim('"');
 
-            
+            var user = await UsersService.GetUserFromToken(token);
+            UserID = user.ID;
+
+
         }
     }
 }

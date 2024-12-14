@@ -16,7 +16,7 @@ namespace engineering_project_front.Pages
 
         private long ID;
 
-        #region
+        #region Injection
         [Inject]
         private IValidateRole validateRole { get; set; } = default!;
 

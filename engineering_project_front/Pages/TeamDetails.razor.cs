@@ -17,18 +17,14 @@ namespace engineering_project_front.Pages
         private IValidateRole validateRole { get; set; } = default!;
         #endregion
 
-
         [Parameter]
         public required string ParamID { get; set; }
 
         private long ID => long.Parse(ParamID);
         private TeamsResponse? Team { get; set; } = new TeamsResponse();
 
-
-
-
         #region ToastAndNotification
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private bool IsDeleteDialogVisible { get; set; } = false;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
@@ -54,12 +50,12 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
 
         #region ToastAndNotification
-        private async Task ShowToast(string message, bool success )
+        private async Task ShowToast(string message, bool success)
         {
             Message = message;
             if (success)
@@ -67,7 +63,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
         private void ShowDeleteConfirmation()
         {
@@ -83,7 +79,7 @@ namespace engineering_project_front.Pages
 
         private void EditTeam()
         {
-            NavManager.NavigateTo($"/add-edit-team/{Team.ID}");
+            NavManager.NavigateTo($"/add-edit-team/{Team!.ID}");
         }
 
         private async Task ConfirmDelete()
@@ -94,12 +90,12 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 Team = new TeamsResponse();
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
                 NavManager.NavigateTo("/TeamsList");
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
     }

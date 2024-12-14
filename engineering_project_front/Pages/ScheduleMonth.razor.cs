@@ -30,10 +30,9 @@ namespace engineering_project_front.Pages
         private IValidateRole validateRole { get; set; } = default!;
         #endregion
 
-
         private List<HoursForDayResponse> Hours { get; set; } = new();
         private long TeamID { get; set; } = 0;
-        private SfDialog? TeamDialog;
+        private SfDialog TeamDialog = default!;
         private bool IsTeamDialogVisible { get; set; } = false;
         private List<TeamsResponse> Teams { get; set; } = new();
         private long SelectedTeamID { get; set; }
@@ -43,7 +42,7 @@ namespace engineering_project_front.Pages
         private bool EditStatus { get; set; } = false;
 
         #region ToastAndNotification
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         #endregion
@@ -58,7 +57,7 @@ namespace engineering_project_front.Pages
 
             if (Teams is null)
             {
-                ShowToast("Nie znaleziono zespołów", false);
+                await ShowToast("Nie znaleziono zespołów", false);
                 return;
             }
 
@@ -67,7 +66,7 @@ namespace engineering_project_front.Pages
                 TeamID = Teams[0].ID;
                 await LoadScheduleForTeam();
                 await GetScheduleStatus();
-                TeamName = Teams.FirstOrDefault(t => t.ID == TeamID)?.Name;
+                TeamName = Teams.First(t => t.ID == TeamID).Name;
                 await InvokeAsync(StateHasChanged);
             }
             else
@@ -75,10 +74,6 @@ namespace engineering_project_front.Pages
                 IsTeamDialogVisible = true;
                 await InvokeAsync(StateHasChanged);
             }
-
-            
-
-            
         }
 
         #region ToastAndNotification
@@ -87,7 +82,7 @@ namespace engineering_project_front.Pages
             Message = message;
             Title = success ? "Sukces!" : "Błąd!";
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
         #endregion
 
@@ -96,21 +91,21 @@ namespace engineering_project_front.Pages
             var token = await SessionStorage.GetItemAsStringAsync("token");
 
             if (string.IsNullOrEmpty(token))
-                return null;
+                return new();
 
             token = token.Trim('"');
 
             var user = await UsersService.GetUserFromToken(token);
-            var response = await TeamsService.GetTeamsIDForManager(user.Email);
+            var response = await TeamsService.GetTeamsIDForManager(user.Email!);
 
             if (response.Success)
             {
-                return response.Data;
+                return response.Data!;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
-                return null;
+                await ShowToast(response.Message!, response.Success);
+                return new();
             }
         }
 
@@ -134,13 +129,13 @@ namespace engineering_project_front.Pages
                 TeamID = SelectedTeamID;
                 IsTeamDialogVisible = false;
                 await LoadScheduleForTeam();
-                TeamName = Teams.FirstOrDefault(t => t.ID == TeamID)?.Name;
+                TeamName = Teams.First(t => t.ID == TeamID).Name;
                 await GetScheduleStatus();
                 await InvokeAsync(StateHasChanged);
             }
             else
             {
-                ShowToast("Proszę wybrać zespół", false);
+                await ShowToast("Proszę wybrać zespół", false);
             }
         }
 
@@ -158,17 +153,17 @@ namespace engineering_project_front.Pages
                 var teamsIDs = await GetTeamsID();
                 if (teamsIDs == null || teamsIDs.Count == 0)
                 {
-                    ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
+                    await ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
                     return new List<TeamsResponse>();
                 }
 
                 // Przefiltruj zespoły na podstawie ID
-                var filteredTeams = response.Data.Where(team => teamsIDs.Contains(team.ID)).ToList();
+                var filteredTeams = response.Data!.Where(team => teamsIDs.Contains(team.ID)).ToList();
                 return filteredTeams;
             }
             else
             {
-                ShowToast(response.Message, false);
+                await ShowToast(response.Message!, false);
                 return new List<TeamsResponse>();
             }
         }
@@ -178,16 +173,16 @@ namespace engineering_project_front.Pages
             var response = await ScheduleService.GetHoursForEachDayForMonthAsync(DataChoose.Year, DataChoose.Month, TeamID);
             if (response.Success)
             {
-                Hours = response.Data;
+                Hours = response.Data!;
                 if (Hours.Count == 0)
                 {
-                    ShowToast("Brak danych", false);
+                    await ShowToast("Brak danych", false);
                     Hours = new List<HoursForDayResponse>();
                 }
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
                 Hours = new List<HoursForDayResponse>();
             }
         }
@@ -201,7 +196,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
             
         }
@@ -212,12 +207,12 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 EditStatus = !EditStatus;
-                ShowToast("Zmieniono status edycji", true);
+                await ShowToast("Zmieniono status edycji", true);
                 await InvokeAsync(StateHasChanged);
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
 

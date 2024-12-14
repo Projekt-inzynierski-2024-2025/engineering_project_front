@@ -24,7 +24,7 @@ namespace engineering_project_front.Pages
         DateTime minDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
 
         #region Toast
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
@@ -46,13 +46,13 @@ namespace engineering_project_front.Pages
                 var response = await ScheduleService.AddSchedule(Schedule);
                 if (response.Success)
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/ScheduleMonth");
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
             
 
@@ -72,7 +72,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
 
         #endregion

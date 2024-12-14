@@ -1,21 +1,15 @@
 ﻿using engineering_project_front.Models;
 using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
-using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Navigations;
 using Syncfusion.Blazor.Notifications;
 using Syncfusion.Blazor.Schedule;
-using System.Text.Json;
 
 namespace engineering_project_front.Pages
 {
-
- 
-
-  
-    public partial class Schedule:ComponentBase
+    public partial class Schedule : ComponentBase
     {
         #region Injects
         [Inject]
@@ -43,7 +37,7 @@ namespace engineering_project_front.Pages
 
 
         #region ScheduleView
-        SfSchedule<ShiftAppointment>? ScheduleRef;
+        SfSchedule<ShiftAppointment> ScheduleRef = default!;
         public int IntervalInMinutes { get; set; } = 60;
         public string StartTime { get; set; } = "05:00";
         public string EndTime { get; set; } = "23:00";
@@ -71,9 +65,9 @@ namespace engineering_project_front.Pages
         private bool isCell;
         private bool isEvent;
         private bool isResource;
-        private CellClickEventArgs CellData { get; set; }
-        private ShiftAppointment EventData { get; set; }
-        private ElementInfo<ShiftAppointment> ElementData { get; set; }
+        private CellClickEventArgs CellData { get; set; } = default!;
+        private ShiftAppointment EventData { get; set; } = default!;
+        private ElementInfo<ShiftAppointment> ElementData { get; set; } = default!;
         private bool IsShiftDialogVisible = false;
 
         public DateTime MinVal { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15, 05, 00, 00);
@@ -95,7 +89,7 @@ namespace engineering_project_front.Pages
 
 
         #region ToastAndNotification
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private bool IsDeleteDialogVisible { get; set; } = false;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
@@ -116,7 +110,7 @@ namespace engineering_project_front.Pages
             await LoadDataToSchedule();
             await InvokeAsync(StateHasChanged);
 
-            if(DailySchedule.Status == 1 || DailySchedule.Date < DateTime.Now)
+            if (DailySchedule.Status == 1 || DailySchedule.Date < DateTime.Now)
             {
                 Editable = false;
             }
@@ -127,12 +121,8 @@ namespace engineering_project_front.Pages
 
             await base.OnInitializedAsync();
         }
-
-        #region Scheudle
-
-
-        #endregion
-
+        
+        //Schedule
 
         #region calendar
         private async Task LoadDataToSchedule()
@@ -206,7 +196,7 @@ namespace engineering_project_front.Pages
         }
         #endregion
 
-    
+
         #region GetFromDataBase
 
         private async Task GetSchedule()
@@ -215,11 +205,11 @@ namespace engineering_project_front.Pages
             var responseSchedule = await ScheduleService.GetDailySchedule(ID);
             if (responseSchedule.Success)
             {
-                DailySchedule = responseSchedule.Data;
+                DailySchedule = responseSchedule.Data!;
             }
             else
             {
-                ShowToast(responseSchedule.Message, responseSchedule.Success);
+                await ShowToast(responseSchedule.Message!, responseSchedule.Success);
                 return;
             }
 
@@ -231,7 +221,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(responseHours.Message, responseHours.Success);
+                await ShowToast(responseHours.Message!, responseHours.Success);
                 return;
             }
 
@@ -241,12 +231,11 @@ namespace engineering_project_front.Pages
             var response = await UsersService.GetUserByTeam(DailySchedule.TeamID);
             if (response.Success)
             {
-                Employees = response.Data;
-                Employees = response.Data;
+                Employees = response.Data!;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
 
@@ -255,11 +244,11 @@ namespace engineering_project_front.Pages
             var response = await ScheduleService.GetUsersDailySchedules(DailySchedule.TeamID, DailySchedule.Date);
             if (response.Success)
             {
-                UsersDailySchedulesResponses = response.Data;
+                UsersDailySchedulesResponses = response.Data!;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
 
@@ -268,11 +257,11 @@ namespace engineering_project_front.Pages
             var response = await AvailabilitiesService.GetAvailabilitiesForTeam(DailySchedule.Date, DailySchedule.TeamID);
             if (response.Success)
             {
-                Availabilities = response.Data;
+                Availabilities = response.Data!;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
 
@@ -284,15 +273,15 @@ namespace engineering_project_front.Pages
                 var response = await WorksService.GetWorksForTeamForDay(DailySchedule.Date, DailySchedule.TeamID);
                 if (response.Success)
                 {
-                    Works = response.Data;
+                    Works = response.Data!;
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
 
                 }
             }
-             
+
         }
 
         #endregion
@@ -307,7 +296,7 @@ namespace engineering_project_front.Pages
                 return; // Obsługujemy tylko główne elementy menu
             }
 
-            ElementData = await ScheduleRef.GetElementInfoAsync((int)args.Left, (int)args.Top);
+            ElementData = await ScheduleRef.GetElementInfoAsync((int)args.Left!, (int)args.Top!);
 
             if (ElementData.ElementType != ElementType.Event)
             {
@@ -326,32 +315,32 @@ namespace engineering_project_front.Pages
 
         public async Task OnItemSelected(MenuEventArgs<MenuItem> args)
         {
-            if(DailySchedule.Status == 1)
-                {
-                ShowToast("Nie możesz edytować zmian w zamkniętym dniu.", false);
+            if (DailySchedule.Status == 1)
+            {
+                await ShowToast("Nie możesz edytować zmian w zamkniętym dniu.", false);
                 return;
             }
 
             if (DailySchedule.Date < DateTime.Now)
             {
-                ShowToast("Nie możesz edytować zmian z przeszłości.", false);
+                await ShowToast("Nie możesz edytować zmian z przeszłości.", false);
                 return;
             }
 
             if (args.Item.Id == "Details" && EventData != null)
             {
-                if(EventData.Subject == "Zmiana")
+                if (EventData.Subject == "Zmiana")
                 {
                     var userShift = UsersDailySchedulesResponses.Find(x => x.ID == EventData.Id);
                     if (userShift != null)
                     {
                         Start = userShift.TimeStart;
                         End = userShift.TimeEnd;
-                        OpenShiftDialog(userShift);
-                        
+                        await OpenShiftDialog(userShift);
+
                     }
                 }
-                else if(EventData.Subject == "Dyspozycyjność")
+                else if (EventData.Subject == "Dyspozycyjność")
                 {
                     var userAva = Availabilities.Find(x => x.ID == EventData.Id);
                     if (userAva != null)
@@ -365,7 +354,7 @@ namespace engineering_project_front.Pages
                             ShiftToEdit.TimeStart = userAva.TimeStart;
                             ShiftToEdit.TimeEnd = userAva.TimeEnd;
                             ShiftToEdit.IsEditing = false;
-                            OpenShiftDialog(ShiftToEdit);
+                            await OpenShiftDialog(ShiftToEdit);
 
 
                         }
@@ -395,7 +384,7 @@ namespace engineering_project_front.Pages
 
             if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
-                ShowToast("Nie poprawne godziny.", false);
+                await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
 
@@ -414,14 +403,14 @@ namespace engineering_project_front.Pages
             {
                 ShiftToEdit.IsEditing = false;
                 await RefreshHoursAsync();
-                ShowToast("Zmiany zostały zapisane.", true);
+                await ShowToast("Zmiany zostały zapisane.", true);
                 IsShiftDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
                 NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
             }
             else
             {
-                ShowToast(response.Message, false);
+                await ShowToast(response.Message!, false);
             }
 
 
@@ -436,13 +425,13 @@ namespace engineering_project_front.Pages
 
             if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
-                ShowToast("Nie poprawne godziny.", false);
+                await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
             // Save the new shift data to the backend
             var newShift = new UsersDailySchedulesRequest
             {
-                UserID = employee.ID,
+                UserID = employee!.ID,
                 TimeStart = updatedTimeStart,
                 TimeEnd = updatedTimeEnd
             };
@@ -453,14 +442,14 @@ namespace engineering_project_front.Pages
                 employee.IsAddingShift = false;
                 await GetUserSchedules();
                 await RefreshHoursAsync();
-                ShowToast("Zmiana została dodana.", true);
+                await ShowToast("Zmiana została dodana.", true);
                 IsShiftDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
                 NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
             }
             else
             {
-                ShowToast(response.Message, false);
+                await ShowToast(response.Message!, false);
             }
 
 
@@ -480,14 +469,14 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 await RefreshHoursAsync();
-                ShowToast("Zmiana została usunięta.", true);
+                await ShowToast("Zmiana została usunięta.", true);
                 IsShiftDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
                 NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
             }
             else
             {
-                ShowToast(response.Message, false);
+                await ShowToast(response.Message!, false);
             }
         }
 
@@ -513,12 +502,12 @@ namespace engineering_project_front.Pages
             });
             if (response.Success)
             {
-                ShowToast("Godziny zostały zaktualizowane.", true);
+                await ShowToast("Godziny zostały zaktualizowane.", true);
                 isEditingHours = false;
             }
             else
             {
-                ShowToast(response.Message, false);
+                await ShowToast(response.Message!, false);
             }
         }
 
@@ -534,11 +523,11 @@ namespace engineering_project_front.Pages
             if (responseHours.Success)
             {
                 TotalHours = responseHours.Data;
-                ShowToast("Ilość godzin została odświeżona.", true);
+                await ShowToast("Ilość godzin została odświeżona.", true);
             }
             else
             {
-                ShowToast(responseHours.Message, false);
+                await ShowToast(responseHours.Message!, false);
             }
         }
 
@@ -550,12 +539,12 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 DailySchedule = new DailySchedulesResponse();
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
                 NavManager.NavigateTo("/ScheduleMonth");
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
 
@@ -563,7 +552,7 @@ namespace engineering_project_front.Pages
 
         private async Task AddShiftIfNoAvailabilitieAsync()
         {
-            var employee = Employees.Find(x => x.ID == SelectedEmployeeID); 
+            var employee = Employees.Find(x => x.ID == SelectedEmployeeID);
             var updatedTimeStart = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
                             Start.Hour, Start.Minute, 0);
             var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
@@ -571,13 +560,13 @@ namespace engineering_project_front.Pages
 
             if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
-                ShowToast("Nie poprawne godziny.", false);
+                await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
             // Save the new shift data to the backend
             var newShift = new UsersDailySchedulesRequest
             {
-                UserID = employee.ID,
+                UserID = employee!.ID,
                 TimeStart = updatedTimeStart,
                 TimeEnd = updatedTimeEnd
             };
@@ -588,16 +577,16 @@ namespace engineering_project_front.Pages
                 employee.IsAddingShift = false;
                 await GetUserSchedules();
                 await RefreshHoursAsync();
-                ShowToast("Zmiana została dodana.", true);
+                await ShowToast("Zmiana została dodana.", true);
                 IsAddShiftToEmployeeWithoutAvaDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
                 NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
             }
             else
             {
-                ShowToast(response.Message, false);
+                await ShowToast(response.Message!, false);
             }
-            
+
 
         }
 
@@ -612,7 +601,7 @@ namespace engineering_project_front.Pages
             await InvokeAsync(StateHasChanged);
         }
 
-        
+
 
 
 
@@ -627,7 +616,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
         private void ShowDeleteConfirmation()
         {

@@ -44,7 +44,7 @@ namespace engineering_project_front.Pages
         #endregion
 
         #region Toast
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
@@ -219,7 +219,7 @@ namespace engineering_project_front.Pages
             Title = title;
             Message = message;
             InvokeAsync(StateHasChanged);
-            Toast?.ShowAsync();
+            Toast.ShowAsync();
         }
 
         private bool isTimeValid(DateTime timeStart, DateTime timeEnd)

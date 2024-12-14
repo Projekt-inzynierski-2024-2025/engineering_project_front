@@ -14,7 +14,7 @@ namespace engineering_project_front.Pages
     {
         private LoginParameters loginParameter = new();
 
-        SfToast ToastObj = new();
+        SfToast ToastObj = default!;
         private string ToastContent = string.Empty;
 
         private string login = string.Empty;

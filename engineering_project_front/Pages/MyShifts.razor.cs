@@ -3,11 +3,8 @@ using engineering_project_front.Models;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Calendars;
-using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace engineering_project_front.Pages
 {
@@ -45,11 +42,11 @@ namespace engineering_project_front.Pages
         private TimeSpan WorkTime = TimeSpan.Zero;
         private TimeSpan PlannedWorkTime = TimeSpan.Zero;
 
-        private string TodayShift  = "Brak";
+        private string TodayShift = "Brak";
         private string TomorrowShift = "Brak";
 
         #region ToastAndNotification
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         #endregion
@@ -80,9 +77,9 @@ namespace engineering_project_front.Pages
                 await GetTodayTomorrowShift(UserToCheck.ID);
             }
 
-            
+
             var status = await ShiftStatus();
-            if(status)
+            if (status)
             {
                 UserShiftWorks = new List<ShiftWork>();
                 WorkTime = TimeSpan.Zero;
@@ -91,7 +88,7 @@ namespace engineering_project_front.Pages
                 TomorrowShift = "Brak";
             }
 
-           
+
 
             await InvokeAsync(StateHasChanged);
 
@@ -102,7 +99,7 @@ namespace engineering_project_front.Pages
             var responseUserDailySchedule = await ScheduleService.GetUsersDailySchedulesForMonth(userID, DateTime.Now);
             if (!responseUserDailySchedule.Success)
             {
-                ShowToast(responseUserDailySchedule.Message, responseUserDailySchedule.Success);
+                await ShowToast(responseUserDailySchedule.Message!, responseUserDailySchedule.Success);
             }
             var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
 
@@ -144,7 +141,7 @@ namespace engineering_project_front.Pages
             var responseUserDailySchedule = await ScheduleService.GetUsersDailySchedulesForMonth(userID, date);
             if (!responseUserDailySchedule.Success)
             {
-                ShowToast(responseUserDailySchedule.Message, responseUserDailySchedule.Success);
+                await ShowToast(responseUserDailySchedule.Message!, responseUserDailySchedule.Success);
             }
             var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
 
@@ -152,7 +149,7 @@ namespace engineering_project_front.Pages
             var responseUserWorkedShifts = await WorksService.GetWorkForMonth(userID, date);
             if (!responseUserWorkedShifts.Success)
             {
-                ShowToast(responseUserWorkedShifts.Message, responseUserWorkedShifts.Success);
+                await ShowToast(responseUserWorkedShifts.Message!, responseUserWorkedShifts.Success);
             }
             var userWorkedShifts = responseUserWorkedShifts.Data ?? new List<WorksResponse>();
 
@@ -225,7 +222,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
 
         #endregion
@@ -242,9 +239,9 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
                 return false;
-                
+
             }
 
         }
@@ -254,7 +251,7 @@ namespace engineering_project_front.Pages
             var token = await SessionStorage.GetItemAsStringAsync("token");
 
             if (string.IsNullOrEmpty(token))
-                return null;
+                return new();
 
             token = token.Trim('"');
 
@@ -263,12 +260,12 @@ namespace engineering_project_front.Pages
 
             if (response.Success)
             {
-                return response.Data;
+                return response.Data!;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
-                return null;
+                await ShowToast(response.Message!, response.Success);
+                return new();
             }
         }
 
@@ -280,11 +277,11 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.GetUser(UserID.Value);
                 if (response.Success)
                 {
-                    UserToCheck = response.Data;
+                    UserToCheck = response.Data!;
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
 
                 }
             }
@@ -303,9 +300,9 @@ namespace engineering_project_front.Pages
         {
             DataChoose = args.Value;
 
-           if(IsManager)
+            if (IsManager)
             {
-                UserShiftWorks = await GetUserShiftWork(UserID.Value, DataChoose);
+                UserShiftWorks = await GetUserShiftWork(UserID!.Value, DataChoose);
             }
             else
             {
@@ -315,6 +312,6 @@ namespace engineering_project_front.Pages
             await InvokeAsync(StateHasChanged);
         }
 
-        
+
     }
 }

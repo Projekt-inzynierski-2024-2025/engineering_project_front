@@ -32,7 +32,7 @@ namespace engineering_project_front.Pages
         private long UserID { get; set; } = 0;
 
         #region ToastAndNotification
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         private bool IsDeleteDialogVisible { get; set; } = false;
@@ -50,8 +50,8 @@ namespace engineering_project_front.Pages
 
         private async Task GetUser()
         {
-             
-            var response= await UsersService.GetUser(ID);
+
+            var response = await UsersService.GetUser(ID);
 
             if (response.Success)
             {
@@ -60,12 +60,12 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
         }
 
         #region ToastAndNotification
-        private async Task ShowToast(string message, bool success )
+        private async Task ShowToast(string message, bool success)
         {
             Message = message;
             if (success)
@@ -73,7 +73,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
 
         private void ShowDeleteConfirmation()
@@ -88,14 +88,14 @@ namespace engineering_project_front.Pages
         #endregion
 
 
-        private void EditUser()
+        private async Task EditUser()
         {
-            if(UserID == ID)
+            if (UserID == ID)
             {
-                ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
+                await ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
                 return;
             }
-            NavManager.NavigateTo($"/add-edit-user/{User.ID}");
+            NavManager.NavigateTo($"/add-edit-user/{User!.ID}");
 
         }
 
@@ -103,7 +103,7 @@ namespace engineering_project_front.Pages
         {
             if (UserID == ID)
             {
-                ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
+                await ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
                 return;
             }
 
@@ -113,12 +113,12 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 User = new UsersResponse();
-                ShowToast(response.Message, response.Success );
+                await ShowToast(response.Message!, response.Success);
                 NavManager.NavigateTo("/UsersList");
             }
             else
             {
-                ShowToast(response.Message, response.Success );
+                await ShowToast(response.Message!, response.Success);
             }
         }
 

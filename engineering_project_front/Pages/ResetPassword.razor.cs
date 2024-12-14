@@ -2,6 +2,8 @@
 using engineering_project.Models.Parameters;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Notifications;
+using System.Text.RegularExpressions;
 
 namespace engineering_project_front.Pages
 {
@@ -14,8 +16,16 @@ namespace engineering_project_front.Pages
         private string confirmPassword = string.Empty;
 
         private bool showPasswords;
-        
 
+        string pattern = @"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$";
+
+        #region Toast
+        private SfToast Toast = default!;
+        private string Title { get; set; } = string.Empty;
+        private string Message { get; set; } = string.Empty;
+        #endregion
+
+        #region Injections
         [Inject]
         private ISessionStorageService sessionStorage { get; set; } = default!;
 
@@ -27,6 +37,7 @@ namespace engineering_project_front.Pages
 
         [Inject]
         private IResetPassword resetPassword { get; set; } = default!;
+        #endregion
 
         public async Task OnConfirmChangeClicked()
         {
@@ -34,16 +45,50 @@ namespace engineering_project_front.Pages
 
             var user = await usersService.GetUserFromToken(token);
 
-            if(string.IsNullOrEmpty(oldPassword))
+            if (string.IsNullOrEmpty(oldPassword))
+            {
+                Title = "Błąd";
+                Message = "Pole Stare Hasło nie może być puste.";
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
+                return;
+            }
 
             if (string.IsNullOrEmpty(password))
+            {
+                Title = "Błąd";
+                Message = "Pole Nowe Hasło nie może być puste.";
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
                 return;
+            }
 
             if (string.IsNullOrEmpty(confirmPassword))
+            {
+                Title = "Błąd";
+                Message = "Pole Potwierdź Hasło nie może być puste.";
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
                 return;
+            }
+
+            if (password.Length < 8 || !Regex.IsMatch(password,pattern))
+            {
+                Title = "Błąd";
+                Message = "Hasło powinno zawierać co najmniej 8 znaków oraz co najmniej 1 dużą literę, 1 małą literę i cyfrę.";
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
+                return;
+            }
 
             if (password != confirmPassword)
+            {
+                Title = "Błąd";
+                Message = "Hasła nie są zgodne.";
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
                 return;
+            }
 
             ResetPasswordParameters parameters = new()
             {

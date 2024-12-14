@@ -3,9 +3,6 @@ using engineering_project_front.Services.Interfaces;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 using engineering_project_front.Models.Responses;
-using engineering_project_front.Services;
-using Blazored.SessionStorage;
-using engineering_project_front.Layout;
 
 namespace engineering_project_front.Pages
 {
@@ -27,7 +24,7 @@ namespace engineering_project_front.Pages
         private string SearchTerm { get; set; } = string.Empty;
 
         #region Toast
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
@@ -39,13 +36,13 @@ namespace engineering_project_front.Pages
             var response = await UsersService.GetUsersAsync();
             if (response.Success)
             {
-                Users = response.Data;
+                Users = response.Data!;
                 FilteredUsers = Users;
             }
             else
             {
 
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
             FilteredUsers = Users;
         }
@@ -60,9 +57,9 @@ namespace engineering_project_front.Pages
             else
             {
                 FilteredUsers = Users.Where(user =>
-                    user.FirstName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    user.Email.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    user.LastName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+                    user.FirstName!.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    user.Email!.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    user.LastName!.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
             }
         }
 
@@ -82,7 +79,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
         private string GetRoleText(int role)
         {

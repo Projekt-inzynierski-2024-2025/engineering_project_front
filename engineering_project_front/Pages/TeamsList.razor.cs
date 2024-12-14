@@ -18,14 +18,13 @@ namespace engineering_project_front.Pages
         private IValidateRole validateRole { get; set; } = default!;
         #endregion
 
-
         private List<TeamsResponse> Teams { get; set; } = new();
         private List<TeamsResponse> FilteredTeams { get; set; } = new();
 
         private string SearchTerm { get; set; } = string.Empty;
 
         #region ToastAndNotification
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         #endregion
@@ -39,12 +38,12 @@ namespace engineering_project_front.Pages
             var response = await TeamsService.GetTeamsAsync();
             if (response.Success)
             {
-                Teams = response.Data;
+                Teams = response.Data!;
                 FilteredTeams = Teams;
             }
             else
             {
-                ShowToast(response.Message, response.Success);
+                await ShowToast(response.Message!, response.Success);
             }
 
             FilteredTeams = Teams;
@@ -59,7 +58,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
 
         #endregion
