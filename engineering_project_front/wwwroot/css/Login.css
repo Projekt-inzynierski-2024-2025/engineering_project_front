@@ -32,6 +32,28 @@ body {
     gap: 15px;
 }
 
+/* Styl dla checkboxa i jego etykiety */
+.form-field-checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: -10px; /* Drobne przesunięcie dla lepszego dopasowania */
+    margin-bottom: 15px; /* Odstęp między checkboxem a kolejnym elementem */
+    font-size: 14px;
+    color: #555;
+}
+
+    .form-field-checkbox input[type="checkbox"] {
+        margin-right: 8px; /* Odstęp między checkboxem a tekstem */
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .form-field-checkbox label {
+        cursor: pointer;
+        user-select: none; /* Zapobiega zaznaczaniu tekstu */
+    }
+
 /* Pola formularza */
 .form-field {
     display: flex;

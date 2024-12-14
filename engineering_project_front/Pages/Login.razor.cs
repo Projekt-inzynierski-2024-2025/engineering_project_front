@@ -19,6 +19,8 @@ namespace engineering_project_front.Pages
 
         private string login = string.Empty;
         private string password = string.Empty;
+        private bool showPassword;
+
 
         [Inject]
         private ISessionStorageService SessionStorage { get; set; } = default!;

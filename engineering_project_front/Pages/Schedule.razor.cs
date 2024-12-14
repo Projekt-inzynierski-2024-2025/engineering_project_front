@@ -392,12 +392,13 @@ namespace engineering_project_front.Pages
             var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
                                               End.Hour, End.Minute, 0);
 
-            if(updatedTimeStart > updatedTimeEnd)
+
+            if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
                 ShowToast("Nie poprawne godziny.", false);
                 return;
             }
-         
+
 
 
             // Save the edited shift data to the backend
@@ -433,7 +434,7 @@ namespace engineering_project_front.Pages
             var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
                                               End.Hour, End.Minute, 0);
 
-            if (updatedTimeStart > updatedTimeEnd)
+            if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
                 ShowToast("Nie poprawne godziny.", false);
                 return;
@@ -568,7 +569,7 @@ namespace engineering_project_front.Pages
             var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
                                               End.Hour, End.Minute, 0);
 
-            if (updatedTimeStart > updatedTimeEnd)
+            if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
                 ShowToast("Nie poprawne godziny.", false);
                 return;

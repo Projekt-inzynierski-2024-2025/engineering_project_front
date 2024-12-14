@@ -11,6 +11,7 @@ namespace engineering_project_front.Pages
         private string email = string.Empty;
         private string password = string.Empty;
         private string confirmPassword = string.Empty;
+        private bool showPasswords;
 
         [Inject]
         private NavigationManager navManager { get; set; } = default!;

@@ -12,6 +12,7 @@
     <!-- Nagłówek strony -->
     <h2 class="header-text">Strona logowania</h2>
     <h3 class="header-text">Smart Manager</h3>
+
     <!-- Formularz logowania -->
     <div class="login-form">
         <!-- Pole email -->
@@ -21,7 +22,14 @@
 
         <!-- Pole hasło -->
         <div class="form-field">
-            <SfTextBox Placeholder="Hasło" @bind-Value="@password" FloatLabelType="FloatLabelType.Always" Type="InputType.Password"></SfTextBox>
+            <SfTextBox Placeholder="Hasło" @bind-Value="@password" FloatLabelType="FloatLabelType.Always" Type="@(showPassword ? InputType.Text : InputType.Password)">
+            </SfTextBox>
+        </div>
+
+        <!-- Checkbox do pokazania hasła -->
+        <div class="form-field-checkbox">
+            <input type="checkbox" id="showPassword" @bind="showPassword" />
+            <label for="showPassword">Pokaż hasło</label>
         </div>
 
         <!-- Przyciski logowania -->

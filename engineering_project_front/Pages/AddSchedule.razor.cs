@@ -34,6 +34,8 @@ namespace engineering_project_front.Pages
             if (!await validateRole.IsAuthorized("Kierownik"))
                 NavManager.NavigateTo("/auth-error");
 
+            Schedule.Date = DateTime.Now.AddDays(1);
+
             Schedule.TeamID = ID;
             await InvokeAsync(StateHasChanged);
         }

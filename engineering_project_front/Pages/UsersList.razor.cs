@@ -5,6 +5,7 @@ using Syncfusion.Blazor.Notifications;
 using engineering_project_front.Models.Responses;
 using engineering_project_front.Services;
 using Blazored.SessionStorage;
+using engineering_project_front.Layout;
 
 namespace engineering_project_front.Pages
 {

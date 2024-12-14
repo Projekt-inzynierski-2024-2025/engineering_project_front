@@ -13,20 +13,31 @@ body {
     padding: 20px;
 }
 
-/* Sekcja wyboru daty z układem kolumnowym */
 .control-section.column-layout {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
     gap: 10px;
 }
 
-/* Wyrównanie etykiet czasu pracy */
+.work-time-info {
+    flex: 1;
+}
+
+.short-datepicker {
+    flex-shrink: 0;
+    margin-left: auto; /* Wypycha DatePicker na prawo */
+}
+
+    .short-datepicker .e-datepicker {
+        width: 250px !important; /* Ograniczenie szerokości kontrolki */
+    }
+
 .work-time-info label {
     display: block;
     font-size: 14px;
     color: #333;
-    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /* Nagłówki */
@@ -38,13 +49,7 @@ body {
     font-weight: bold;
 }
 
-/* Sekcja wyboru daty */
-.control-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
+
 
 /* Skrócona szerokość dla SfDatePicker */
 .short-datepicker .e-datepicker {
