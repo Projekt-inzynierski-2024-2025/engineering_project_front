@@ -74,8 +74,8 @@ namespace engineering_project_front.Pages
             {
                 DateTime allWorkTime = DateTime.MinValue;
                 DateTime allBreakTime = DateTime.MinValue;
-                GridData = response.Data!.ToList()!;
-                foreach(var workTime in response.Data!)
+                GridData = response.Data!.Where(w=>w.TimeEnd != DateTime.MinValue).ToList()!;
+                foreach(var workTime in GridData)
                 {
                     allWorkTime +=(workTime.WorkTime.TimeOfDay);
                     allBreakTime += workTime.BreakTime.TimeOfDay;
