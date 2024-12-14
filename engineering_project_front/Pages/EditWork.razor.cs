@@ -65,7 +65,10 @@ namespace engineering_project_front.Pages
                 workStart = result.Data!.TimeStart;
 
                 if (result.Data!.TimeEnd != DateTime.MinValue)
+                {
+                    disablePickingTime = false;
                     workEnd = result.Data!.TimeEnd;
+                }
                 else
                     workEnd = null;
 
@@ -78,8 +81,6 @@ namespace engineering_project_front.Pages
                     breakEnd = result.Data!.BreakEnd;
                 else
                     breakEnd = null;
-
-                disablePickingTime = false;
             }
             else
             {

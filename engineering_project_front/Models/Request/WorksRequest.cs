@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace engineering_project_front.Models.Request
+﻿namespace engineering_project_front.Models.Request
 {
     public class WorksRequest
     {
