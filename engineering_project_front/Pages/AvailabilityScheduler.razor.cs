@@ -175,6 +175,7 @@ namespace engineering_project_front.Pages
 
             if (UserID == null) return;
 
+            args.Data.Date.AddHours(-args.Data.Date.TimeOfDay.Hours);
             args.Data.TimeStart = args.Data.Date.Date + args.Data.TimeStart.TimeOfDay;
             args.Data.TimeEnd = args.Data.Date.Date + args.Data.TimeEnd.TimeOfDay;
             args.Data.FirstName = FirstName;
