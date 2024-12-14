@@ -11,9 +11,9 @@ namespace engineering_project_front.Pages
     {
         #region Injects
         [Inject]
-        private IUsersService UsersService { get; set; }
+        private IUsersService UsersService { get; set; } = default!;
         [Inject]
-        private ITeamsService TeamsService { get; set; }
+        private ITeamsService TeamsService { get; set; } = default!;
         [Inject]
         private NavigationManager NavManager { get; set; } = default!;
         [Inject]
@@ -36,7 +36,7 @@ namespace engineering_project_front.Pages
         private List<TeamsResponse> Teams { get; set; } = new List<TeamsResponse>();
 
         #region Toast
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
@@ -49,17 +49,17 @@ namespace engineering_project_front.Pages
             var responseTeams = await TeamsService.GetTeamsAsync();
             if (responseTeams.Success)
             {
-                Teams = responseTeams.Data;
+                Teams = responseTeams.Data!;
 
             }
             else
             {
-                ShowToast(responseTeams.Message, responseTeams.Success);
+                await ShowToast(responseTeams.Message!, responseTeams.Success);
             }
             if (IsEditing)
             {
 
-                var response = await UsersService.GetUser((long)UserId);
+                var response = await UsersService.GetUser((long)UserId!);
                 if (response.Success)
                 {
                     var user = response.Data;
@@ -70,7 +70,7 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
             }
         }
@@ -85,15 +85,15 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
         private void MapResponseToRequest(UsersResponse res)
         {
 
             User.ID = res.ID;
-            User.FirstName = res.FirstName;
-            User.LastName = res.LastName;
-            User.Email = res.Email;
+            User.FirstName = res.FirstName!;
+            User.LastName = res.LastName!;
+            User.Email = res.Email!;
             User.Role = res.Role;
             User.TeamID = res.TeamID;
 
@@ -108,13 +108,13 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.EditUser(User);
                 if (response.Success)
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo($"/UserDetails/{User.ID}");
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
             }
             else
@@ -122,13 +122,13 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.AddUser(User);
                 if (response.Success)
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/UsersList");
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
             }
 

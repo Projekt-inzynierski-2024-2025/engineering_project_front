@@ -13,7 +13,7 @@ namespace engineering_project_front.Pages
         [Inject]
         private ITeamsService TeamsService { get; set; } = default!;
         [Inject]
-        private IUsersService UsersService { get; set; }
+        private IUsersService UsersService { get; set; } = default!;
         [Inject]
         private NavigationManager NavManager { get; set; } = default!;
 
@@ -30,7 +30,7 @@ namespace engineering_project_front.Pages
         private List<UsersResponse> Managers { get; set; } = new List<UsersResponse>();
 
         #region Toast
-        private SfToast? Toast;
+        private SfToast Toast = default!;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
@@ -44,16 +44,16 @@ namespace engineering_project_front.Pages
             var responseManagers = await UsersService.GetManagers();
             if (responseManagers.Success)
             {
-                Managers = responseManagers.Data;
+                Managers = responseManagers.Data!;
 
             }
             else
             {
-                ShowToast(responseManagers.Message, responseManagers.Success);
+                await ShowToast(responseManagers.Message!, responseManagers.Success);
             }
             if (IsEditing)
             {
-                var response = await TeamsService.GetTeam((long)TeamId) ?? new OperationResponse<TeamsResponse>();
+                var response = await TeamsService.GetTeam((long)TeamId!) ?? new OperationResponse<TeamsResponse>();
                 if (response.Success)
                 {
                     var team = response.Data;
@@ -64,7 +64,7 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
 
             }
@@ -79,7 +79,7 @@ namespace engineering_project_front.Pages
             else
             { Title = "Błąd!"; }
             await InvokeAsync(StateHasChanged);
-            await Toast?.ShowAsync();
+            await Toast.ShowAsync();
         }
         private void MapResponseToRequest(TeamsResponse res)
         {
@@ -102,13 +102,13 @@ namespace engineering_project_front.Pages
                 var response = await TeamsService.EditTeam(Team);
                 if (response.Success)
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/TeamsList");
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
             }
             else
@@ -116,13 +116,13 @@ namespace engineering_project_front.Pages
                 var response = await TeamsService.AddTeam(Team);
                 if (response.Success)
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/TeamsList");
                 }
                 else
                 {
-                    ShowToast(response.Message, response.Success);
+                    await ShowToast(response.Message!, response.Success);
                 }
             }
 

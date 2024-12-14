@@ -26,10 +26,10 @@
             </SfTextBox>
         </div>
 
-        <!-- Checkbox do pokazania hasła -->
+        <!-- Switch do pokazania/ukrycia haseł -->
         <div class="form-field-checkbox">
-            <input type="checkbox" id="showPassword" @bind="showPassword" />
-            <label for="showPassword">Pokaż hasło</label>
+            <label for="showPasswords" style="padding: 0px 10px 0px 0">Pokaż hasła</label>
+            <SfSwitch @bind-Checked="showPassword"></SfSwitch>
         </div>
 
         <!-- Przyciski logowania -->
@@ -41,6 +41,6 @@
 
     <!-- Toast powiadomień -->
     <SfToast ID="toast_default" @ref="ToastObj" Title="Nie udało się zalogować" Content="@ToastContent" Timeout="5000" Icon="e-circle-remove">
-        <ToastPosition X="Center" Y="Top"></ToastPosition>
+        <ToastPosition X="Right" Y="Top"></ToastPosition>
     </SfToast>
 </div>

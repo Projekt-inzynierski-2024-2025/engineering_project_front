@@ -28,7 +28,7 @@ namespace engineering_project_front.Pages
 
         private long ID = -1;
 
-        SfToast ToastObj = new();
+        SfToast ToastObj = default!;
         private string ToastContent = string.Empty;
 
         private SfDatePicker<DateTime?> datePickerObj { get; set; } = default!;

@@ -7,6 +7,10 @@
 @using engineering_project_front.Models.Responses
 
 <div class="container">
+    <h3 class="header-text">
+        Czas pracy
+    </h3>
+
     <!-- Wybór miesiąca -->
     <div class="control-section">
         <div class="control-wrapper">
@@ -19,7 +23,7 @@
     <!-- Tabela czasu pracy -->
     <div class="control-section">
         <div class="content-wrapper">
-            <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true">
+            <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true" AllowTextWrap="true">
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridColumns>
                     <GridColumn Field=@nameof(WorksResponse.Date.Date) HeaderText="Dzień" TextAlign="TextAlign.Right" Width="120" Format="dd.MM.yyyy"></GridColumn>
@@ -27,7 +31,6 @@
                     <GridColumn Field=@nameof(WorksResponse.TimeEnd) HeaderText="Koniec pracy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
                     <GridColumn Field=@nameof(WorksResponse.BreakStart) HeaderText="Początek przerwy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
                     <GridColumn Field=@nameof(WorksResponse.BreakEnd) HeaderText="Koniec przerwy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
-                    <GridColumn Field=@nameof(WorksResponse.StatusName) HeaderText="Status pracy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
                     <GridColumn Field=@nameof(WorksResponse.WorkTime) HeaderText="Czas pracy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
                     <GridColumn Field=@nameof(WorksResponse.BreakTime) HeaderText="Czas przerwy" TextAlign="TextAlign.Right" Width="120" Format="t"></GridColumn>
                 </GridColumns>

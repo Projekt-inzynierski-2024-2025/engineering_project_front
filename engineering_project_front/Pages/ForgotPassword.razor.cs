@@ -6,7 +6,7 @@ namespace engineering_project_front.Pages
 {
     public partial class ForgotPassword
     {
-        SfToast ToastObj = new();
+        SfToast ToastObj = default!;
         private string ToastTitle = string.Empty;
         private string ToastContent = string.Empty;
 
