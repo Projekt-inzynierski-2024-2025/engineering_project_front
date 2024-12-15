@@ -151,7 +151,7 @@ namespace engineering_project_front.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while starting work.");
+                _logger.LogError(ex, "An error occurred while getting work.");
                 return new OperationResponse<WorksResponse>
                 {
                     Success = false,
@@ -283,7 +283,7 @@ namespace engineering_project_front.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while starting work.");
+                _logger.LogError(ex, "An error occurred while editing work.");
                 return new OperationResponse<bool>
                 {
                     Success = false,
@@ -378,7 +378,7 @@ namespace engineering_project_front.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while starting work.");
+                _logger.LogError(ex, "An error occurred while removing work.");
                 return new OperationResponse<bool>
                 {
                     Success = false,

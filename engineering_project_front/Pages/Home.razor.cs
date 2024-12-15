@@ -10,6 +10,7 @@ namespace engineering_project_front.Pages
 {
     public partial class Home
     {
+        #region Injection
         [Inject]
         private IValidateRole validateRole { get; set; } = default!;
 
@@ -24,6 +25,7 @@ namespace engineering_project_front.Pages
 
         [Inject]
         private IWorksService worksService { get; set; } = default!;
+        #endregion
 
         private Timer timer = default!;
 
@@ -75,20 +77,20 @@ namespace engineering_project_front.Pages
                 else if (breakStarted && !breakEnded)
                 {
                     SetTimer(TickBreak);
-                    workTime = (work.BreakStart.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm':'ss");
+                    workTime = (work.BreakStart.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm");
                 }
 
                 if (breakEnded)
-                    breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
+                    breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm");
             }
             else if (workEnded)
             {
-                workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
+                workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm");
 
                 if (!breakStarted)
                     breakTime = "Dzisiaj nie wziąłeś przerwy";
                 else
-                    breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
+                    breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm");
             }
             else
             {
@@ -107,12 +109,12 @@ namespace engineering_project_front.Pages
         }
         private void TickWork(object? _)
         {
-            workTime = (DateTime.Now.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
+            workTime = (DateTime.Now.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm");
             InvokeAsync(StateHasChanged);
         }
         private void TickBreak(object? _)
         {
-            breakTime = (DateTime.Now.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
+            breakTime = (DateTime.Now.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm");
             InvokeAsync(StateHasChanged);
         }
         public void Dispose()
@@ -155,7 +157,7 @@ namespace engineering_project_front.Pages
             {
                 work.TimeEnd = DateTime.Now;
                 await timer.DisposeAsync();
-                workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm':'ss");
+                workTime = (work.TimeEnd.TimeOfDay - work.TimeStart.TimeOfDay - (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay)).ToString("hh':'mm");
                 await InvokeAsync(StateHasChanged);
             }
         }
@@ -174,7 +176,7 @@ namespace engineering_project_front.Pages
             {
                 work.BreakStart = DateTime.Now;
                 await timer.DisposeAsync();
-                workTime = (work.BreakStart.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm':'ss");
+                workTime = (work.BreakStart.TimeOfDay - work.TimeStart.TimeOfDay).ToString("hh':'mm");
                 SetTimer(TickBreak);
             }
         }
@@ -193,7 +195,7 @@ namespace engineering_project_front.Pages
             {
                 work.BreakEnd = DateTime.Now;
                 await timer.DisposeAsync();
-                breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm':'ss");
+                breakTime = (work.BreakEnd.TimeOfDay - work.BreakStart.TimeOfDay).ToString("hh':'mm");
                 SetTimer(TickWork);
             }
         }
