@@ -10,7 +10,7 @@ namespace engineering_project_front.Pages
 {
     public partial class AvailabilityScheduler
     {
-        private DateTime CurrentDate { get; set; } = DateTime.Today;
+        private DateTime CurrentMonth { get; set; } = new(DateTime.Today.Year, DateTime.Today.Month,1);
         private SfSchedule<AvailabilitiesResponse> ScheduleRef = default!;
         private View CurrentView { get; set; } = View.Week;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
@@ -81,15 +81,23 @@ namespace engineering_project_front.Pages
 
         private async Task GetAvailabilities()
         {
-            var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentDate);
-            var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentDate.AddMonths(1));
+            var responseCurrentMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentMonth);
+            var responseNextMonth = await availabilitiesService.GetAvailabilitiesForMonth(UserID!.Value, CurrentMonth.AddMonths(1));
 
             if (responseCurrentMonth.Success)
             {
                 dataSource = responseCurrentMonth.Data!.ToList();
 
-                if (responseNextMonth.Success)
-                    dataSource.AddRange(responseNextMonth.Data!.ToList());
+                dataSource.ForEach(x =>
+                {
+                    if (x.UserID == UserID)
+                        x.CategoryColor = "#008000";
+                });
+            }
+
+            if (responseNextMonth.Success)
+            {
+                dataSource.AddRange(responseNextMonth.Data!.ToList());
 
                 dataSource.ForEach(x =>
                 {
@@ -147,7 +155,7 @@ namespace engineering_project_front.Pages
                     args.AddedRecords = null;
                     ShowToast("Błąd", "Dyspozycyjność istnieje dla tego dnia.");
                 }
-                else if(!isTimeValid(args.AddedRecords.First().TimeStart, args.AddedRecords.First().TimeEnd))
+                else if (!isTimeValid(args.AddedRecords.First().TimeStart, args.AddedRecords.First().TimeEnd))
                 {
                     args.AddedRecords = null;
                     ShowToast("Błąd", "Podano nieprawidłowy czas.");
