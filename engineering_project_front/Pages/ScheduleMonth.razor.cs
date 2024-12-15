@@ -264,7 +264,7 @@ namespace engineering_project_front.Pages
 
             }
 
-            if (0 < result && result < 15)
+            if (0 <= result && result <= 15)
             {
                 if (args.Column.Field == nameof(HoursForDayResponse.ToDoHours))
                 {

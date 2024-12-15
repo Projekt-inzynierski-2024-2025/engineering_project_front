@@ -41,6 +41,8 @@ namespace engineering_project_front.Pages
         public int IntervalInMinutes { get; set; } = 60;
         public string StartTime { get; set; } = "05:00";
         public string EndTime { get; set; } = "23:00";
+        public string StartTimeView { get; set; } = "05:00";
+        public string EndTimeView { get; set; } = "23:00";
         public bool IsLayoutChanged = false;
         public string[] Resources { get; set; } = { "Employees" };
 
@@ -110,14 +112,15 @@ namespace engineering_project_front.Pages
             await LoadDataToSchedule();
             await InvokeAsync(StateHasChanged);
 
-            if (DailySchedule.Status == 1 || DailySchedule.Date < DateTime.Now)
-            {
-                Editable = false;
-            }
-            else
-            {
-                Editable = true;
-            }
+              if (DailySchedule.Status == 1 || DailySchedule.Date < DateTime.Now)
+              {
+                  Editable = false;
+              }
+              else
+              {
+                  Editable = true;
+              } 
+            
 
             await base.OnInitializedAsync();
         }
@@ -143,6 +146,7 @@ namespace engineering_project_front.Pages
             EmployeeResources = updatedResources;
             await InvokeAsync(StateHasChanged);
 
+            int i = 10000;
 
             var updatedShiftAppointments = new List<ShiftAppointment>();
 
@@ -154,6 +158,7 @@ namespace engineering_project_front.Pages
                 updatedShiftAppointments.Add(shiftAppointment);
 
             }
+         
 
             foreach (AvailabilitiesResponse userAva in Availabilities)
             {
@@ -165,14 +170,14 @@ namespace engineering_project_front.Pages
                                            userAva.TimeEnd.Hour, userAva.TimeEnd.Minute, userAva.TimeEnd.Second);
 
 
-                var shiftAppointment = new ShiftAppointment { Id = userAva.ID, Subject = "Dyspozycyjność", StartTime = startTime, EndTime = endTime, EmployeeID = userAva.UserID, CssClass = "ava" };
+                var shiftAppointment = new ShiftAppointment { Id = i, Subject = "Dyspozycyjność", StartTime = startTime, EndTime = endTime, EmployeeID = userAva.UserID, CssClass = "ava" };
 
                 updatedShiftAppointments.Add(shiftAppointment);
-
+                i++;
             }
             if (DailySchedule.Date < DateTime.Now)
             {
-                int i = 1;
+                
                 foreach (WorksResponse userWork in Works)
                 {
 
@@ -182,11 +187,11 @@ namespace engineering_project_front.Pages
                     var endTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day,
                                                userWork.TimeEnd.Hour, userWork.TimeEnd.Minute, userWork.TimeEnd.Second);
 
-                    i++;
+                    
                     var shiftAppointment = new ShiftAppointment { Id = i, Subject = "Czas pracy", StartTime = startTime, EndTime = endTime, EmployeeID = userWork.UserID, CssClass = "work" };
 
                     updatedShiftAppointments.Add(shiftAppointment);
-
+                    i++;
                 }
 
             }
