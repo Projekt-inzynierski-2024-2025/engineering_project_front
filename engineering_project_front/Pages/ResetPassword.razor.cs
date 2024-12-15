@@ -98,7 +98,20 @@ namespace engineering_project_front.Pages
             };
 
             if (await resetPassword.ChangePassword(parameters, token))
+            {
+                Title = "Sukces";
+                Message = "Hasło zostało zmienione.";
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
                 navManager.NavigateTo("/my-account");
+            }
+            else
+            {
+                Title = "Błąd";
+                Message = "Nie udało się zmienić hasła.";
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
+            }
         }
     }
 }

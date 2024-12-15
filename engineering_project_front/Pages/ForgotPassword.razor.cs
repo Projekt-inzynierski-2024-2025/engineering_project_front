@@ -35,8 +35,8 @@ namespace engineering_project_front.Pages
 
             await resetPassword.SendAskForResetCode(mail);
 
-            ToastTitle = "Wysłano kod";
-            ToastContent = "Jeżeli mail jest poprawny, kod powinien zostać wysłany na podaną skrzynkę pocztową.";
+            ToastTitle = "Wysłano link";
+            ToastContent = "Jeżeli mail jest poprawny, link powinien zostać wysłany na podaną skrzynkę pocztową.";
             await InvokeAsync(StateHasChanged);
             await ToastObj.ShowAsync();
             isButtonDisabled = false;
