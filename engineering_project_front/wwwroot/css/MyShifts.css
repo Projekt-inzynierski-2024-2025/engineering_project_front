@@ -56,7 +56,7 @@ body {
     width: 250px !important; /* Ograniczenie szerokości kontrolki */
 }
 
-/* Tabela zmian */
+/* Tabela godzin pracy */
 .sf-grid {
     background-color: #fff;
     border-radius: 5px;
@@ -71,6 +71,10 @@ body {
         text-align: center;
         font-size: 14px;
     }
+
+.e-grid .e-headercell {
+    background-color: #DBE2EF !important;
+}
 
 .e-grid .e-headercell, .e-grid .e-detailheadercell {
     background-color: #DBE2EF;
