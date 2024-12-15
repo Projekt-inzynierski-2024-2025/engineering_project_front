@@ -93,7 +93,10 @@ namespace engineering_project_front.Pages
                 allHoursWorkTime = difference / 60;
                 allMinutesWorkTime = difference % 60;
 
-                MonthlyWorkTime = $"{allHoursWorkTime}:{allMinutesWorkTime:D2}";
+                allHoursBreakTime = allHoursBreakTime / 60;
+                allMinutesBreakTime = allMinutesBreakTime % 60;
+
+                MonthlyWorkTime = $"{allHoursWorkTime} h {allMinutesWorkTime:D2} m";
                 MonthlyBreakTime = $"{allHoursBreakTime}:{allMinutesBreakTime:D2}";
             }
             else
