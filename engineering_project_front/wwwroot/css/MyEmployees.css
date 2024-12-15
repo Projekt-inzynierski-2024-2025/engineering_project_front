@@ -111,9 +111,12 @@ h3 {
 
 
 .highlight-red {
-    background-color: red;
+    background-color: #ff6666;
     color: white; /* Opcjonalnie dla kontrastu */
 }
+
+
+
 /* Sekcja wyboru zespołu i miesiąca */
 .control-section {
     display: flex;

@@ -40,7 +40,7 @@ namespace engineering_project_front.Pages
         private long SelectedTeamID { get; set; }
         private bool IsEmployeeWorkDialogVisible { get; set; } = false;
         private long SelectedUserID { get; set; }
-        private DateTime SelectedWorkDate { get; set; }
+        private DateTime SelectedWorkDate { get; set; } = DateTime.Today;
         private long UserID { get; set; } = 0;
 
         DateTime minDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
@@ -156,7 +156,7 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 var teamsIDs = await GetTeamsID();
-                if (teamsIDs.Any())
+                if (teamsIDs == null || teamsIDs.Count == 0)
                 {
                     await ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
                     return new List<TeamsResponse>();
@@ -271,7 +271,7 @@ namespace engineering_project_front.Pages
             if (args.Column.Field == nameof(HoursForUserForMonthResponse.workHoursForMonth))
             {
                 var workHours = Convert.ToDouble(args.Data.workHoursForMonth);
-                if (workHours > 5 || workHours == 0)
+                if (workHours > 168 || workHours == 0)
                 {
 
                     args.Cell.AddClass(["highlight-red"]);
