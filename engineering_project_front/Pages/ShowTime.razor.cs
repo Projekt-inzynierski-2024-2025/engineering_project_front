@@ -97,7 +97,7 @@ namespace engineering_project_front.Pages
                 allMinutesBreakTime = allMinutesBreakTime % 60;
 
                 MonthlyWorkTime = $"{allHoursWorkTime} h {allMinutesWorkTime:D2} min";
-                MonthlyBreakTime = $"{allHoursBreakTime}:{allMinutesBreakTime:D2} min";
+                MonthlyBreakTime = $"{allHoursBreakTime} h {allMinutesBreakTime:D2} min";
             }
             else
             {
