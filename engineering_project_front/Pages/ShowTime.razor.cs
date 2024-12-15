@@ -72,17 +72,29 @@ namespace engineering_project_front.Pages
 
             if (response.Success)
             {
-                DateTime allWorkTime = DateTime.MinValue;
-                DateTime allBreakTime = DateTime.MinValue;
-                GridData = response.Data!.Where(w=>w.TimeEnd != DateTime.MinValue).ToList()!;
-                foreach(var workTime in GridData)
+                int allHoursWorkTime = 0, allMinutesWorkTime = 0;
+                int allHoursBreakTime = 0, allMinutesBreakTime = 0;
+
+                GridData = response.Data!.Where(w => w.TimeEnd != DateTime.MinValue).ToList()!;
+                foreach (var workTime in GridData)
                 {
-                    allWorkTime +=(workTime.WorkTime.TimeOfDay);
-                    allBreakTime += workTime.BreakTime.TimeOfDay;
+                    allHoursWorkTime += workTime.WorkTime.TimeOfDay.Hours;
+                    allMinutesWorkTime += workTime.WorkTime.TimeOfDay.Minutes;
+
+                    allHoursBreakTime += workTime.BreakTime.TimeOfDay.Hours;
+                    allMinutesBreakTime += workTime.BreakTime.TimeOfDay.Minutes;
                 }
 
-                MonthlyWorkTime = allWorkTime.ToString("HH:mm");
-                MonthlyBreakTime = allBreakTime.ToString("HH:mm");
+                allMinutesWorkTime += allHoursWorkTime * 60;
+                allMinutesBreakTime += allHoursBreakTime * 60;
+
+                int difference = allMinutesWorkTime - allMinutesBreakTime;
+
+                allHoursWorkTime = difference / 60;
+                allMinutesWorkTime = difference % 60;
+
+                MonthlyWorkTime = $"{allHoursWorkTime}:{allMinutesWorkTime:D2}";
+                MonthlyBreakTime = $"{allHoursBreakTime}:{allMinutesBreakTime:D2}";
             }
             else
             {
