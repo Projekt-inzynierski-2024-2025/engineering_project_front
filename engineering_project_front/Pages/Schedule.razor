@@ -44,15 +44,15 @@
 
     <!-- Harmonogram -->
     <div class="schedule-container">
-        <SfSchedule @ref="@ScheduleRef" TValue=ShiftAppointment Height="700px" Width="100%" EnableAutoRowHeight="true" MinDate="CurrentDate" MaxDate="CurrentDate" CurrentView="View.TimelineDay" @bind-SelectedDate="CurrentDate" AllowResizing="true" Readonly="true">
-            <ScheduleTimeScale Interval="@IntervalInMinutes" SlotCount="4"></ScheduleTimeScale>
+        <SfSchedule @ref="@ScheduleRef" TValue=ShiftAppointment Height="auto" Width="100%" EnableAutoRowHeight="true" MinDate="CurrentDate" MaxDate="CurrentDate" CurrentView="View.TimelineDay" @bind-SelectedDate="CurrentDate" AllowResizing="true" Readonly="true">
+            <ScheduleTimeScale Interval="@IntervalInMinutes" SlotCount="2"></ScheduleTimeScale>
             <ScheduleGroup Resources="@Resources"></ScheduleGroup>
             <ScheduleResources>
                 <ScheduleResource TItem="EmployeeResource" TValue="long" DataSource="@EmployeeResources" Field="EmployeeID" Title="Pracownicy" Name="Employees" TextField="Name" IdField="Id" AllowMultiple="true">
                 </ScheduleResource>
             </ScheduleResources>
             <ScheduleViews>
-                <ScheduleView Option="View.TimelineDay" StartHour="@StartTime" EndHour="@EndTime"></ScheduleView>
+                <ScheduleView Option="View.TimelineDay" StartHour="@StartTimeView" EndHour="@EndTimeView" ></ScheduleView>
             </ScheduleViews>
             <ScheduleEventSettings AllowAdding="false" AllowEditing="false" AllowEditFollowingEvents="false" AllowDeleting="false" DataSource="@ShiftAppointments" ></ScheduleEventSettings>
         </SfSchedule>
