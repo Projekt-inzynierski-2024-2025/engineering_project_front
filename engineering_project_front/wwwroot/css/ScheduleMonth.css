@@ -167,12 +167,12 @@ button, .sf-button {
 }
 
 .highlight-red {
-    background-color: #ff6666;
+    background-color: #ffb3b3;
     color: white; /* Opcjonalnie dla kontrastu */
 }
 
 .highlight-green {
-    background-color: #99ff99;
+    background-color: #ccffcc;
     color: white; /* Opcjonalnie dla kontrastu */
 }
 
