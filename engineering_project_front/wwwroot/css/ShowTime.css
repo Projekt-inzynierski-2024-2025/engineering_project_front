@@ -36,6 +36,10 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+..e-grid .e-gridheader {
+    background-color: #DBE2EF;
+}
+
 /* Podsumowanie czasu pracy */
 .summary-section {
     margin-top: 20px;
