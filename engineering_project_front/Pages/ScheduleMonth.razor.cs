@@ -239,5 +239,44 @@ namespace engineering_project_front.Pages
                     break;
             }
         }
+
+
+        private void OnQueryCellInfo(QueryCellInfoEventArgs<HoursForDayResponse> args)
+        {
+            var ToDoHours = Convert.ToDouble(args.Data.ToDoHours);
+            var workHours = Convert.ToDouble(args.Data.WorkHours);
+
+            var result = workHours - ToDoHours;
+
+            if (result < 0 || result > 15)
+            {
+
+
+                if (args.Column.Field == nameof(HoursForDayResponse.ToDoHours))
+                {
+                    args.Cell.AddClass(["highlight-red"]);
+                }
+
+                if (args.Column.Field == nameof(HoursForDayResponse.WorkHours))
+                {
+                        args.Cell.AddClass(["highlight-red"]);               
+                }
+
+            }
+
+            if (0 < result && result < 15)
+            {
+                if (args.Column.Field == nameof(HoursForDayResponse.ToDoHours))
+                {
+                    args.Cell.AddClass(["highlight-green"]);
+                }
+
+                if (args.Column.Field == nameof(HoursForDayResponse.WorkHours))
+                {
+                    args.Cell.AddClass(["highlight-green"]);
+                }
+
+            }
+        }
     }
 }

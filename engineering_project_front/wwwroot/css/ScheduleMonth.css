@@ -166,6 +166,17 @@ button, .sf-button {
     background-color: #DBE2EF;
 }
 
+.highlight-red {
+    background-color: #ff6666;
+    color: white; /* Opcjonalnie dla kontrastu */
+}
+
+.highlight-green {
+    background-color: #99ff99;
+    color: white; /* Opcjonalnie dla kontrastu */
+}
+
+
 /* Styl dla stopki */
 .footer {
     text-align: center;

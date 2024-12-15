@@ -28,7 +28,7 @@
             <label><strong>Miesięczny rzeczywisty czas pracy:</strong> @WorkTime.ToString("hh\\:mm")</label>
         </div>
         <div class="control-wrapper short-datepicker">
-            <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="true" FullScreen="true">
+            <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="false" FullScreen="true">
                 <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
             </SfDatePicker>
         </div>
@@ -42,7 +42,7 @@
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
-                    <GridColumn HeaderText="Data" MinWidth="120" Width="150" MaxWidth="200">
+                    <GridColumn HeaderText="Data" MinWidth="80" Width="100" MaxWidth="150">
                         <Template>
                             @{
                                 var data = context as ShiftWork;

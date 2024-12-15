@@ -19,7 +19,7 @@
     <div class="schedule-info">
         <!-- Ilość godzin w jednej linii -->
         <div class="info-row">
-            <label class="total-hours"><strong>Zaplanowane godziny:</strong> @TotalHours</label>
+            <label class="total-hours"><strong>Aktualnie zaplanowane godziny:</strong> @TotalHours</label>
             <label><strong>Ilość godzin do przepracowania:</strong></label>
             @if (isEditingHours)
             {
@@ -96,7 +96,7 @@
                 <SfTimePicker StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@Start"></SfTimePicker>
                 <SfTimePicker  StrictMode=true Step="15" Min="MinVal" Max="MaxVal" TValue="DateTime" @bind-Value="@End"></SfTimePicker>
             </div>
-            <select @bind="SelectedEmployeeID" class="form-select select">
+            <select @bind="SelectedEmployeeID" class="form-select select" style="margin: 15px 0px 0px 0px">
                 <option value="0" disabled selected>Wybierz pracownika</option>
                 @foreach (var user in Employees)
                 {
