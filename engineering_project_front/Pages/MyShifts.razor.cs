@@ -39,8 +39,10 @@ namespace engineering_project_front.Pages
 
 
         private List<ShiftWork> UserShiftWorks { get; set; } = new();
-        private TimeSpan WorkTime = TimeSpan.Zero;
-        private TimeSpan PlannedWorkTime = TimeSpan.Zero;
+        private int WorkTimeHours = 0;
+        private int WorkTimeMinutes = 0;
+        private int PlannedWorkTimeHours = 0;
+        private int PlannedWorkTimeMinutes = 0;
 
         private string TodayShift = "Brak";
         private string TomorrowShift = "Brak";
@@ -82,9 +84,11 @@ namespace engineering_project_front.Pages
             if (status)
             {
                 UserShiftWorks = new List<ShiftWork>();
-                WorkTime = TimeSpan.Zero;
-                PlannedWorkTime = TimeSpan.Zero;
-                TodayShift = "Brak";
+                WorkTimeHours = 0;
+                WorkTimeMinutes = 0;
+                PlannedWorkTimeHours = 0;
+                PlannedWorkTimeMinutes = 0;
+                 TodayShift = "Brak";
                 TomorrowShift = "Brak";
             }
 
@@ -154,8 +158,10 @@ namespace engineering_project_front.Pages
             var userWorkedShifts = responseUserWorkedShifts.Data ?? new List<WorksResponse>();
 
             // Resetowanie zmiennych globalnych
-            WorkTime = TimeSpan.Zero;
-            PlannedWorkTime = TimeSpan.Zero;
+            WorkTimeHours = 0;
+            WorkTimeMinutes = 0;
+            PlannedWorkTimeHours = 0;
+            PlannedWorkTimeMinutes = 0;
 
             // Lista wynikowa
             var userShiftWorks = new List<ShiftWork>();
@@ -183,14 +189,22 @@ namespace engineering_project_front.Pages
                 if (workedShift != null)
                 {
                     var dailyWorkTime = workedShift.TimeEnd.TimeOfDay - workedShift.TimeStart.TimeOfDay - workedShift.BreakTime.TimeOfDay;
-                    WorkTime += dailyWorkTime > TimeSpan.Zero ? dailyWorkTime : TimeSpan.Zero;
+                    if (dailyWorkTime > TimeSpan.Zero)
+                    {
+                        WorkTimeHours += dailyWorkTime.Hours;
+                        WorkTimeMinutes += dailyWorkTime.Minutes;
+                    }
                 }
 
                 // Obliczanie zaplanowanego czasu pracy
                 if (plannedShift != null)
                 {
                     var dailyPlannedTime = plannedShift.TimeEnd - plannedShift.TimeStart;
-                    PlannedWorkTime += dailyPlannedTime > TimeSpan.Zero ? dailyPlannedTime : TimeSpan.Zero;
+                    if (dailyPlannedTime > TimeSpan.Zero)
+                    {
+                        PlannedWorkTimeHours += dailyPlannedTime.Hours;
+                        PlannedWorkTimeMinutes += dailyPlannedTime.Minutes;
+                    }
                 }
 
                 var shiftWork = new ShiftWork
@@ -207,6 +221,12 @@ namespace engineering_project_front.Pages
 
                 userShiftWorks.Add(shiftWork);
             }
+
+            // Dodanie nadmiarowych minut jako pełnych godzin
+            WorkTimeHours += WorkTimeMinutes / 60;
+            WorkTimeMinutes %= 60;
+            PlannedWorkTimeHours += PlannedWorkTimeMinutes / 60;
+            PlannedWorkTimeMinutes %= 60;
 
             return userShiftWorks;
         }

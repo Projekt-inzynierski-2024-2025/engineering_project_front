@@ -24,8 +24,8 @@
         <div class="work-time-info">
             <label><strong>Zmiana na dziś:</strong> @TodayShift</label>
             <label><strong>Zmiana na jutro:</strong> @TomorrowShift</label>
-            <label><strong>Miesięczny planowany czas pracy:</strong> @PlannedWorkTime.ToString("hh\\:mm")</label>
-            <label><strong>Miesięczny rzeczywisty czas pracy:</strong> @WorkTime.ToString("hh\\:mm")</label>
+            <label><strong>Miesięczny planowany czas pracy:</strong> @PlannedWorkTimeHours h @PlannedWorkTimeMinutes min</label>
+            <label><strong>Miesięczny rzeczywisty czas pracy:</strong> @WorkTimeHours h @WorkTimeMinutes min </label>
         </div>
         <div class="control-wrapper short-datepicker">
             <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="false" FullScreen="true">
