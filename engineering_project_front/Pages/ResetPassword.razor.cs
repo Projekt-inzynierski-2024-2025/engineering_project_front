@@ -20,7 +20,7 @@ namespace engineering_project_front.Pages
         string pattern = @"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$";
 
         #region Toast
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion

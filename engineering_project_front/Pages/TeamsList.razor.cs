@@ -24,7 +24,7 @@ namespace engineering_project_front.Pages
         private string SearchTerm { get; set; } = string.Empty;
 
         #region ToastAndNotification
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         #endregion

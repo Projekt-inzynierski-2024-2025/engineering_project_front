@@ -1,4 +1,6 @@
-﻿namespace engineering_project_front.Models.Responses
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace engineering_project_front.Models.Responses
 {
     public class AvailabilitiesResponse
     {
@@ -12,6 +14,8 @@
             get => TimeStart.Date;
             set => TimeStart = value.Date + TimeStart.TimeOfDay;
         }
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Czas jest niewłaściwy.")]
+        public bool isAvailabilityTimeValid => TimeStart.TimeOfDay < TimeEnd.TimeOfDay;
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
         public int Type { get; set; }

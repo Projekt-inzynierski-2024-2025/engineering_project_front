@@ -24,7 +24,7 @@ namespace engineering_project_front.Pages
         private TeamsResponse? Team { get; set; } = new TeamsResponse();
 
         #region ToastAndNotification
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private bool IsDeleteDialogVisible { get; set; } = false;
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;

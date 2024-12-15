@@ -10,7 +10,7 @@ namespace engineering_project_front.Pages
 {
     public partial class AvailabilityScheduler
     {
-        private DateTime CurrentMonth { get; set; } = new(DateTime.Today.Year, DateTime.Today.Month,1);
+        private DateTime CurrentMonth { get; set; } = new(DateTime.Today.Year, DateTime.Today.Month, 1);
         private SfSchedule<AvailabilitiesResponse> ScheduleRef = default!;
         private View CurrentView { get; set; } = View.Week;
         private List<AvailabilitiesResponse> dataSource { get; set; } = new();
@@ -44,7 +44,7 @@ namespace engineering_project_front.Pages
         #endregion
 
         #region Toast
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion
@@ -154,32 +154,14 @@ namespace engineering_project_front.Pages
                 {
                     args.AddedRecords = null;
                     ShowToast("Błąd", "Dyspozycyjność istnieje dla tego dnia.");
+                    return;
                 }
-                else if (!isTimeValid(args.AddedRecords.First().TimeStart, args.AddedRecords.First().TimeEnd))
-                {
-                    args.AddedRecords = null;
-                    ShowToast("Błąd", "Podano nieprawidłowy czas.");
-                }
-
-                return;
-            }
-
-
-            if (args.ActionType == ActionType.EventChange)
-            {
-                if (!isTimeValid(args.ChangedRecords.First().TimeStart, args.ChangedRecords.First().TimeEnd))
-                {
-                    args.ChangedRecords = null;
-                    ShowToast("Błąd", "Podano nieprawidłowy czas.");
-                }
-
-                return;
             }
         }
 
         public void OnPopupClose(PopupCloseEventArgs<AvailabilitiesResponse> args)
         {
-            if (args.Cancel) return;
+            if (args.CurrentAction == CurrentAction.Cancel || args.Cancel) return;
 
             if (UserID == null) return;
 
@@ -200,7 +182,7 @@ namespace engineering_project_front.Pages
                 TimeStart = data.TimeStart,
                 TimeEnd = data.TimeEnd,
                 Status = 0,
-                Type = 1,
+                Type = 0,
             };
 
             switch (args.Type)

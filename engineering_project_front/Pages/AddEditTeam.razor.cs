@@ -30,7 +30,7 @@ namespace engineering_project_front.Pages
         private List<UsersResponse> Managers { get; set; } = new List<UsersResponse>();
 
         #region Toast
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion

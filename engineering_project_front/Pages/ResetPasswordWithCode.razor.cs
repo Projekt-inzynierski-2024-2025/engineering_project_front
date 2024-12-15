@@ -24,7 +24,7 @@ namespace engineering_project_front.Pages
         private IResetPassword resetPassword { get; set; } = default!;
 
         #region Toast
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private string Title { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
         #endregion

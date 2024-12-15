@@ -43,12 +43,14 @@
                                     <td class="e-textlabel">Początek pracy</td>
                                     <td>
                                         <SfTimePicker @bind-Value="@(Data.TimeStart)" Min="minTime" Max="maxTime" StrictMode="true" Step="15" ></SfTimePicker>
+                                        <ValidationMessage For="()=>((context as AvailabilitiesResponse)!.isAvailabilityTimeValid)"></ValidationMessage>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="e-textlabel">Koniec pracy</td>
                                     <td>
                                         <SfTimePicker @bind-Value="@(Data.TimeEnd)" Min="minTime" Max="maxTime" StrictMode="true" Step="15"></SfTimePicker>
+                                        <ValidationMessage For="()=>((context as AvailabilitiesResponse)!.isAvailabilityTimeValid)"></ValidationMessage>
                                     </td>
                                 </tr>
                             </tbody>
@@ -64,7 +66,7 @@
                     <FieldEndTime Name="TimeEnd"></FieldEndTime>
                 </ScheduleField>
             </ScheduleEventSettings>
-            <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose" EventRendered="OnEventRendered" OnActionBegin="OnActionBegin"></ScheduleEvents>
+            <ScheduleEvents TValue="AvailabilitiesResponse" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellClick" OnEventClick="OnEventClick" OnPopupClose="OnPopupClose" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>

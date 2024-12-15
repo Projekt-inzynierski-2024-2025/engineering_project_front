@@ -32,7 +32,7 @@ namespace engineering_project_front.Pages
         private long UserID { get; set; } = 0;
 
         #region ToastAndNotification
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         private bool IsDeleteDialogVisible { get; set; } = false;

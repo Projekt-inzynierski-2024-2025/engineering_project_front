@@ -50,7 +50,7 @@ namespace engineering_project_front.Pages
         private DateTime DataChoose = DateTime.Today;
 
         #region ToastAndNotification
-        private SfToast Toast = default!;
+        private SfToast Toast = new();
         private string Message { get; set; } = string.Empty;
         private string Title { get; set; } = string.Empty;
         #endregion
