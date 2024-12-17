@@ -1222,7 +1222,7 @@
     <value>Wstaw w prawo</value>
   </data>
   <data name="DocumentEditor_Delete" xml:space="preserve">
-    <value>Usunąć</value>
+    <value>Usuń</value>
   </data>
   <data name="DocumentEditor_DeleteTable" xml:space="preserve">
     <value>Usuń tabelę</value>
@@ -1240,7 +1240,7 @@
     <value>Typ formatu</value>
   </data>
   <data name="DocumentEditor_Save" xml:space="preserve">
-    <value>Zapisać</value>
+    <value>Zapisz</value>
   </data>
   <data name="DocumentEditor_Navigation" xml:space="preserve">
     <value>Nawigacja</value>
@@ -1570,7 +1570,7 @@
     <value>Nowy komentarz</value>
   </data>
   <data name="DocumentEditor_Edit" xml:space="preserve">
-    <value>Edytować</value>
+    <value>Edytuj</value>
   </data>
   <data name="DocumentEditor_Resolve" xml:space="preserve">
     <value>Rozwiązać</value>
