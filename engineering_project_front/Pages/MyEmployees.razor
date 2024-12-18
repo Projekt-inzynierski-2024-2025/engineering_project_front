@@ -55,7 +55,7 @@
 
         <div class="control-section">
     <div class="control-wrapper">
-        <SfButton IsPrimary="true" CssClass="sf-button" @onclick="OpenTeamDialog">Wybierz Zespół</SfButton>
+        <SfButton IsPrimary="true" CssClass="sf-button" @onclick="OpenTeamDialog">Wybierz zespół</SfButton>
             <SfButton IsPrimary="true" CssClass="sf-button" @onclick="OpenEmployeeWorkDialog">Czas pracy pracownika</SfButton>
             <SfDatePicker TValue="DateTime" Value="@DataChoose" Placeholder="Wybierz miesiąc oraz rok" Format="MMMM yyyy" Start="CalendarView.Year" Depth="CalendarView.Year" ShowClearButton="false" FullScreen="true">
                 <DatePickerEvents TValue="DateTime" ValueChange="OnDateChange"></DatePickerEvents>
