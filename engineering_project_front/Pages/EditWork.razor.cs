@@ -109,52 +109,47 @@ namespace engineering_project_front.Pages
                 return false;
             }
 
-            if (breakEnd < breakStart)
+            if (!(breakStart!.Value.TimeOfDay == new TimeSpan(0, 0, 0) && breakEnd!.Value.TimeOfDay == new TimeSpan(0, 0, 0)))
             {
-                ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas zakończenia przerwy. Proszę to zmienić.";
-                InvokeAsync(StateHasChanged);
-                ToastObj.ShowAsync();
-                return false;
-            }
+                if (breakEnd < breakStart)
+                {
+                    ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas zakończenia przerwy. Proszę to zmienić.";
+                    InvokeAsync(StateHasChanged);
+                    ToastObj.ShowAsync();
+                    return false;
+                }
 
-            if (breakStart < workStart)
-            {
-                ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas rozpoczęcia pracy. Proszę to zmienić.";
-                InvokeAsync(StateHasChanged);
-                ToastObj.ShowAsync();
-                return false;
-            }
+                if (breakStart < workStart)
+                {
+                    ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas rozpoczęcia pracy. Proszę to zmienić.";
+                    InvokeAsync(StateHasChanged);
+                    ToastObj.ShowAsync();
+                    return false;
+                }
 
-            if (breakStart > workEnd)
-            {
-                ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
-                InvokeAsync(StateHasChanged);
-                ToastObj.ShowAsync();
-                return false;
-            }
+                if (breakStart > workEnd)
+                {
+                    ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
+                    InvokeAsync(StateHasChanged);
+                    ToastObj.ShowAsync();
+                    return false;
+                }
 
-            if (breakStart.HasValue && !breakEnd.HasValue)
-            {
-                ToastContent = "Przerwa nie posiada końca. Proszę zapisać godzinę końca przerwy";
-                InvokeAsync(StateHasChanged);
-                ToastObj.ShowAsync();
-                return false;
-            }
+                if (breakEnd > workEnd)
+                {
+                    ToastContent = "Czas zakończenia przerwy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
+                    InvokeAsync(StateHasChanged);
+                    ToastObj.ShowAsync();
+                    return false;
+                }
 
-            if (breakEnd > workEnd)
-            {
-                ToastContent = "Czas zakończenia przerwy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
-                InvokeAsync(StateHasChanged);
-                ToastObj.ShowAsync();
-                return false;
-            }
-
-            if (breakEnd < workStart)
-            {
-                ToastContent = "Czas rozpoczęcia pracy jest późniejszy niż czas zakończenia przerwy. Proszę to zmienić.";
-                InvokeAsync(StateHasChanged);
-                ToastObj.ShowAsync();
-                return false;
+                if (breakEnd < workStart)
+                {
+                    ToastContent = "Czas rozpoczęcia pracy jest późniejszy niż czas zakończenia przerwy. Proszę to zmienić.";
+                    InvokeAsync(StateHasChanged);
+                    ToastObj.ShowAsync();
+                    return false;
+                }
             }
 
             return true;
