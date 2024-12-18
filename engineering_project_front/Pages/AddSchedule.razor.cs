@@ -42,8 +42,9 @@ namespace engineering_project_front.Pages
 
         private async Task HandleValidSubmit()
         {
-           
-                var response = await ScheduleService.AddSchedule(Schedule);
+
+            
+            var response = await ScheduleService.AddSchedule(Schedule);
                 if (response.Success)
                 {
                     await ShowToast(response.Message!, response.Success);

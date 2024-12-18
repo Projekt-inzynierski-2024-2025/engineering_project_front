@@ -115,6 +115,7 @@ namespace engineering_project_front.Pages
               if (DailySchedule.Status == 1 || DailySchedule.Date < DateTime.Now)
               {
                   Editable = false;
+                
               }
               else
               {
@@ -298,21 +299,21 @@ namespace engineering_project_front.Pages
         {
             if (args.ParentItem != null)
             {
-                return; // Obsługujemy tylko główne elementy menu
+                return; 
             }
 
             ElementData = await ScheduleRef.GetElementInfoAsync((int)args.Left!, (int)args.Top!);
 
             if (ElementData.ElementType != ElementType.Event)
             {
-                args.Cancel = true; // Ukrywamy menu, jeśli nie kliknięto na zdarzenie
+                args.Cancel = true; 
             }
             else
             {
                 EventData = ElementData.EventData;
                 if (EventData == null || EventData.Id == 0)
                 {
-                    args.Cancel = true; // Brak ważnych danych - anulujemy otwarcie menu
+                    args.Cancel = true; 
                 }
             }
         }
@@ -395,7 +396,7 @@ namespace engineering_project_front.Pages
 
 
 
-            // Save the edited shift data to the backend
+            
             var response = await ScheduleService.UpdateUserSchedule(new UsersDailySchedulesRequest
             {
 
@@ -433,7 +434,7 @@ namespace engineering_project_front.Pages
                 await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
-            // Save the new shift data to the backend
+            
             var newShift = new UsersDailySchedulesRequest
             {
                 UserID = employee!.ID,
@@ -469,7 +470,7 @@ namespace engineering_project_front.Pages
 
         private async Task DeleteShiftAsync()
         {
-            // Delete the shift data from the backend
+            
             var response = await ScheduleService.DeleteUserSchedule(ShiftToEdit.ID);
             if (response.Success)
             {
@@ -568,7 +569,7 @@ namespace engineering_project_front.Pages
                 await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
-            // Save the new shift data to the backend
+            
             var newShift = new UsersDailySchedulesRequest
             {
                 UserID = employee!.ID,

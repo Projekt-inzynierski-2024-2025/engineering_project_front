@@ -64,7 +64,7 @@ namespace engineering_project_front.Pages
             if (UserID.HasValue)
 
             {
-                // Kierownik przegląda zmiany pracownika
+                
                 IsManager = true;
                 UserShiftWorks = await GetUserShiftWork(UserID.Value, DataChoose);
                 await GetTodayTomorrowShift(UserID.Value);
@@ -73,7 +73,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                // Pracownik przegląda swoje zmiany
+                
                 IsManager = false;
                 UserShiftWorks = await GetUserShiftWork(UserToCheck.ID, DataChoose);
                 await GetTodayTomorrowShift(UserToCheck.ID);
@@ -108,11 +108,11 @@ namespace engineering_project_front.Pages
             var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
 
 
-            // Pobranie dzisiejszej i jutrzejszej daty
+            
             DateTime today = DateTime.Today;
             DateTime tomorrow = today.AddDays(1);
 
-            // Znalezienie zmiany na dzisiaj
+            
             var todayShift = userPlanedShifts.FirstOrDefault(shift => shift.TimeStart.Date == today);
             if (todayShift != null)
             {
@@ -123,7 +123,7 @@ namespace engineering_project_front.Pages
                 TodayShift = "Brak";
             }
 
-            // Znalezienie zmiany na jutro
+            
             var tomorrowShift = userPlanedShifts.FirstOrDefault(shift => shift.TimeStart.Date == tomorrow);
             if (tomorrowShift != null)
             {
@@ -141,7 +141,7 @@ namespace engineering_project_front.Pages
 
         private async Task<List<ShiftWork>> GetUserShiftWork(long userID, DateTime date)
         {
-            // Pobranie zaplanowanych zmian
+            
             var responseUserDailySchedule = await ScheduleService.GetUsersDailySchedulesForMonth(userID, date);
             if (!responseUserDailySchedule.Success)
             {
@@ -149,7 +149,7 @@ namespace engineering_project_front.Pages
             }
             var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
 
-            // Pobranie przepracowanych zmian
+            
             var responseUserWorkedShifts = await WorksService.GetWorkForMonth(userID, date);
             if (!responseUserWorkedShifts.Success)
             {
@@ -157,20 +157,20 @@ namespace engineering_project_front.Pages
             }
             var userWorkedShifts = responseUserWorkedShifts.Data ?? new List<WorksResponse>();
 
-            // Resetowanie zmiennych globalnych
+            
             WorkTimeHours = 0;
             WorkTimeMinutes = 0;
             PlannedWorkTimeHours = 0;
             PlannedWorkTimeMinutes = 0;
 
-            // Lista wynikowa
+            
             var userShiftWorks = new List<ShiftWork>();
 
-            // Grupowanie danych według dni
+           
             var groupedPlanedShifts = userPlanedShifts.GroupBy(x => x.TimeStart.Date);
             var groupedWorkedShifts = userWorkedShifts.GroupBy(x => x.Date.Date);
 
-            // Iteracja po wszystkich dniach miesiąca
+           
             var daysInMonth = Enumerable.Range(1, DateTime.DaysInMonth(date.Year, date.Month))
                                          .Select(day => new DateTime(date.Year, date.Month, day));
 
@@ -179,13 +179,13 @@ namespace engineering_project_front.Pages
                 var plannedShift = groupedPlanedShifts.FirstOrDefault(x => x.Key == day)?.FirstOrDefault();
                 var workedShift = groupedWorkedShifts.FirstOrDefault(x => x.Key == day)?.FirstOrDefault();
 
-                // Pomijamy dzień, jeśli nie ma ani zaplanowanej, ani przepracowanej zmiany
+               
                 if (plannedShift == null && workedShift == null)
                 {
                     continue;
                 }
 
-                // Obliczanie czasu pracy
+               
                 if (workedShift != null)
                 {
                     var dailyWorkTime = workedShift.TimeEnd.TimeOfDay - workedShift.TimeStart.TimeOfDay - workedShift.BreakTime.TimeOfDay;
@@ -196,7 +196,7 @@ namespace engineering_project_front.Pages
                     }
                 }
 
-                // Obliczanie zaplanowanego czasu pracy
+               
                 if (plannedShift != null)
                 {
                     var dailyPlannedTime = plannedShift.TimeEnd - plannedShift.TimeStart;
@@ -222,7 +222,7 @@ namespace engineering_project_front.Pages
                 userShiftWorks.Add(shiftWork);
             }
 
-            // Dodanie nadmiarowych minut jako pełnych godzin
+            
             WorkTimeHours += WorkTimeMinutes / 60;
             WorkTimeMinutes %= 60;
             PlannedWorkTimeHours += PlannedWorkTimeMinutes / 60;

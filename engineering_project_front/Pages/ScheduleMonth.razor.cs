@@ -157,7 +157,7 @@ namespace engineering_project_front.Pages
                     return new List<TeamsResponse>();
                 }
 
-                // Przefiltruj zespoły na podstawie ID
+                
                 var filteredTeams = response.Data!.Where(team => teamsIDs.Contains(team.ID)).ToList();
                 return filteredTeams;
             }
