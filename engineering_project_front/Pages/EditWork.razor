@@ -20,7 +20,7 @@
         <!-- Dzień do edycji -->
         <div class="form-field">
             <label class="example-label">Dzień do edycji</label>
-            <SfDatePicker TValue="DateTime?" @ref="@datePickerObj" @bind-Value="@datePicker" Readonly="true">
+            <SfDatePicker TValue="DateTime?" @ref="@datePickerObj" @bind-Value="@datePicker" Min="minDate" Max="maxDate" OnChange="OnDateChanged">
                 <DatePickerEvents TValue="DateTime?" OnRenderDayCell="@DisableDate" ValueChange="GetWorkToEdit"></DatePickerEvents>
             </SfDatePicker>
         </div>
