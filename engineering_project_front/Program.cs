@@ -14,7 +14,6 @@ namespace Program
 {
     public class Program
     {
-        //Temporary, I don't like it here but I don't know where to put this for now
         private const string SYNCFUSION_KEY = "Ngo9BigBOggjHTQxAR8/V1NDaF5cWWtCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWH5edHVURGBZWUV/X0s=";
 
         public static async Task Main(string[] args)
@@ -45,8 +44,6 @@ namespace Program
             builder.Services.AddSyncfusionBlazor();
 
             builder.Services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(Localizer));
-
-
 
             await builder.Build().RunAsync();
         }
