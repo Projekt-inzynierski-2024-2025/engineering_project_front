@@ -62,25 +62,27 @@ namespace engineering_project_front.Pages
 
             if (result.Success)
             {
-                workStart = result.Data!.TimeStart;
+                var data = result.Data!;
 
-                if (result.Data!.TimeEnd != DateTime.MinValue)
+                workStart = data.TimeStart;
+
+                if (data.TimeEnd != DateTime.MinValue)
                 {
                     disablePickingTime = false;
-                    workEnd = result.Data!.TimeEnd;
+                    workEnd = data.TimeEnd;
                 }
                 else
-                    workEnd = null;
+                    workEnd = new DateTime(data.Date.Year, data.Date.Month, data.Date.Day, 0, 0, 0);
 
-                if (result.Data!.BreakStart != DateTime.MinValue)
-                    breakStart = result.Data!.BreakStart;
+                if (data.BreakStart != DateTime.MinValue)
+                    breakStart = data.BreakStart;
                 else
-                    breakStart = null;
+                    breakStart = new DateTime(data.Date.Year, data.Date.Month, data.Date.Day, 0, 0, 0);
 
-                if (result.Data!.BreakEnd != DateTime.MinValue)
-                    breakEnd = result.Data!.BreakEnd;
+                if (data.BreakEnd != DateTime.MinValue)
+                    breakEnd = data.BreakEnd;
                 else
-                    breakEnd = null;
+                    breakEnd = new DateTime(data.Date.Year, data.Date.Month, data.Date.Day, 0, 0, 0);
             }
             else
             {
