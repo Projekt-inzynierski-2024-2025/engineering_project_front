@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutoComplete_ActionFailureTemplate" xml:space="preserve">
-    <value>ŻŻądanie nie powiodło się</value>
+    <value>Żądanie nie powiodło się</value>
   </data>
   <data name="AutoComplete_NoRecordsTemplate" xml:space="preserve">
     <value>Nic nie znaleziono</value>
@@ -433,10 +433,10 @@
     <value>Dzień</value>
   </data>
   <data name="Schedule_Delete" xml:space="preserve">
-    <value>Usunąć</value>
+    <value>Usuń</value>
   </data>
   <data name="Schedule_DeleteButton" xml:space="preserve">
-    <value>Usunąć</value>
+    <value>Usuń</value>
   </data>
   <data name="Schedule_DeleteContent" xml:space="preserve">
     <value>Czy na pewno chcesz usunąć to wydarzenie?</value>
@@ -460,7 +460,7 @@
     <value>Opis</value>
   </data>
   <data name="Schedule_Edit" xml:space="preserve">
-    <value>Edytować</value>
+    <value>Edytuj</value>
   </data>
   <data name="Schedule_EditContent" xml:space="preserve">
     <value>Jak chciałbyś zmienić spotkanie w serialu?</value>
@@ -562,10 +562,10 @@
     <value>Dwa wystąpienia tego samego zdarzenia nie mogą wystąpić tego samego dnia.</value>
   </data>
   <data name="Schedule_Save" xml:space="preserve">
-    <value>Zapisać</value>
+    <value>Zapisz</value>
   </data>
   <data name="Schedule_SaveButton" xml:space="preserve">
-    <value>Zapisać</value>
+    <value>Zapisz</value>
   </data>
   <data name="Schedule_SelectedItems" xml:space="preserve">
     <value>Wybrane elementy</value>
@@ -5539,7 +5539,7 @@
     <value>Kolumny</value>
   </data>
   <data name="Grid_Save" xml:space="preserve">
-    <value>Zapisać</value>
+    <value>Zapisz</value>
   </data>
   <data name="Grid_Item" xml:space="preserve">
     <value>pozycja</value>
@@ -5920,7 +5920,7 @@
     <value>dobrze</value>
   </data>
   <data name="Dialog_Cancel" xml:space="preserve">
-    <value>anulować</value>
+    <value>Anuluj</value>
   </data>
   <data name="PivotView_SubtotalsPosition" xml:space="preserve">
     <value>Pozycja sum częściowych</value>
