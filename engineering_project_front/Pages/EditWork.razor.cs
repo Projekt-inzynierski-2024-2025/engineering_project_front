@@ -33,6 +33,9 @@ namespace engineering_project_front.Pages
 
         private SfDatePicker<DateTime?> datePickerObj { get; set; } = default!;
         private DateTime? datePicker { get; set; } = DateTime.Today;
+        private DateTime minDate = new(DateTime.Today.Year, DateTime.Today.Month, 1);
+        private DateTime maxDate = new(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
+        
 
         private DateTime? workStart { get; set; }
         private DateTime? breakStart { get; set; }
@@ -63,6 +66,19 @@ namespace engineering_project_front.Pages
             if (result.Success)
             {
                 var data = result.Data!;
+
+                if (datePicker != DateTime.Today && data.Status != 0)
+                {
+                    workStart = null;
+                    workEnd = null;
+                    breakStart = null;
+                    breakEnd = null;
+                    ToastContent = "Podanej pracy nie można edytować. Skontaktuj się z kierownikiem, by umożliwił ci edycję.";
+                    disablePickingTime = true;
+                    await InvokeAsync(StateHasChanged);
+                    await ToastObj.ShowAsync();
+                    return;
+                }
 
                 workStart = data.TimeStart;
 
@@ -171,6 +187,7 @@ namespace engineering_project_front.Pages
                 TimeEnd = workEnd!.Value,
                 BreakStart = breakStart!.Value,
                 BreakEnd = breakEnd!.Value,
+                Status = 1,
             };
 
             var result = await worksService.EditWork(request);
@@ -180,6 +197,12 @@ namespace engineering_project_front.Pages
                 await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
             }
+        }
+
+        private async Task OnDateChanged()
+        {
+            await GetWorkToEdit();
+
         }
 
         private async Task GetUser()
