@@ -188,18 +188,18 @@ namespace engineering_project_front.Pages
             switch (args.Type)
             {
                 case PopupType.Editor:
-                    if (args.CurrentAction == CurrentAction.Add) //Dodawanie
+                    if (args.CurrentAction == CurrentAction.Add) //Add
                     {
                         availabilitiesService.CreateAvailabilities(request);
                         break;
                     }
-                    else if (args.CurrentAction == CurrentAction.Save) //Edycja
+                    else if (args.CurrentAction == CurrentAction.Save) //Edit
                     {
                         availabilitiesService.UpdateAvailability(request);
                         break;
                     }
                     break;
-                case PopupType.DeleteAlert: //Usuwanie
+                case PopupType.DeleteAlert: //Remove
                     availabilitiesService.RemoveAvailability(request);
                     break;
             }
@@ -211,11 +211,6 @@ namespace engineering_project_front.Pages
             Message = message;
             InvokeAsync(StateHasChanged);
             Toast.ShowAsync();
-        }
-
-        private bool isTimeValid(DateTime timeStart, DateTime timeEnd)
-        {
-            return timeStart < timeEnd;
         }
     }
 }
