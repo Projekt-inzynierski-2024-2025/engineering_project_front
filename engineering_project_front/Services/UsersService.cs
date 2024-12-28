@@ -128,7 +128,7 @@ public class UsersService : IUsersService
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            var apiResponse = await httpClient.PostAsJsonAsync("api/Users/addUser", user);
+            var apiResponse = await httpClient.PostAsJsonAsync("api/Users/AddUser", user);
 
             if (!apiResponse.IsSuccessStatusCode)
             {
@@ -172,7 +172,7 @@ public class UsersService : IUsersService
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            var apiResponse = await httpClient.PutAsJsonAsync("api/Users/updateUser", user);
+            var apiResponse = await httpClient.PutAsJsonAsync("api/Users/UpdateUser", user);
 
             if (!apiResponse.IsSuccessStatusCode)
             {
@@ -261,7 +261,7 @@ public class UsersService : IUsersService
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            var apiResponse = await httpClient.DeleteAsync($"api/Users/deleteUser/{ID}");
+            var apiResponse = await httpClient.DeleteAsync($"api/Users/DeleteUser/{ID}");
 
             if (!apiResponse.IsSuccessStatusCode)
             {
@@ -305,7 +305,7 @@ public class UsersService : IUsersService
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            var apiResponse = await httpClient.GetAsync($"api/Users/teamUsers/{ID}");
+            var apiResponse = await httpClient.GetAsync($"api/Users/TeamUsers/{ID}");
 
             if (!apiResponse.IsSuccessStatusCode)
             {

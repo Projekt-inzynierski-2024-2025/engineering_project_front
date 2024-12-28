@@ -86,7 +86,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.PostAsJsonAsync("api/DailySchedules/addDailySchedules", request);
+                var apiResponse = await httpClient.PostAsJsonAsync("api/DailySchedules/AddDailySchedules", request);
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {

@@ -41,7 +41,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.GetAsync("api/Teams/getTeams");
+                var apiResponse = await httpClient.GetAsync("api/Teams/GetTeams");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -88,7 +88,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.GetAsync($"api/Teams/getTeam/{ID}");
+                var apiResponse = await httpClient.GetAsync($"api/Teams/GetTeam/{ID}");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -145,7 +145,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.PostAsJsonAsync("api/Teams/addTeam", team);
+                var apiResponse = await httpClient.PostAsJsonAsync("api/Teams/AddTeam", team);
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -188,7 +188,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.PutAsJsonAsync("api/Teams/updateTeam", team);
+                var apiResponse = await httpClient.PutAsJsonAsync("api/Teams/UpdateTeam", team);
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -232,7 +232,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.DeleteAsync($"/api/Teams/deleteTeam/{ID}");
+                var apiResponse = await httpClient.DeleteAsync($"/api/Teams/DeleteTeam/{ID}");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
@@ -276,7 +276,7 @@ namespace engineering_project_front.Services
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
-                var apiResponse = await httpClient.GetAsync($"api/Teams/getTeamsIDForManager/{managerEmail}");
+                var apiResponse = await httpClient.GetAsync($"api/Teams/GetTeamsIDForManager/{managerEmail}");
 
                 if (!apiResponse.IsSuccessStatusCode)
                 {
