@@ -57,6 +57,11 @@
                 <GridEvents ContextMenuItemClicked="OnContextMenuClick" QueryCellInfo="OnQueryCellInfo" TValue="HoursForDayResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
+                <GridSortSettings>
+                    <GridSortColumns>
+                        <GridSortColumn Field="@nameof(HoursForDayResponse.Date)" Direction="SortDirection.Ascending"></GridSortColumn>
+                    </GridSortColumns>
+                </GridSortSettings>
                 <GridColumns>
                     <GridColumn Field="@nameof(HoursForDayResponse.Date)" HeaderText="Dzień pracy" MinWidth="120" Width="150" MaxWidth="200" Format="dd.MM.yyyy"></GridColumn>
                      <GridColumn Field="@nameof(HoursForDayResponse.WorkHours)" HeaderText="Aktualna ilość przepracowanych godzin" MinWidth="120" Width="150" MaxWidth="200">
