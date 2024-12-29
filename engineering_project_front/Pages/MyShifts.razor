@@ -11,6 +11,7 @@
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
 @using engineering_project_front.Models;
 
 <div class="container">
@@ -38,11 +39,11 @@
     <!-- Tabela zmian -->
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="UserShiftWorks" GridLines="GridLine.Both" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" EnableAdaptiveUI="true">
+            <SfGrid DataSource="UserShiftWorks" GridLines="GridLine.Both" Height="400" AllowTextWrap="true" AllowFiltering="true" AllowPaging="true" AllowSorting="true">
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
                 <GridColumns>
-                    <GridColumn HeaderText="Data" MinWidth="80" Width="100" MaxWidth="150">
+                    <GridColumn Field="@nameof(ShiftWork.Date)" HeaderText="Data" AllowFiltering="true" MinWidth="80" Width="100" MaxWidth="150">
                         <Template>
                             @{
                                 var data = context as ShiftWork;
@@ -53,7 +54,7 @@
                             }
                         </Template>
                     </GridColumn>
-                    <GridColumn HeaderText="Początek planowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                    <GridColumn Field="@nameof(ShiftWork.TimeStartShift)" HeaderText="Początek planowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
                         <Template>
                             @{
                                 var data = context as ShiftWork;
@@ -64,7 +65,7 @@
                             }
                         </Template>
                     </GridColumn>
-                    <GridColumn HeaderText="Koniec planowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                    <GridColumn Field="@nameof(ShiftWork.TimeEndShift)" HeaderText="Koniec planowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
                         <Template>
                             @{
                                 var data = context as ShiftWork;
@@ -75,7 +76,7 @@
                             }
                         </Template>
                     </GridColumn>
-                    <GridColumn HeaderText="Początek przepracowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                    <GridColumn Field="@nameof(ShiftWork.TimeStartWork)" HeaderText="Początek przepracowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
                         <Template>
                             @{
                                 var data = context as ShiftWork;
@@ -86,7 +87,7 @@
                             }
                         </Template>
                     </GridColumn>
-                    <GridColumn HeaderText="Koniec przepracowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
+                    <GridColumn Field="@nameof(ShiftWork.TimeEndWork)" HeaderText="Koniec przepracowanej zmiany" MinWidth="120" Width="150" MaxWidth="200">
                         <Template>
                             @{
                                 var data = context as ShiftWork;
@@ -98,7 +99,6 @@
                         </Template>
                     </GridColumn>
                 </GridColumns>
-
             </SfGrid>
         </div>
     </div>

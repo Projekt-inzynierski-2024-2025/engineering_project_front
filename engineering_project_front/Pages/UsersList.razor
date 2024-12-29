@@ -28,7 +28,7 @@
     @* Initialize the DataGrid component for users *@
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="FilteredUsers" GridLines="GridLine.Both" Height="400" AllowFiltering="true" AllowResizing="true" AllowPaging="true" AllowSorting="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Szczegóły użytkownika", Target=".e-content",Id="seeDetails"}})">
+            <SfGrid DataSource="FilteredUsers" GridLines="GridLine.Both" Height="400" AllowFiltering="true" AllowPaging="true" AllowSorting="true" ContextMenuItems="@(new List<ContextMenuItemModel>(){new ContextMenuItemModel {Text = "Szczegóły użytkownika", Target=".e-content",Id="seeDetails"}})">
                 <GridEvents ContextMenuItemClicked="OnContextMenuClick" TValue="UsersResponse"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="10" PageSizes="@(new string[] { "10", "20", "50", "All" })"></GridPageSettings>
