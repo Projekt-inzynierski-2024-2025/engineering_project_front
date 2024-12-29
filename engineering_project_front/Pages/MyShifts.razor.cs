@@ -211,10 +211,10 @@ namespace engineering_project_front.Pages
                     continue;
                 }
 
-               
+
                 if (workedShift != null)
                 {
-                    var dailyWorkTime = workedShift.TimeEnd.TimeOfDay - workedShift.TimeStart.TimeOfDay - workedShift.BreakTime.TimeOfDay;
+                    var dailyWorkTime = workedShift.TimeEnd.TimeOfDay - workedShift.TimeStart.TimeOfDay; 
                     if (dailyWorkTime > TimeSpan.Zero)
                     {
                         WorkTimeHours += dailyWorkTime.Hours;
@@ -222,7 +222,7 @@ namespace engineering_project_front.Pages
                     }
                 }
 
-               
+
                 if (plannedShift != null)
                 {
                     var dailyPlannedTime = plannedShift.TimeEnd - plannedShift.TimeStart;
