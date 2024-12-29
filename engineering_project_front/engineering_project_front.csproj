@@ -49,6 +49,8 @@
     <PackageReference Include="Syncfusion.Blazor.Schedule" Version="27.2.3" />
 
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.2.3" />
+
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

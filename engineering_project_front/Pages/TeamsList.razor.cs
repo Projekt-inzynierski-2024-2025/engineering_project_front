@@ -1,4 +1,5 @@
 ﻿using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Grids;
@@ -86,7 +87,8 @@ namespace engineering_project_front.Pages
             switch (args.Item.Id)
             {
                 case "seeDetails":
-                    NavManager.NavigateTo($"/TeamDetails/{args.RowInfo.RowData.ID}");
+                    var encryptedId = EncryptionHelper.Encrypt(args.RowInfo.RowData.ID.ToString());
+                    NavManager.NavigateTo($"/TeamDetails/{encryptedId}");
                     break;
                 default:
                     break;

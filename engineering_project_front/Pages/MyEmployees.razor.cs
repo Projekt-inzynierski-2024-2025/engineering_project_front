@@ -1,5 +1,6 @@
 ﻿using Blazored.SessionStorage;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Calendars;
@@ -49,6 +50,8 @@ namespace engineering_project_front.Pages
 
         private DateTime DataChoose = DateTime.Today;
 
+        bool HaveTeam { get; set; } = true;
+
         #region ToastAndNotification
         private SfToast Toast = new();
         private string Message { get; set; } = string.Empty;
@@ -63,9 +66,10 @@ namespace engineering_project_front.Pages
             Teams = await GetTeams();
             await GetUserToCheck();
 
-            if (Teams is null)
+            if (Teams.Count == 0 || Teams is null)
             {
                 await ShowToast("Nie znaleziono zespołów", false);
+                HaveTeam = false;
                 return;
             }
 
@@ -73,11 +77,13 @@ namespace engineering_project_front.Pages
             {
                 TeamID = Teams[0].ID;
                 TeamName = Teams[0].Name;
+                HaveTeam = true;
                 await LoadEmployesForTeam();
             }
             else
             {
                 IsTeamDialogVisible = true;
+                HaveTeam = true;
                 await InvokeAsync(StateHasChanged);
             }
         }
@@ -115,7 +121,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, response.Success);
+                //await ShowToast(response.Message!, response.Success);
                 return new();
             }
         }
@@ -158,7 +164,7 @@ namespace engineering_project_front.Pages
                 var teamsIDs = await GetTeamsID();
                 if (teamsIDs == null || teamsIDs.Count == 0)
                 {
-                    await ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
+                   // await ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
                     return new List<TeamsResponse>();
                 }
 
@@ -168,7 +174,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, false);
+               // await ShowToast(response.Message!, false);
                 return new List<TeamsResponse>();
             }
         }
@@ -182,7 +188,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, response.Success);
+                //await ShowToast(response.Message!, response.Success);
                 HoursForUsers = new List<HoursForUserForMonthResponse>();
             }
         }
@@ -200,7 +206,8 @@ namespace engineering_project_front.Pages
                 case "seeDetails":
                     if (args.RowInfo.RowData.userID != UserID)
                     {
-                        NavManager.NavigateTo($"/myShifts/{args.RowInfo.RowData.userID}");
+                        var encryptedId = EncryptionHelper.Encrypt(args.RowInfo.RowData.userID.ToString());
+                        NavManager.NavigateTo($"/myShifts/{encryptedId}");
                     }
                     else
                     {

@@ -1,4 +1,5 @@
 ﻿using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Notifications;
@@ -18,9 +19,9 @@ namespace engineering_project_front.Pages
         #endregion
 
         [Parameter]
-        public required string ParamID { get; set; }
+        public string ParamID { get; set; } = string.Empty;
 
-        private long ID => long.Parse(ParamID);
+        private long ID => long.Parse(EncryptionHelper.Decrypt(ParamID));
         private TeamsResponse? Team { get; set; } = new TeamsResponse();
 
         #region ToastAndNotification

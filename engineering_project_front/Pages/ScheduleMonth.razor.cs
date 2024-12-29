@@ -1,5 +1,6 @@
 ﻿using Blazored.SessionStorage;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Calendars;
@@ -40,6 +41,7 @@ namespace engineering_project_front.Pages
         private DateTime DataChoose = DateTime.Today;
         public string Month => DataChoose.ToString("Y");
         private bool EditStatus { get; set; } = false;
+        private bool HaveTeam { get; set; } = true;
 
         #region ToastAndNotification
         private SfToast Toast = new();
@@ -55,14 +57,17 @@ namespace engineering_project_front.Pages
             Teams = await GetTeams();
            
 
-            if (Teams is null)
+            if (Teams.Count == 0 || Teams is null)
             {
                 await ShowToast("Nie znaleziono zespołów", false);
+                HaveTeam = false;
                 return;
             }
 
+
             if (Teams.Count == 1)
             {
+                HaveTeam = true;
                 TeamID = Teams[0].ID;
                 await LoadScheduleForTeam();
                 await GetScheduleStatus();
@@ -71,6 +76,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                HaveTeam = true;
                 IsTeamDialogVisible = true;
                 await InvokeAsync(StateHasChanged);
             }
@@ -104,7 +110,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, response.Success);
+               // await ShowToast(response.Message!, response.Success);
                 return new();
             }
         }
@@ -153,7 +159,7 @@ namespace engineering_project_front.Pages
                 var teamsIDs = await GetTeamsID();
                 if (teamsIDs == null || teamsIDs.Count == 0)
                 {
-                    await ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
+                  //  await ShowToast("Nie znaleziono zespołów dla tego użytkownika", false);
                     return new List<TeamsResponse>();
                 }
 
@@ -163,7 +169,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, false);
+               // await ShowToast(response.Message!, false);
                 return new List<TeamsResponse>();
             }
         }
@@ -181,8 +187,7 @@ namespace engineering_project_front.Pages
                 }
             }
             else
-            {
-                await ShowToast(response.Message!, response.Success);
+            {               
                 Hours = new List<HoursForDayResponse>();
             }
         }
@@ -192,7 +197,20 @@ namespace engineering_project_front.Pages
             var response = await ScheduleService.GetEditStatusMonthSchedule(TeamID, DataChoose.Year, DataChoose.Month);
             if (response.Success)
             {
-                EditStatus = response.Data;
+                
+                var currentDate = DateTime.Now;
+                var currentYear = currentDate.Year;
+                var currentMonth = currentDate.Month;
+
+                
+                if (DataChoose.Year < currentYear || (DataChoose.Year == currentYear && DataChoose.Month < currentMonth)||HaveTeam == false)
+                {
+                    EditStatus = false;
+                }
+                else
+                {
+                    EditStatus = response.Data;
+                }
             }
             else
             {
@@ -233,7 +251,8 @@ namespace engineering_project_front.Pages
             switch (args.Item.Id)
             {
                 case "seeDetails":
-                    NavManager.NavigateTo($"/Schedule/{args.RowInfo.RowData.DailyScheduleID}");
+                    var encryptedId = EncryptionHelper.Encrypt(args.RowInfo.RowData.DailyScheduleID.ToString());
+                    NavManager.NavigateTo($"/Schedule/{encryptedId}");
                     break;
                 default:
                     break;

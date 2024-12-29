@@ -24,13 +24,13 @@
         <SfButton IsPrimary="true" @onclick="EditUser">Edytuj użytkownika</SfButton>
         <SfButton CssClass="secondary" @onclick="ShowDeleteConfirmation">Usuń użytkownika</SfButton>
     </div>
+    <!-- Toast z powiadomieniami -->
+    <div>
+    <SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
+        <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+    </SfToast>
+    </div>
 </div>
-
-<!-- Toast z powiadomieniami -->
-<SfToast @ref="Toast" Title="@Title" Content="@Message" Timeout="5000" ShowCloseButton="true">
-    <ToastPosition X="Right" Y="Bottom"></ToastPosition>
-</SfToast>
-
 <!-- Dialog potwierdzenia usunięcia -->
 <SfDialog IsModal="true" Width="300px" ShowCloseIcon="true" Visible="@IsDeleteDialogVisible"
           Header="Potwierdzenie Usunięcia" Content="Czy na pewno chcesz usunąć użytkownika? Tej akcji nie można cofnąć.">

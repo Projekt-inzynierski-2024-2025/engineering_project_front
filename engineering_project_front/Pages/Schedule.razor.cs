@@ -1,6 +1,7 @@
 ﻿using engineering_project_front.Models;
 using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Navigations;
@@ -31,7 +32,7 @@ namespace engineering_project_front.Pages
         [Parameter]
         public required string ParamID { get; set; }
 
-        private long ID => long.Parse(ParamID);
+        private long ID => long.Parse(EncryptionHelper.Decrypt(ParamID));
 
         #endregion
 
@@ -115,6 +116,11 @@ namespace engineering_project_front.Pages
               if (DailySchedule.Status == 1 || DailySchedule.Date < DateTime.Now)
               {
                   Editable = false;
+
+                if(DailySchedule.Date < DateTime.Now)
+                {
+                    DailySchedule.Status = 1;
+                }
                 
               }
               else
@@ -215,7 +221,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(responseSchedule.Message!, responseSchedule.Success);
+               // await ShowToast(responseSchedule.Message!, responseSchedule.Success);
                 return;
             }
 
@@ -227,7 +233,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(responseHours.Message!, responseHours.Success);
+               // await ShowToast(responseHours.Message!, responseHours.Success);
                 return;
             }
 
@@ -254,7 +260,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, response.Success);
+               // await ShowToast(response.Message!, response.Success);
             }
         }
 
@@ -267,7 +273,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, response.Success);
+               // await ShowToast(response.Message!, response.Success);
             }
         }
 
@@ -283,7 +289,7 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
-                    await ShowToast(response.Message!, response.Success);
+                  //  await ShowToast(response.Message!, response.Success);
 
                 }
             }

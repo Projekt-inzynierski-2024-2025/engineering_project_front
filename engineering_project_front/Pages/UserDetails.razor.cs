@@ -1,5 +1,6 @@
 ﻿using Blazored.SessionStorage;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Notifications;
@@ -24,9 +25,9 @@ namespace engineering_project_front.Pages
 
 
         [Parameter]
-        public required string ParamID { get; set; }
+        public string ParamID { get; set; } = string.Empty;
 
-        private long ID => long.Parse(ParamID);
+        private long ID => long.Parse(EncryptionHelper.Decrypt(ParamID));
         private UsersResponse? User { get; set; } = new UsersResponse();
 
         private long UserID { get; set; } = 0;
@@ -68,10 +69,7 @@ namespace engineering_project_front.Pages
         private async Task ShowToast(string message, bool success)
         {
             Message = message;
-            if (success)
-            { Title = "Sukces!"; }
-            else
-            { Title = "Błąd!"; }
+            Title = success ? "Sukces!" : "Błąd!";
             await InvokeAsync(StateHasChanged);
             await Toast.ShowAsync();
         }
@@ -91,7 +89,7 @@ namespace engineering_project_front.Pages
         private async Task EditUser()
         {
             if (UserID == ID)
-            {
+            {   
                 await ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
                 return;
             }

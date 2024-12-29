@@ -3,6 +3,7 @@ using engineering_project_front.Services.Interfaces;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Notifications;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 
 namespace engineering_project_front.Pages
 {
@@ -102,7 +103,8 @@ namespace engineering_project_front.Pages
                 switch (args.Item.Id)
                 {
                     case "seeDetails":
-                        NavManager.NavigateTo($"/UserDetails/{args.RowInfo.RowData.ID}");
+                        var encryptedId = EncryptionHelper.Encrypt(args.RowInfo.RowData.ID.ToString());
+                        NavManager.NavigateTo($"/UserDetails/{encryptedId}");
                         break;
                     default:
                         break;

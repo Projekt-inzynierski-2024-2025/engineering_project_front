@@ -1,6 +1,7 @@
 ﻿using Blazored.SessionStorage;
 using engineering_project_front.Models;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Calendars;
@@ -31,7 +32,8 @@ namespace engineering_project_front.Pages
 
 
         [Parameter]
-        public long? UserID { get; set; }
+        public string? EncryptedUserID { get; set; }
+        public long ? UserID { get; set; }
         private bool IsManager { get; set; } = false;
         private DateTime DataChoose = DateTime.Today;
         public string Month => DataChoose.ToString("Y");
@@ -61,6 +63,30 @@ namespace engineering_project_front.Pages
                 NavManager.NavigateTo("/auth-error");
 
             await GetUserToCheck();
+
+
+
+            if (!string.IsNullOrEmpty(EncryptedUserID))
+            {
+                try
+                {
+                    var decryptedId = EncryptionHelper.Decrypt(EncryptedUserID);
+                    UserID = long.Parse(decryptedId);
+                    IsManager = true;
+                }
+                catch (Exception)
+                {
+                    await ShowToast("Niepoprawny identyfikator użytkownika.", false);
+                    NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
+                    return;
+                }
+            }
+            else
+            {
+                UserID = null; 
+            }
+
+
             if (UserID.HasValue)
 
             {
@@ -103,7 +129,7 @@ namespace engineering_project_front.Pages
             var responseUserDailySchedule = await ScheduleService.GetUsersDailySchedulesForMonth(userID, DateTime.Now);
             if (!responseUserDailySchedule.Success)
             {
-                await ShowToast(responseUserDailySchedule.Message!, responseUserDailySchedule.Success);
+               // await ShowToast(responseUserDailySchedule.Message!, responseUserDailySchedule.Success);
             }
             var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
 
@@ -145,7 +171,7 @@ namespace engineering_project_front.Pages
             var responseUserDailySchedule = await ScheduleService.GetUsersDailySchedulesForMonth(userID, date);
             if (!responseUserDailySchedule.Success)
             {
-                await ShowToast(responseUserDailySchedule.Message!, responseUserDailySchedule.Success);
+               // await ShowToast(responseUserDailySchedule.Message!, responseUserDailySchedule.Success);
             }
             var userPlanedShifts = responseUserDailySchedule.Data ?? new List<UsersDailySchedulesResponse>();
 
@@ -153,7 +179,7 @@ namespace engineering_project_front.Pages
             var responseUserWorkedShifts = await WorksService.GetWorkForMonth(userID, date);
             if (!responseUserWorkedShifts.Success)
             {
-                await ShowToast(responseUserWorkedShifts.Message!, responseUserWorkedShifts.Success);
+               // await ShowToast(responseUserWorkedShifts.Message!, responseUserWorkedShifts.Success);
             }
             var userWorkedShifts = responseUserWorkedShifts.Data ?? new List<WorksResponse>();
 
@@ -259,7 +285,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, response.Success);
+               // await ShowToast(response.Message!, response.Success);
                 return false;
 
             }
@@ -284,7 +310,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-                await ShowToast(response.Message!, response.Success);
+               // await ShowToast(response.Message!, response.Success);
                 return new();
             }
         }
@@ -301,7 +327,7 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
-                    await ShowToast(response.Message!, response.Success);
+                   // await ShowToast(response.Message!, response.Success);
 
                 }
             }
