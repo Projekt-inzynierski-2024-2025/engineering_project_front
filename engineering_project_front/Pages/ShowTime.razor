@@ -23,7 +23,7 @@
     <!-- Tabela czasu pracy -->
     <div class="control-section">
         <div class="content-wrapper">
-            <SfGrid DataSource="@GridDataView" GridLines="GridLine.Both" AllowPaging="true" AllowFiltering="true" AllowTextWrap="true">
+            <SfGrid DataSource="@GridDataView" Height="400" GridLines="GridLine.Both" AllowPaging="true" AllowFiltering="true" AllowTextWrap="true">
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridColumns>
                     <GridColumn Field=@nameof(WorksResponse.Date.Date) HeaderText="Dzień" TextAlign="TextAlign.Right" Width="120" Format="dd.MM.yyyy"></GridColumn>

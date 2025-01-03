@@ -354,7 +354,7 @@ namespace engineering_project_front.Pages
                 }
                 else if (EventData.Subject == "Dyspozycyjność")
                 {
-                    var userAva = Availabilities.Find(x => x.ID == EventData.Id);
+                    var userAva = Availabilities.Find(x => x.UserID == EventData.EmployeeID);
                     if (userAva != null)
                     {
                         var userShift = UsersDailySchedulesResponses.Find(x => x.UserID == userAva.UserID);
