@@ -237,12 +237,12 @@ namespace engineering_project_front.Pages
                 {
                     ID = plannedShift?.ID ?? workedShift?.UserID ?? 0,
                     Date = day,
-                    TimeStartShift = plannedShift?.TimeStart ?? DateTime.MinValue,
-                    TimeEndShift = plannedShift?.TimeEnd ?? DateTime.MinValue,
-                    TimeStartWork = workedShift?.TimeStart ?? DateTime.MinValue,
-                    TimeEndWork = workedShift?.TimeEnd ?? DateTime.MinValue,
-                    TimeStartBreak = workedShift?.BreakStart ?? DateTime.MinValue,
-                    TimeEndBreak = workedShift?.BreakEnd ?? DateTime.MinValue,
+                    TimeStartShift = plannedShift != null ? TimeOnly.FromDateTime(plannedShift.TimeStart) : TimeOnly.MinValue,
+                    TimeEndShift = plannedShift != null ? TimeOnly.FromDateTime(plannedShift.TimeEnd) : TimeOnly.MinValue,
+                    TimeStartWork = workedShift != null ? TimeOnly.FromDateTime(workedShift.TimeStart) : TimeOnly.MinValue,
+                    TimeEndWork = workedShift != null ? TimeOnly.FromDateTime(workedShift.TimeEnd) : TimeOnly.MinValue,
+                    TimeStartBreak = workedShift != null ? TimeOnly.FromDateTime(workedShift.BreakStart) : TimeOnly.MinValue,
+                    TimeEndBreak = workedShift != null ? TimeOnly.FromDateTime(workedShift.BreakEnd) : TimeOnly.MinValue,
                 };
 
                 userShiftWorks.Add(shiftWork);

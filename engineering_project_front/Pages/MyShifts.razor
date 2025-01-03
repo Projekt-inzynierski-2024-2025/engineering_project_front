@@ -60,7 +60,7 @@
                                 var data = context as ShiftWork;
                                 if (data != null)
                                 {
-                                    <span>@(data.TimeStartShift.Year == 1 ? "-" : data.TimeStartShift.ToString("HH:mm"))</span>
+                                    <span>@(data.TimeStartShift == TimeOnly.MinValue ? "-" : data.TimeStartShift.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
@@ -71,7 +71,7 @@
                                 var data = context as ShiftWork;
                                 if (data != null)
                                 {
-                                    <span>@(data.TimeEndShift.Year == 1 ? "-" : data.TimeEndShift.ToString("HH:mm"))</span>
+                                    <span>@(data.TimeEndShift == TimeOnly.MinValue ? "-" : data.TimeEndShift.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
@@ -82,7 +82,7 @@
                                 var data = context as ShiftWork;
                                 if (data != null)
                                 {
-                                    <span>@(data.TimeStartWork.Year == 1 ? "-" : data.TimeStartWork.ToString("HH:mm"))</span>
+                                    <span>@(data.TimeStartWork == TimeOnly.MinValue ? "-" : data.TimeStartWork.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
@@ -93,7 +93,7 @@
                                 var data = context as ShiftWork;
                                 if (data != null)
                                 {
-                                    <span>@(data.TimeEndWork.Year == 1 ? "-" : data.TimeEndWork.ToString("HH:mm"))</span>
+                                    <span>@(data.TimeEndWork == TimeOnly.MinValue ? "-" : data.TimeEndWork.ToString("HH:mm"))</span>
                                 }
                             }
                         </Template>
