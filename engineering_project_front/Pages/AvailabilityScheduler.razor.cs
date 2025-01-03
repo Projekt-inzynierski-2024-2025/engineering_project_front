@@ -117,7 +117,9 @@ namespace engineering_project_front.Pages
             var selectedDate = args.StartTime;
             isEditing = false;
 
-            if (selectedDate < startOfTheNextMonth || selectedDate > endOfTheNextMonth || DateTime.Today >= aWeekBeforeEndOfMonth) return;
+            if (selectedDate < startOfTheNextMonth || selectedDate > endOfTheNextMonth || DateTime.Today >= aWeekBeforeEndOfMonth)
+                if (!(selectedDate > startOfTheNextMonth.AddMonths(1) && selectedDate < endOfTheNextMonth.AddMonths(1)))
+                    return;
             await ScheduleRef.OpenEditorAsync(args, CurrentAction.Add); //to open the editor window on cell click
         }
         public async Task OnEventClick(EventClickArgs<AvailabilitiesResponse> args)
