@@ -21,6 +21,7 @@ namespace engineering_project_front.Layout
         private string Role = string.Empty;
 
         public List<TreeData> TreeData { get; set; } = new();
+        private string? LastSelectedId { get; set; }
 
 
         protected async override Task OnInitializedAsync()
@@ -219,6 +220,79 @@ namespace engineering_project_front.Layout
             }
 
             SidebarToggle = false;
+        }
+
+        private void OnNodeClicked(NodeClickEventArgs args)
+        {
+            var clickedNode = TreeData.FirstOrDefault(node => node.Id == args.NodeData.Id);
+
+            if (clickedNode == null)
+                return;
+
+            if (LastSelectedId == clickedNode.Id)
+            {
+                
+                NavigateToNode(clickedNode.Id);
+                SidebarToggle = false;
+            }
+            else
+            {
+                
+                LastSelectedId = clickedNode.Id;
+
+                foreach (var node in TreeData)
+                {
+                    node.Selected = node.Id == clickedNode.Id;
+                }
+
+                
+                NavigateToNode(clickedNode.Id);
+                SidebarToggle = false;
+            }
+        }
+
+        private void NavigateToNode(string nodeId)
+        {
+            switch (nodeId)
+            {
+                case "5":
+                    NavManager.NavigateTo("/my-account");
+                    break;
+                case "6":
+                    sessionStorage.RemoveItemAsync("token");
+                    sessionStorage.RemoveItemAsync("role");
+                    NavManager.NavigateTo("/");
+                    break;
+                case "7":
+                    NavManager.NavigateTo("/home");
+                    break;
+                case "8":
+                    NavManager.NavigateTo("/edit-work");
+                    break;
+                case "9":
+                    NavManager.NavigateTo("/availability-scheduler");
+                    break;
+                case "10":
+                    NavManager.NavigateTo("/show-time");
+                    break;
+                case "11":
+                    NavManager.NavigateTo("/myShifts");
+                    break;
+                case "12":
+                    NavManager.NavigateTo("/MyEmployees");
+                    break;
+                case "13":
+                    NavManager.NavigateTo("/ScheduleMonth");
+                    break;
+                case "14":
+                    NavManager.NavigateTo("/UsersList");
+                    break;
+                case "15":
+                    NavManager.NavigateTo("/TeamsList");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

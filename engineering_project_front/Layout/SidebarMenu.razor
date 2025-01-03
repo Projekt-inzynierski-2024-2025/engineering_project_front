@@ -9,7 +9,7 @@
             <SfSidebar class="default-sidebar" Width="260px" Target=".maincontent" CloseOnDocumentClick="true" Position="SidebarPosition.Left" @bind-IsOpen="SidebarToggle" Type="SidebarType.Push">
                 <ChildContent>
                     <SfTreeView TValue="TreeData">
-                        <TreeViewEvents TValue="TreeData" NodeSelecting="BeforeSelect" NodeSelected="OnSelect"></TreeViewEvents>
+                        <TreeViewEvents TValue="TreeData" NodeSelecting="BeforeSelect" NodeClicked="OnNodeClicked" ></TreeViewEvents>
                         <TreeViewFieldsSettings Id="Id" Text="Name" Selected="Selected" ParentID="Pid" HasChildren="HasChild" Expanded="Expanded" DataSource="@TreeData"></TreeViewFieldsSettings>
                     </SfTreeView>
                 </ChildContent>
