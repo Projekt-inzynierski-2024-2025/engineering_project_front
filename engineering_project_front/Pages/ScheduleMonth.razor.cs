@@ -42,6 +42,7 @@ namespace engineering_project_front.Pages
         public string Month => DataChoose.ToString("Y");
         private bool EditStatus { get; set; } = false;
         private bool HaveTeam { get; set; } = true;
+        private bool PastSchedule { get; set; } = false;
 
         #region ToastAndNotification
         private SfToast Toast = new();
@@ -82,14 +83,7 @@ namespace engineering_project_front.Pages
                 await InvokeAsync(StateHasChanged);
             }
 
-            if(DataChoose.Year == DateTime.Now.Year && DataChoose.Month < DateTime.Now.Month)
-            {
-                EditStatus = false;
-            }
-            else
-            {
-                EditStatus = true;
-            }
+            
 
         }
 
@@ -219,10 +213,24 @@ namespace engineering_project_front.Pages
                 if (DataChoose.Year < currentYear || (DataChoose.Year == currentYear && DataChoose.Month < currentMonth)||HaveTeam == false)
                 {
                     EditStatus = false;
+
+                    
                 }
                 else
                 {
                     EditStatus = response.Data;
+                }
+
+
+                if (DataChoose.Year < currentYear || (DataChoose.Year == currentYear && DataChoose.Month < currentMonth))
+                {
+
+                    PastSchedule = true;
+
+                }
+                else
+                {
+                    PastSchedule = false;
                 }
             }
             else

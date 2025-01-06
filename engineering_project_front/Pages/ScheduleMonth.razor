@@ -43,7 +43,7 @@
         <div class="control-wrapper">
             <SfButton IsPrimary="true" CssClass="sf-button" @onclick="OpenTeamDialog">Wybierz zespół</SfButton>
             <SfButton IsPrimary="true" CssClass="sf-button" @onclick="AddSchedule" Disabled="@(EditStatus == false)">Stwórz grafik</SfButton>
-            <SfButton IsPrimary="true" CssClass="sf-button" @onclick="ChangeScheduleStatus" Disabled="@(HaveTeam == false)" >@(EditStatus ? "Udostępnij pracownikom" : "Edytuj grafik")</SfButton>
+            <SfButton IsPrimary="true" CssClass="sf-button" @onclick="ChangeScheduleStatus" Disabled="@(HaveTeam == false || PastSchedule == true)" >@(EditStatus ? "Udostępnij pracownikom" : "Edytuj grafik")</SfButton>
         </div>
     </div>
 
