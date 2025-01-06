@@ -76,6 +76,7 @@ namespace engineering_project_front.Pages
                 }
                 catch (Exception)
                 {
+                    await Task.Delay(100);
                     await ShowToast("Niepoprawny identyfikator użytkownika.", false);
                     NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
                     return;

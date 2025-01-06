@@ -68,6 +68,7 @@ namespace engineering_project_front.Pages
 
             if (Teams.Count == 0 || Teams is null)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie znaleziono zespołów", false);
                 HaveTeam = false;
                 return;
@@ -146,6 +147,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast("Proszę wybrać zespół", false);
             }
         }
@@ -211,7 +213,8 @@ namespace engineering_project_front.Pages
                     }
                     else
                     {
-                       await ShowToast("Przejdź do zakładki moje zmiany", false);
+                        await Task.Delay(100);
+                        await ShowToast("Przejdź do zakładki moje zmiany", false);
                     }
                     break;
                 default:
@@ -237,10 +240,12 @@ namespace engineering_project_front.Pages
                 var response = await WorksService.ChangeWorkStatus(SelectedUserID, SelectedWorkDate);
                 if (response.Success)
                 {
+                    await Task.Delay(100);
                     await ShowToast("Umożliwiono zmiane czasu pracy", true);
                 }
                 else
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                 }
                 IsEmployeeWorkDialogVisible = false;
@@ -248,6 +253,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast("Proszę wybrać pracownika", false);
             }
         }

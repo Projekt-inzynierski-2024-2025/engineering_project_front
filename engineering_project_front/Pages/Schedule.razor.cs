@@ -247,6 +247,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
             }
         }
@@ -329,12 +330,14 @@ namespace engineering_project_front.Pages
         {
             if (DailySchedule.Status == 1)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie możesz edytować zmian w zamkniętym dniu.", false);
                 return;
             }
 
             if (DailySchedule.Date < DateTime.Now)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie możesz edytować zmian z przeszłości.", false);
                 return;
             }
@@ -396,6 +399,7 @@ namespace engineering_project_front.Pages
 
             if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
@@ -415,6 +419,7 @@ namespace engineering_project_front.Pages
             {
                 ShiftToEdit.IsEditing = false;
                 await RefreshHoursAsync();
+                await Task.Delay(100);
                 await ShowToast("Zmiany zostały zapisane.", true);
                 IsShiftDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
@@ -422,6 +427,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, false);
             }
 
@@ -437,6 +443,7 @@ namespace engineering_project_front.Pages
 
             if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
@@ -454,6 +461,7 @@ namespace engineering_project_front.Pages
                 employee.IsAddingShift = false;
                 await GetUserSchedules();
                 await RefreshHoursAsync();
+                await Task.Delay(100);
                 await ShowToast("Zmiana została dodana.", true);
                 IsShiftDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
@@ -461,6 +469,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, false);
             }
 
@@ -481,6 +490,7 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 await RefreshHoursAsync();
+                await Task.Delay(100);
                 await ShowToast("Zmiana została usunięta.", true);
                 IsShiftDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
@@ -488,6 +498,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, false);
             }
         }
@@ -514,11 +525,13 @@ namespace engineering_project_front.Pages
             });
             if (response.Success)
             {
+                await Task.Delay(100);
                 await ShowToast("Godziny zostały zaktualizowane.", true);
                 isEditingHours = false;
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, false);
             }
         }
@@ -535,10 +548,12 @@ namespace engineering_project_front.Pages
             if (responseHours.Success)
             {
                 TotalHours = responseHours.Data;
+                await Task.Delay(100);
                 await ShowToast("Ilość godzin została odświeżona.", true);
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(responseHours.Message!, false);
             }
         }
@@ -551,11 +566,13 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 DailySchedule = new DailySchedulesResponse();
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
                 NavManager.NavigateTo("/ScheduleMonth");
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
             }
         }
@@ -572,6 +589,7 @@ namespace engineering_project_front.Pages
 
             if (updatedTimeStart > updatedTimeEnd || (updatedTimeEnd - updatedTimeStart).TotalHours < 1)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie poprawne godziny.", false);
                 return;
             }
@@ -589,6 +607,7 @@ namespace engineering_project_front.Pages
                 employee.IsAddingShift = false;
                 await GetUserSchedules();
                 await RefreshHoursAsync();
+                await Task.Delay(100);
                 await ShowToast("Zmiana została dodana.", true);
                 IsAddShiftToEmployeeWithoutAvaDialogVisible = false;
                 await InvokeAsync(StateHasChanged);
@@ -596,6 +615,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, false);
             }
 

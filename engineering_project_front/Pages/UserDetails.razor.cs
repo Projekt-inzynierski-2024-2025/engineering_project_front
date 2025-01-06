@@ -61,6 +61,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
             }
         }
@@ -89,7 +90,8 @@ namespace engineering_project_front.Pages
         private async Task EditUser()
         {
             if (UserID == ID)
-            {   
+            {
+                await Task.Delay(100);
                 await ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
                 return;
             }
@@ -101,6 +103,7 @@ namespace engineering_project_front.Pages
         {
             if (UserID == ID)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
                 return;
             }
@@ -111,11 +114,13 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 User = new UsersResponse();
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
                 NavManager.NavigateTo("/UsersList");
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
             }
         }

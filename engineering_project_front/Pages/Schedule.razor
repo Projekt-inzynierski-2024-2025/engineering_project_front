@@ -23,7 +23,7 @@
             <label><strong>Ilość godzin do przepracowania:</strong></label>
             @if (isEditingHours)
             {
-                <input type="number" @bind="DailySchedule.HoursAmount" class="hours-input" />
+                <input type="number" min="0" @bind="DailySchedule.HoursAmount" class="hours-input" onkeydown="return event.key !== '-' && event.key !== 'Subtract';" />
                 <SfButton CssClass="e-flat" OnClick="SaveHoursAsync">Zapisz</SfButton>
                 <SfButton CssClass="e-flat" OnClick="CancelEditHours">Anuluj</SfButton>
             }

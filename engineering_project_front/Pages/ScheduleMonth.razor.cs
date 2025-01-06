@@ -59,6 +59,7 @@ namespace engineering_project_front.Pages
 
             if (Teams.Count == 0 || Teams is null)
             {
+                await Task.Delay(100);
                 await ShowToast("Nie znaleziono zespołów", false);
                 HaveTeam = false;
                 return;
@@ -141,6 +142,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast("Proszę wybrać zespół", false);
             }
         }
@@ -182,6 +184,7 @@ namespace engineering_project_front.Pages
                 Hours = response.Data!;
                 if (Hours.Count == 0)
                 {
+                    await Task.Delay(100);
                     await ShowToast("Brak danych", false);
                     Hours = new List<HoursForDayResponse>();
                 }
@@ -214,6 +217,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
             }
             
@@ -225,11 +229,13 @@ namespace engineering_project_front.Pages
             if (response.Success)
             {
                 EditStatus = !EditStatus;
+                await Task.Delay(100);
                 await ShowToast("Zmieniono status edycji", true);
                 await InvokeAsync(StateHasChanged);
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
             }
         }

@@ -49,6 +49,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(responseManagers.Message!, responseManagers.Success);
             }
             if (IsEditing)
@@ -64,6 +65,7 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                 }
 
@@ -102,12 +104,14 @@ namespace engineering_project_front.Pages
                 var response = await TeamsService.EditTeam(Team);
                 if (response.Success)
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/TeamsList");
                 }
                 else
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                 }
             }
@@ -116,12 +120,14 @@ namespace engineering_project_front.Pages
                 var response = await TeamsService.AddTeam(Team);
                 if (response.Success)
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/TeamsList");
                 }
                 else
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                 }
             }

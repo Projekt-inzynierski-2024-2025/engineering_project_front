@@ -54,6 +54,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
+                await Task.Delay(100);
                 await ShowToast(responseTeams.Message!, responseTeams.Success);
             }
             if (IsEditing)
@@ -70,6 +71,7 @@ namespace engineering_project_front.Pages
                 }
                 else
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                 }
             }
@@ -108,12 +110,14 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.EditUser(User);
                 if (response.Success)
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo($"/UserDetails/{User.ID}");
                 }
                 else
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                 }
             }
@@ -122,12 +126,14 @@ namespace engineering_project_front.Pages
                 var response = await UsersService.AddUser(User);
                 if (response.Success)
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/UsersList");
                 }
                 else
                 {
+                    await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                 }
             }

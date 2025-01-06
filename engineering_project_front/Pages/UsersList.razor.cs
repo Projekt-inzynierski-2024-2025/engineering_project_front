@@ -42,7 +42,7 @@ namespace engineering_project_front.Pages
             }
             else
             {
-
+                await Task.Delay(100);
                 await ShowToast(response.Message!, response.Success);
             }
             FilteredUsers = Users;

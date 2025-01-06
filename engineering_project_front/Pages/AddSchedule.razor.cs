@@ -47,13 +47,15 @@ namespace engineering_project_front.Pages
             var response = await ScheduleService.AddSchedule(Schedule);
                 if (response.Success)
                 {
-                    await ShowToast(response.Message!, response.Success);
+                await Task.Delay(100);
+                await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
                     NavManager.NavigateTo("/ScheduleMonth");
                 }
                 else
                 {
-                    await ShowToast(response.Message!, response.Success);
+                await Task.Delay(100);
+                await ShowToast(response.Message!, response.Success);
                 }
             
 
