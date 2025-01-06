@@ -81,6 +81,16 @@ namespace engineering_project_front.Pages
                 IsTeamDialogVisible = true;
                 await InvokeAsync(StateHasChanged);
             }
+
+            if(DataChoose.Year == DateTime.Now.Year && DataChoose.Month < DateTime.Now.Month)
+            {
+                EditStatus = false;
+            }
+            else
+            {
+                EditStatus = true;
+            }
+
         }
 
         #region ToastAndNotification
