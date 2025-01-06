@@ -25,5 +25,6 @@
         }
 
         public bool IsAddingShift { get; set; } = false;
+        public string FullName => $"{FirstName ?? string.Empty} {LastName ?? string.Empty}".Trim();
     }
 }

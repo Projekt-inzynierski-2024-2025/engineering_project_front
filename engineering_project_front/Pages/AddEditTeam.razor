@@ -33,7 +33,7 @@
             <div class="form-field">
                 <label for="manager">Kierownik:</label>
                 <SfDropDownList TValue="long" TItem="UsersResponse" Placeholder="Wybierz kierownika" DataSource="@Managers" @bind-Value="Team.ManagerID">
-                    <DropDownListFieldSettings Value="ID" Text="FirstName"></DropDownListFieldSettings>
+                    <DropDownListFieldSettings Value="ID" Text="FullName"></DropDownListFieldSettings>
                 </SfDropDownList>
             </div>
 
