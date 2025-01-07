@@ -103,11 +103,6 @@ namespace engineering_project_front.Pages
                 allMinutesWorkTime += allHoursWorkTime * 60;
                 allMinutesBreakTime += allHoursBreakTime * 60;
 
-                int difference = allMinutesWorkTime - allMinutesBreakTime;
-
-                allHoursWorkTime = difference / 60;
-                allMinutesWorkTime = difference % 60;
-
                 allHoursBreakTime = allMinutesBreakTime / 60;
                 allMinutesBreakTime = allMinutesBreakTime % 60;
 
