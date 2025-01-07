@@ -181,7 +181,7 @@ namespace engineering_project_front.Pages
             WorksRequest request = new()
             {
                 UserID = ID,
-                Date = datePicker.Value,
+                Date = datePicker.Value.Date,
 
                 TimeStart = workStart!.Value,
                 TimeEnd = workEnd!.Value,
