@@ -66,7 +66,8 @@ namespace engineering_project_front.Pages
 
             if (token == null)
             {
-                ShowToast("Błąd", "Nie można pobrać danych zalogowanej osoby. Nie będzie można podejrzeć dyspozycyjności, dodać nowych ani edytować.");
+                await Task.Delay(100);
+                await ShowToast("Błąd", "Nie można pobrać danych zalogowanej osoby. Nie będzie można podejrzeć dyspozycyjności, dodać nowych ani edytować.");
                 return;
             }
 
@@ -145,7 +146,7 @@ namespace engineering_project_front.Pages
             }
             args.Attributes = attributes;
         }
-        public void OnActionBegin(ActionEventArgs<AvailabilitiesResponse> args)
+        public async Task OnActionBegin(ActionEventArgs<AvailabilitiesResponse> args)
         {
 
             if (args.ActionType == ActionType.EventCreate)
@@ -155,7 +156,8 @@ namespace engineering_project_front.Pages
                 if (containsSameDate)
                 {
                     args.AddedRecords = null;
-                    ShowToast("Błąd", "Dyspozycyjność istnieje dla tego dnia.");
+                    await Task.Delay(100);
+                    await ShowToast("Błąd", "Dyspozycyjność istnieje dla tego dnia.");
                     return;
                 }
             }
@@ -180,9 +182,9 @@ namespace engineering_project_front.Pages
             {
                 ID = data.ID,
                 UserID = UserID.Value,
-                Date = data.Date,
-                TimeStart = data.TimeStart,
-                TimeEnd = data.TimeEnd,
+                Date = new (data.Date.Ticks, DateTimeKind.Unspecified),
+                TimeStart = new(data.TimeStart.Ticks, DateTimeKind.Unspecified),
+                TimeEnd = new(data.TimeEnd.Ticks, DateTimeKind.Unspecified),
                 Status = 0,
                 Type = 0,
             };
@@ -207,12 +209,12 @@ namespace engineering_project_front.Pages
             }
         }
 
-        private void ShowToast(string title, string message)
+        private async Task ShowToast(string title, string message)
         {
             Title = title;
             Message = message;
-            InvokeAsync(StateHasChanged);
-            Toast.ShowAsync();
+            await InvokeAsync(StateHasChanged);
+            await Toast.ShowAsync();
         }
     }
 }

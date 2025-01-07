@@ -35,6 +35,7 @@ namespace engineering_project_front.Pages
             {
                 Title = "Błąd";
                 Message = "Pole Email nie może być puste.";
+                await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await Toast.ShowAsync();
                 return;
@@ -44,6 +45,7 @@ namespace engineering_project_front.Pages
             {
                 Title = "Błąd";
                 Message = "Pole Nowe Hasło nie może być puste.";
+                await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await Toast.ShowAsync();
                 return;
@@ -53,6 +55,7 @@ namespace engineering_project_front.Pages
             {
                 Title = "Błąd";
                 Message = "Pole Potwierdź Hasło nie może być puste.";
+                await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await Toast.ShowAsync();
                 return;
@@ -62,6 +65,7 @@ namespace engineering_project_front.Pages
             {
                 Title = "Błąd";
                 Message = "Hasło powinno zawierać co najmniej 8 znaków oraz co najmniej 1 dużą literę, 1 małą literę i cyfrę.";
+                await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await Toast.ShowAsync();
                 return;
@@ -71,6 +75,7 @@ namespace engineering_project_front.Pages
             {
                 Title = "Błąd";
                 Message = "Hasła nie są zgodne.";
+                await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await Toast.ShowAsync();
                 return;
