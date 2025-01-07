@@ -194,6 +194,7 @@ namespace engineering_project_front.Pages
             if (result.Success)
             {
                 ToastContent = result.Message!;
+                disablePickingTime = true;
                 await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
             }
