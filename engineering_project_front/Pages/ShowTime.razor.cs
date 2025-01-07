@@ -106,6 +106,9 @@ namespace engineering_project_front.Pages
                 allHoursBreakTime = allMinutesBreakTime / 60;
                 allMinutesBreakTime = allMinutesBreakTime % 60;
 
+                allHoursWorkTime = allMinutesWorkTime / 60; 
+                allMinutesWorkTime = allMinutesWorkTime % 60;
+
                 MonthlyWorkTime = $"{allHoursWorkTime} h {allMinutesWorkTime:D2} min";
                 MonthlyBreakTime = $"{allHoursBreakTime} h {allMinutesBreakTime:D2} min";
             }
