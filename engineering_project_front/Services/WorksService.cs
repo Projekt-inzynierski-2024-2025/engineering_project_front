@@ -455,7 +455,7 @@ namespace engineering_project_front.Services
                     return new OperationResponse<bool>
                     {
                         Success = false,
-                        Message = $"Błąd {apiResponse.StatusCode}:{errorMessage}"
+                        Message = $"{errorMessage}"
                     };
                 }
 

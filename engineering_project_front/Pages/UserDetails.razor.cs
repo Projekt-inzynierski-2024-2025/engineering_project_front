@@ -95,7 +95,8 @@ namespace engineering_project_front.Pages
                 await ShowToast("Nie masz uprawnień do edycji tego użytkownika", false);
                 return;
             }
-            NavManager.NavigateTo($"/add-edit-user/{User!.ID}");
+            var encryptedId = EncryptionHelper.Encrypt(User!.ID.ToString());
+            NavManager.NavigateTo($"/add-edit-user/{encryptedId}");
 
         }
 

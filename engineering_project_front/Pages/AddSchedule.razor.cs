@@ -42,9 +42,13 @@ namespace engineering_project_front.Pages
 
         private async Task HandleValidSubmit()
         {
-
+            DailySchedulesRequest ScheduleToSend = new DailySchedulesRequest
+            {
+                Date = new DateTime(Schedule.Date.Ticks, DateTimeKind.Unspecified),
+                TeamID = this.Schedule.TeamID
+            };
             
-            var response = await ScheduleService.AddSchedule(Schedule);
+            var response = await ScheduleService.AddSchedule(ScheduleToSend);
                 if (response.Success)
                 {
                 await Task.Delay(100);

@@ -81,7 +81,8 @@ namespace engineering_project_front.Pages
 
         private void EditTeam()
         {
-            NavManager.NavigateTo($"/add-edit-team/{Team!.ID}");
+            var encryptedId = EncryptionHelper.Encrypt(Team!.ID.ToString());
+            NavManager.NavigateTo($"/add-edit-team/{encryptedId}");
         }
 
         private async Task ConfirmDelete()
