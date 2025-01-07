@@ -182,10 +182,10 @@ namespace engineering_project_front.Pages
             {
                 UserID = ID,
                 Date = new DateTime(datePicker.Value.Ticks, DateTimeKind.Unspecified),
-                TimeStart = workStart!.Value,
-                TimeEnd = workEnd!.Value,
-                BreakStart = breakStart!.Value,
-                BreakEnd = breakEnd!.Value,
+                TimeStart = new DateTime(workStart!.Value.Ticks, DateTimeKind.Unspecified),
+                TimeEnd = new DateTime(workEnd!.Value.Ticks, DateTimeKind.Unspecified),
+                BreakStart = new DateTime(breakStart!.Value.Ticks, DateTimeKind.Unspecified),
+                BreakEnd = new DateTime(breakEnd!.Value.Ticks, DateTimeKind.Unspecified),
                 Status = 1,
             };
 
