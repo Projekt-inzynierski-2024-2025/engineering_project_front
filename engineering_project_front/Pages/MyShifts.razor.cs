@@ -356,6 +356,18 @@ namespace engineering_project_front.Pages
                 UserShiftWorks = await GetUserShiftWork(UserToCheck.ID, DataChoose);
             }
 
+            var status = await ShiftStatus();
+            if (status)
+            {
+                UserShiftWorks = new List<ShiftWork>();
+                WorkTimeHours = 0;
+                WorkTimeMinutes = 0;
+                PlannedWorkTimeHours = 0;
+                PlannedWorkTimeMinutes = 0;
+                TodayShift = "Brak";
+                TomorrowShift = "Brak";
+            }
+
             await InvokeAsync(StateHasChanged);
         }
 
