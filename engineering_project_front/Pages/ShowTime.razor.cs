@@ -19,7 +19,7 @@ namespace engineering_project_front.Pages
         public TimeOnly WorkTime { get; set; }
 
     }
-        public partial class ShowTime
+    public partial class ShowTime
     {
         private DateTime DataChoose = DateTime.Today;
         public List<WorksResponse> GridData { get; set; } = new();
@@ -106,7 +106,7 @@ namespace engineering_project_front.Pages
                 allHoursBreakTime = allMinutesBreakTime / 60;
                 allMinutesBreakTime = allMinutesBreakTime % 60;
 
-                allHoursWorkTime = allMinutesWorkTime / 60; 
+                allHoursWorkTime = allMinutesWorkTime / 60;
                 allMinutesWorkTime = allMinutesWorkTime % 60;
 
                 MonthlyWorkTime = $"{allHoursWorkTime} h {allMinutesWorkTime:D2} min";

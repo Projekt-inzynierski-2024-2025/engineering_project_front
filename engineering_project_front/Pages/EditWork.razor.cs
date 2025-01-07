@@ -35,7 +35,7 @@ namespace engineering_project_front.Pages
         private DateTime? datePicker { get; set; } = DateTime.Today;
         private DateTime minDate = new(DateTime.Today.Year, DateTime.Today.Month, 1);
         private DateTime maxDate = new(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
-        
+
 
         private DateTime? workStart { get; set; }
         private DateTime? breakStart { get; set; }
@@ -194,7 +194,8 @@ namespace engineering_project_front.Pages
             if (result.Success)
             {
                 ToastContent = result.Message!;
-                disablePickingTime = true;
+                if (DateTime.Today != request.Date.Date)
+                    disablePickingTime = true;
                 await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
             }
