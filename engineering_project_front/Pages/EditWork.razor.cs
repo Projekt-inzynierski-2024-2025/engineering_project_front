@@ -181,8 +181,7 @@ namespace engineering_project_front.Pages
             WorksRequest request = new()
             {
                 UserID = ID,
-                Date = datePicker.Value.Date,
-
+                Date = new DateTime(datePicker.Value.Ticks, DateTimeKind.Unspecified),
                 TimeStart = workStart!.Value,
                 TimeEnd = workEnd!.Value,
                 BreakStart = breakStart!.Value,
