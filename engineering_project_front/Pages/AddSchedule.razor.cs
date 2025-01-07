@@ -45,7 +45,10 @@ namespace engineering_project_front.Pages
             DailySchedulesRequest ScheduleToSend = new DailySchedulesRequest
             {
                 Date = new DateTime(Schedule.Date.Ticks, DateTimeKind.Unspecified),
-                TeamID = this.Schedule.TeamID
+                TeamID = this.Schedule.TeamID,
+                Status = this.Schedule.Status,
+                HoursAmount = this.Schedule.HoursAmount
+                
             };
             
             var response = await ScheduleService.AddSchedule(ScheduleToSend);
