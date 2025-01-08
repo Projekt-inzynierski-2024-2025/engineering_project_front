@@ -121,7 +121,13 @@ namespace engineering_project_front.Pages
 
         private async Task<bool> ValidateTimes()
         {
+            workStart = new(datePicker!.Value.Year, datePicker!.Value.Month, datePicker!.Value.Day, workStart!.Value.Hour, workStart!.Value.Minute, 0);
+            workEnd = new(datePicker!.Value.Year, datePicker!.Value.Month, datePicker!.Value.Day, workEnd!.Value.Hour, workEnd!.Value.Minute, 0);
+            breakStart = new(datePicker!.Value.Year, datePicker!.Value.Month, datePicker!.Value.Day, breakStart!.Value.Hour, breakStart!.Value.Minute, 0);
+            breakEnd = new(datePicker!.Value.Year, datePicker!.Value.Month, datePicker!.Value.Day, breakEnd!.Value.Hour, breakEnd!.Value.Minute, 0);
+
             logger.LogInformation($"Method {ValidateTimes} entered. Important data: Date:{datePicker}, WorkStart:{workStart}, WorkEnd:{workEnd}, BreakStart:{breakStart}, BreakEnd:{breakEnd}.");
+
             if (workStart > workEnd)
             {
                 ToastContent = "Czas rozpoczęcia pracy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
