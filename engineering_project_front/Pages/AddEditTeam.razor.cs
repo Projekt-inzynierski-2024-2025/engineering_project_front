@@ -151,8 +151,16 @@ namespace engineering_project_front.Pages
 
         private void Cancel()
         {
-            var encryptedId = EncryptionHelper.Encrypt(Team.ID.ToString());
-            NavManager.NavigateTo($"/TeamDetails/{encryptedId}");
+            if(IsEditing)
+            {
+                var encryptedId = EncryptionHelper.Encrypt(Team.ID.ToString());
+                NavManager.NavigateTo($"/TeamDetails/{encryptedId}");
+            }
+            else
+            {
+                NavManager.NavigateTo("/TeamsList");
+            }
+           
         }
     }
 }
