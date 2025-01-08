@@ -24,6 +24,8 @@ namespace engineering_project_front.Pages
 
         [Inject]
         private IWorksService worksService { get; set; } = default!;
+        [Inject]
+        private ILogger<EditWork> logger { get; set; } = default!;
         #endregion
 
         private long ID = -1;
@@ -119,6 +121,7 @@ namespace engineering_project_front.Pages
 
         private async Task<bool> ValidateTimes()
         {
+            logger.LogInformation($"Method {ValidateTimes} entered. Important data: Date:{datePicker}, WorkStart:{workStart}, WorkEnd:{workEnd}, BreakStart:{breakStart}, BreakEnd:{breakEnd}.");
             if (workStart > workEnd)
             {
                 ToastContent = "Czas rozpoczęcia pracy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
