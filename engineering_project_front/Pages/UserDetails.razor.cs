@@ -27,7 +27,7 @@ namespace engineering_project_front.Pages
         [Parameter]
         public string ParamID { get; set; } = string.Empty;
 
-        private long ID => long.Parse(EncryptionHelper.Decrypt(ParamID));
+        private long ID { get; set; }
         private UsersResponse? User { get; set; } = new UsersResponse();
 
         private long UserID { get; set; } = 0;
@@ -43,6 +43,22 @@ namespace engineering_project_front.Pages
         {
             if (!await validateRole.IsAuthorized("Administrator"))
                 NavManager.NavigateTo("/auth-error");
+
+          
+            if(!string.IsNullOrEmpty(ParamID))
+            {
+                try
+                {
+                    ID = long.Parse(EncryptionHelper.Decrypt(ParamID));
+                }catch
+                {
+                    await Task.Delay(100);
+                    await ShowToast("Niepoprawny identyfikator użytkownika.", false);
+                    NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
+                    return;
+                }
+            }
+            
 
             await GetUser();
             await GetActualUser();

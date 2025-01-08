@@ -61,8 +61,17 @@ namespace engineering_project_front.Pages
             }
             if (IsEditing)
             {
-                UserID = long.Parse(EncryptionHelper.Decrypt(UserId));
-
+                try
+                {
+                    UserID = long.Parse(EncryptionHelper.Decrypt(UserId));
+                }
+                catch
+                {
+                    await Task.Delay(100);
+                    await ShowToast("Niepoprawny identyfikator zespołu.", false);
+                    NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
+                    return;
+                }
                 var response = await UsersService.GetUser((long)UserID!);
                 if (response.Success)
                 {

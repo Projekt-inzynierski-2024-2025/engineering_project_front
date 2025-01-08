@@ -57,8 +57,17 @@ namespace engineering_project_front.Pages
             }
             if (IsEditing)
             {
-
-                TeamID = long.Parse(EncryptionHelper.Decrypt(TeamId));
+                try
+                {
+                    TeamID = long.Parse(EncryptionHelper.Decrypt(TeamId));
+                }
+                catch
+                {
+                    await Task.Delay(100);
+                    await ShowToast("Niepoprawny identyfikator użytkownika.", false);
+                    NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
+                    return;
+                }
                 var response = await TeamsService.GetTeam((long)TeamID!) ?? new OperationResponse<TeamsResponse>();
                 if (response.Success)
                 {
