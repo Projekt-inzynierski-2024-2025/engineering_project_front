@@ -1,5 +1,6 @@
 ﻿using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Notifications;
@@ -23,10 +24,12 @@ namespace engineering_project_front.Pages
 
 
         [Parameter]
-        public long? TeamId { get; set; }
+        public string? TeamId { get; set; }
+
+        public long? TeamID { get; set; }
 
         private TeamRequest Team { get; set; } = new TeamRequest();
-        private bool IsEditing => TeamId.HasValue;
+        private bool IsEditing => !string.IsNullOrEmpty(TeamId);
         private List<UsersResponse> Managers { get; set; } = new List<UsersResponse>();
 
         #region Toast
@@ -54,7 +57,18 @@ namespace engineering_project_front.Pages
             }
             if (IsEditing)
             {
-                var response = await TeamsService.GetTeam((long)TeamId!) ?? new OperationResponse<TeamsResponse>();
+                try
+                {
+                    TeamID = long.Parse(EncryptionHelper.Decrypt(TeamId));
+                }
+                catch
+                {
+                    await Task.Delay(100);
+                    await ShowToast("Niepoprawny identyfikator użytkownika.", false);
+                    NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
+                    return;
+                }
+                var response = await TeamsService.GetTeam((long)TeamID!) ?? new OperationResponse<TeamsResponse>();
                 if (response.Success)
                 {
                     var team = response.Data;
@@ -107,7 +121,8 @@ namespace engineering_project_front.Pages
                     await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
-                    NavManager.NavigateTo("/TeamsList");
+                    var encryptedId = EncryptionHelper.Encrypt(Team.ID.ToString());
+                    NavManager.NavigateTo($"/TeamDetails/{encryptedId}");
                 }
                 else
                 {
@@ -136,7 +151,8 @@ namespace engineering_project_front.Pages
 
         private void Cancel()
         {
-            NavManager.NavigateTo("/TeamsList");
+            var encryptedId = EncryptionHelper.Encrypt(Team.ID.ToString());
+            NavManager.NavigateTo($"/TeamDetails/{encryptedId}");
         }
     }
 }

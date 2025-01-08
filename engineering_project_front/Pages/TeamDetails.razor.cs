@@ -21,7 +21,7 @@ namespace engineering_project_front.Pages
         [Parameter]
         public string ParamID { get; set; } = string.Empty;
 
-        private long ID => long.Parse(EncryptionHelper.Decrypt(ParamID));
+        private long ID { get; set; }
         private TeamsResponse? Team { get; set; } = new TeamsResponse();
 
         #region ToastAndNotification
@@ -42,6 +42,23 @@ namespace engineering_project_front.Pages
         {
             if (!await validateRole.IsAuthorized("Administrator"))
                 NavManager.NavigateTo("/auth-error");
+
+
+            if (!string.IsNullOrEmpty(ParamID))
+            {
+                try
+                {
+                    ID = long.Parse(EncryptionHelper.Decrypt(ParamID));
+                }
+                catch
+                {
+                    await Task.Delay(100);
+                    await ShowToast("Niepoprawny identyfikator użytkownika.", false);
+                    NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
+                    return;
+                }
+            }
+
 
             var response = await TeamsService.GetTeam(ID);
 
@@ -81,7 +98,8 @@ namespace engineering_project_front.Pages
 
         private void EditTeam()
         {
-            NavManager.NavigateTo($"/add-edit-team/{Team!.ID}");
+            var encryptedId = EncryptionHelper.Encrypt(Team!.ID.ToString());
+            NavManager.NavigateTo($"/add-edit-team/{encryptedId}");
         }
 
         private async Task ConfirmDelete()

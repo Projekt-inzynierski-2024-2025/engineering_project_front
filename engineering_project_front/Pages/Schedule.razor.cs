@@ -248,7 +248,7 @@ namespace engineering_project_front.Pages
             else
             {
                 await Task.Delay(100);
-                await ShowToast(response.Message!, response.Success);
+                //await ShowToast(response.Message!, response.Success);
             }
         }
 
@@ -436,6 +436,9 @@ namespace engineering_project_front.Pages
         private async Task AddShiftAsync()
         {
             var employee = Employees.Find(x => x.ID == ShiftToEdit.UserID);
+
+
+
             var updatedTimeStart = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
                             Start.Hour, Start.Minute, 0);
             var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
@@ -582,6 +585,14 @@ namespace engineering_project_front.Pages
         private async Task AddShiftIfNoAvailabilitieAsync()
         {
             var employee = Employees.Find(x => x.ID == SelectedEmployeeID);
+
+            if(employee == null)
+            {
+                await Task.Delay(100);
+                await ShowToast("Prosze wybrać pracownika.", false);
+                return;
+            }
+
             var updatedTimeStart = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,
                             Start.Hour, Start.Minute, 0);
             var updatedTimeEnd = new DateTime(DailySchedule.Date.Year, DailySchedule.Date.Month, DailySchedule.Date.Day,

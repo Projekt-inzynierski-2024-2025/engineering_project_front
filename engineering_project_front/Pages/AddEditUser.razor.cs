@@ -1,6 +1,7 @@
 ﻿using engineering_project_front.Models.Parameters;
 using engineering_project_front.Models.Request;
 using engineering_project_front.Models.Responses;
+using engineering_project_front.Services;
 using engineering_project_front.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Notifications;
@@ -22,7 +23,8 @@ namespace engineering_project_front.Pages
 
         #region Parameters
         [Parameter]
-        public long? UserId { get; set; }
+        public string? UserId { get; set; }
+        public long? UserID { get; set; }
 
         List<RoleParameters> Roles = new List<RoleParameters>
         {
@@ -32,7 +34,7 @@ namespace engineering_project_front.Pages
         };
         #endregion
         private UserRequest User { get; set; } = new UserRequest();
-        private bool IsEditing => UserId.HasValue;
+        private bool IsEditing => !string.IsNullOrEmpty(UserId);
         private List<TeamsResponse> Teams { get; set; } = new List<TeamsResponse>();
 
         #region Toast
@@ -59,8 +61,18 @@ namespace engineering_project_front.Pages
             }
             if (IsEditing)
             {
-
-                var response = await UsersService.GetUser((long)UserId!);
+                try
+                {
+                    UserID = long.Parse(EncryptionHelper.Decrypt(UserId));
+                }
+                catch
+                {
+                    await Task.Delay(100);
+                    await ShowToast("Niepoprawny identyfikator zespołu.", false);
+                    NavManager.NavigateTo("/error"); // Przekierowanie na stronę błędu
+                    return;
+                }
+                var response = await UsersService.GetUser((long)UserID!);
                 if (response.Success)
                 {
                     var user = response.Data;
@@ -113,7 +125,8 @@ namespace engineering_project_front.Pages
                     await Task.Delay(100);
                     await ShowToast(response.Message!, response.Success);
                     await Task.Delay(2000);
-                    NavManager.NavigateTo($"/UserDetails/{User.ID}");
+                    var encryptedId = EncryptionHelper.Encrypt(User.ID.ToString());
+                    NavManager.NavigateTo($"/UserDetails/{encryptedId}");
                 }
                 else
                 {
@@ -144,7 +157,8 @@ namespace engineering_project_front.Pages
         {
             if (IsEditing)
             {
-                NavManager.NavigateTo($"/UserDetails/{User.ID}");
+                var encryptedId = EncryptionHelper.Encrypt(User.ID.ToString());
+                NavManager.NavigateTo($"/UserDetails/{encryptedId}");
             }
             else
             {

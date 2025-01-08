@@ -62,7 +62,7 @@ namespace engineering_project_front.Pages
             if (!await validateRole.IsAuthorized("Kierownik", "Pracownik"))
                 NavManager.NavigateTo("/auth-error");
 
-            await GetUserToCheck();
+            
 
 
 
@@ -87,6 +87,7 @@ namespace engineering_project_front.Pages
                 UserID = null; 
             }
 
+            await GetUserToCheck();
 
             if (UserID.HasValue)
 
