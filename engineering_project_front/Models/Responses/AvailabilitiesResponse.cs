@@ -16,8 +16,8 @@ namespace engineering_project_front.Models.Responses
         }
         [Range(typeof(bool), "true", "true", ErrorMessage = "Czas jest niewłaściwy.")]
         public bool isAvailabilityTimeValid => TimeStart.TimeOfDay < TimeEnd.TimeOfDay;
-        public DateTime TimeStart { get; set; }
-        public DateTime TimeEnd { get; set; }
+        public DateTime TimeStart { get; set; } = new(0, 0, 0, 5, 0, 0, DateTimeKind.Unspecified);
+        public DateTime TimeEnd { get; set; } = new(0, 0, 0, 5, 0, 0, DateTimeKind.Unspecified);
         public int Type { get; set; }
         public string TypeName => Type switch { 0 => "Pełny dzień", 1 => "Od Do", _ => "Nieznany" };
         public int Status { get; set; }

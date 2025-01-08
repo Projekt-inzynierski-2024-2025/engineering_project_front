@@ -75,6 +75,7 @@ namespace engineering_project_front.Pages
                     breakEnd = null;
                     ToastContent = "Podanej pracy nie można edytować. Skontaktuj się z kierownikiem, by umożliwił ci edycję.";
                     disablePickingTime = true;
+                    await Task.Delay(100);
                     await InvokeAsync(StateHasChanged);
                     await ToastObj.ShowAsync();
                     return;
@@ -108,6 +109,7 @@ namespace engineering_project_front.Pages
                 breakEnd = null;
                 ToastContent = "Brak pracy do edycji.";
                 disablePickingTime = true;
+                await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
             }
@@ -115,13 +117,14 @@ namespace engineering_project_front.Pages
             await InvokeAsync(StateHasChanged);
         }
 
-        private bool ValidateTimes()
+        private async Task<bool> ValidateTimes()
         {
             if (workStart > workEnd)
             {
                 ToastContent = "Czas rozpoczęcia pracy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
-                InvokeAsync(StateHasChanged);
-                ToastObj.ShowAsync();
+                await Task.Delay(100);
+                await InvokeAsync(StateHasChanged);
+                await ToastObj.ShowAsync();
                 return false;
             }
 
@@ -130,40 +133,45 @@ namespace engineering_project_front.Pages
                 if (breakEnd < breakStart)
                 {
                     ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas zakończenia przerwy. Proszę to zmienić.";
-                    InvokeAsync(StateHasChanged);
-                    ToastObj.ShowAsync();
+                    await Task.Delay(100);
+                    await InvokeAsync(StateHasChanged);
+                    await ToastObj.ShowAsync();
                     return false;
                 }
 
                 if (breakStart < workStart)
                 {
                     ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas rozpoczęcia pracy. Proszę to zmienić.";
-                    InvokeAsync(StateHasChanged);
-                    ToastObj.ShowAsync();
+                    await Task.Delay(100);
+                    await InvokeAsync(StateHasChanged);
+                    await ToastObj.ShowAsync();
                     return false;
                 }
 
                 if (breakStart > workEnd)
                 {
                     ToastContent = "Czas rozpoczęcia przerwy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
-                    InvokeAsync(StateHasChanged);
-                    ToastObj.ShowAsync();
+                    await Task.Delay(100);
+                    await InvokeAsync(StateHasChanged);
+                    await ToastObj.ShowAsync();
                     return false;
                 }
 
                 if (breakEnd > workEnd)
                 {
                     ToastContent = "Czas zakończenia przerwy jest późniejszy niż czas zakończenia pracy. Proszę to zmienić.";
-                    InvokeAsync(StateHasChanged);
-                    ToastObj.ShowAsync();
+                    await Task.Delay(100);
+                    await InvokeAsync(StateHasChanged);
+                    await ToastObj.ShowAsync();
                     return false;
                 }
 
                 if (breakEnd < workStart)
                 {
                     ToastContent = "Czas rozpoczęcia pracy jest późniejszy niż czas zakończenia przerwy. Proszę to zmienić.";
-                    InvokeAsync(StateHasChanged);
-                    ToastObj.ShowAsync();
+                    await Task.Delay(100);
+                    await InvokeAsync(StateHasChanged);
+                    await ToastObj.ShowAsync();
                     return false;
                 }
             }
@@ -176,7 +184,7 @@ namespace engineering_project_front.Pages
             if (datePicker == null || ID == -1) return;
             await InvokeAsync(StateHasChanged);
 
-            if (!ValidateTimes()) return;
+            if (!await ValidateTimes()) return;
 
             WorksRequest request = new()
             {
@@ -195,6 +203,7 @@ namespace engineering_project_front.Pages
                 ToastContent = result.Message!;
                 if (DateTime.Today != request.Date.Date)
                     disablePickingTime = true;
+                await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await ToastObj.ShowAsync();
             }

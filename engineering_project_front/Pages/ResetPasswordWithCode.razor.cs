@@ -16,6 +16,7 @@ namespace engineering_project_front.Pages
         private bool showPasswords;
 
         string pattern = @"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$";
+        string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
 
         [Inject]
         private NavigationManager navManager { get; set; } = default!;
@@ -35,6 +36,16 @@ namespace engineering_project_front.Pages
             {
                 Title = "Błąd";
                 Message = "Pole Email nie może być puste.";
+                await Task.Delay(100);
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
+                return;
+            }
+
+            if (!Regex.IsMatch(email, emailPattern))
+            {
+                Title = "Błąd";
+                Message = "Podany email nie jest prawidłowy.";
                 await Task.Delay(100);
                 await InvokeAsync(StateHasChanged);
                 await Toast.ShowAsync();
@@ -90,6 +101,15 @@ namespace engineering_project_front.Pages
 
             if (await resetPassword.ChangePassword(parameters))
                 navManager.NavigateTo("/");
+            else
+            {
+                Title = "Błąd";
+                Message = "Nie udało się zmienić hasła.";
+                await Task.Delay(100);
+                await InvokeAsync(StateHasChanged);
+                await Toast.ShowAsync();
+                return;
+            }
         }
     }
 }
